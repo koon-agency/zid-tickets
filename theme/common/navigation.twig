@@ -1,0 +1,32 @@
+<ul class="nav">
+    <li><a href='/' class='navlink'>{{ locals.home_title }}</a></li>
+    <li><a href='/products' class='navlink'>{{ locals.products }}</a></li>
+    <li><a href='/categories' class='navlink'>{{ locals.categories }}</a></li>
+
+    <li>
+        {% if customer %}
+            <form action="/auth/logout" method="POST">
+                <input type="hidden" name="_token" value="{{ csrf_token }}" />
+                <button type="submit" class='navlink'>{{ locals.logout }},{{ customer.name }}</button>
+            </form>
+        {% else %}
+            <a href='/auth/login' class='navlink'>{{ locals.login }}</a>
+        {% endif %}
+    </li>
+
+    <li>
+        {% if session.lang.code == 'en' %}
+            {% set change_to_lang = 'ar' %}
+            {% set change_to_lang_name = 'عربي' %}
+        {% else %}
+            {% set change_to_lang = 'en' %}
+            {% set change_to_lang_name = 'English' %}
+        {% endif %}
+
+        <form action="/customer/lang-shipping-country?language={{ change_to_lang }}" method="POST">
+            <input type="hidden" name="_token" value="{{ csrf_token }}" />
+            <button type="submit" class='navlink'>{{ change_to_lang_name }}</button>
+        </form>
+    </li>
+
+</ul>

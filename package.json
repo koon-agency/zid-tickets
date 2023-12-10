@@ -1,0 +1,19 @@
+{
+    "name": "zid-base-theme",
+    "private": true,
+    "version": "1.0.3",
+    "type": "module",
+    "scripts": {
+        "build": "vite build",
+        "watch": "vite build --watch",
+        "publish": "vite build && zid-theme build --name ../output --path theme"
+    },
+    "devDependencies": {
+        "autoprefixer": "^10.4.14",
+        "postcss": "^8.4.26",
+        "postcss-load-config": "^4.0.1",
+        "tailwindcss": "^3.3.3",
+        "vite": "^4.4.6",
+        "zid-theme": "^1.1.6"
+    }
+}

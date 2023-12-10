@@ -1,0 +1,17 @@
+{% extends "layout.twig" %}
+
+{% block title %} {{ locals.categories }} {% endblock %}
+
+{% block header %} {{ include('header.twig') }} {% endblock %}
+
+{% block main_content %}
+
+    <section class="categories">
+        <div class="categories-title">
+            <h2>{{ locals.categories }}</h2>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block footer %} {{ include('footer.twig') }} {% endblock %}

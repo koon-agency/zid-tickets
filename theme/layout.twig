@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %} | zid</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="image/x-icon" href="{{ assetUrl('zid-logo.svg') }}">
+    <link rel="stylesheet" href="{{ assetUrl('style.css') }}">
+</head>
+
+<body>
+    
+    {% if session.lang.code == 'ar' %}
+        {% set direction_rtl_class = ' rtl' %}
+    {% endif %}
+
+    <div class="app{{ direction_rtl_class }}">
+        {% block header %}{% endblock %}
+        {% block main_content %}{% endblock %}
+        {% block footer %}{% endblock %}
+    </div>
+
+    {{ zidapi_script|raw }}
+    <script type="text/javascript" src="{{ assetUrl('main.js') }}"></script>
+</body>
+
+</html>

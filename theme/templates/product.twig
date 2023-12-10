@@ -1,0 +1,17 @@
+{% extends "layout.twig" %}
+
+{% block title %} {{ product.name }} {% endblock %}
+
+{% block header %} {{ include('header.twig') }} {% endblock %}
+
+{% block main_content %}
+
+    <section class="product">
+        <div class="product-title">
+            <h2>{{ product.name }}</h2>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block footer %} {{ include('footer.twig') }} {% endblock %}

@@ -1,0 +1,17 @@
+{% extends "layout.twig" %}
+
+{% block title %} {{ locals.products }} {% endblock %}
+
+{% block header %} {{ include('header.twig') }} {% endblock %}
+
+{% block main_content %}
+
+    <section class="products">
+        <div class="products-title">
+            <h2>{{ locals.products }}</h2>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block footer %} {{ include('footer.twig') }} {% endblock %}
