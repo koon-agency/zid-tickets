@@ -1,0 +1,129 @@
+<section section-id="{{ sectionId }}"
+    class="products-section my-12 !px-0 bg-secondary-t relative xl:px-8 {% if settings.only == 'mobile' %} block lg:hidden {% elseif settings.only == 'desktop' %} hidden lg:block{% endif %}">
+
+    {% embed 'container.common.twig' with {'class': 'w-full max-w-5xl', 'title': settings.title, 'desc': settings.desc, 'id': sectionId, 'products': settings.products} %}
+            {% block content %}
+                <h3 class="text-center text-xl text-black font-bold">{{ title }}</h3>
+                <p class="text-center text-black font-normal">{{ desc }}</p>
+                <div class="flex flex-col w-full mx-auto pt-6">
+                <div class="container xl:!max-w-[1380px] splide group mx-auto overflow-hidden px-10" id="section-{{id}}">
+                  <div class="splide__arrows">
+                    <button class="splide__arrow splide__arrow--prev lg:!opacity-0 group-hover:!opacity-100 transition-opacity duration-300 !-right-px  !h-full !rounded-none !w-[24px] lg:!w-[30px]">
+                      <svg class="flickity-button-icon text-[#111] !h-[24px] !w-[24px] lg:!h-[30px] lg:!w-[30px]" fill="currentColor" viewBox="0 0 100 100"><path d="M 10,50 L 60,100 L 70,90 L 30,50  L 70,10 L 60,0 Z" class="arrow" transform="translate(100, 100) rotate(180) "></path></svg>
+                    </button>
+                    <button class="splide__arrow splide__arrow--next lg:!opacity-0 group-hover:!opacity-100 transition-opacity duration-300 !-left-px !h-full !rounded-none !w-[24px] lg:!w-[30px]">
+                      <svg class="flickity-button-icon text-[#111] !h-[24px] !w-[24px] lg:!h-[30px] lg:!w-[30px]" fill="currentColor" viewBox="0 0 100 100"><path d="M 10,50 L 60,100 L 70,90 L 30,50  L 70,10 L 60,0 Z" class="arrow" transform="translate(100, 100) rotate(180) "></path></svg>
+                    </button>
+                  </div>
+                  <div class="splide__track">
+                      <ul class="splide__list h-auto">
+                          {% for product in products.products %}
+                          <li class="splide__slide w-full">
+                              {% include 'product-card.twig' with {'product' : product, 'index': key} %}
+                          </li>
+                          {% endfor %}
+                      </ul>
+                  </div>
+                </div>
+                </div>
+            {% endblock %}
+    {% endembed %}
+</section>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  new Splide(document.getElementById('section-{{sectionId}}'), {
+        type   : 'loop',
+        direction: 'rtl',
+        perPage: 4,
+        gap: '1rem',
+        drag   : true,
+        snap   : true,
+        arrows: {{ settings.arrows ? 'true' : 'false' | raw }},
+        pagination: false,
+        breakpoints: {
+            720: {
+                perPage: 2,
+            }
+        },
+      }).mount();
+});
+</script>
+
+
+{% schema %}
+{
+  "name": {
+    "ar": "منتجات مميزة",
+    "en": "Products"
+  },
+  "icon": "fal fa-box",
+  "display": true,
+  "settings": {
+    "title": {
+      "type": "text",
+      "label": {
+        "ar": "العنوان",
+        "en": "Title"
+      }
+    },
+    "desc": {
+      "type": "textarea",
+      "label": {
+        "ar": "الوصف",
+        "en": "Description"
+      }
+    },
+    "products": {
+      "type": "products",
+      "label": {
+        "ar": "اختر قائمة المنتجات",
+        "en": "Select products"
+      }
+    },
+    "arrows": {
+      "type": "checkbox",
+      "label": {
+        "ar": "",
+        "en": ""
+      },
+      "noLabel": true,
+      "option": {
+        "ar": "عرض الأسهم",
+        "en": "Display Arrows?"
+      }
+    },
+    "only": {
+        "type": "radios",
+        "label": {
+            "ar": "عرض فقط على:",
+            "en": "Show only on:"
+        },
+        "options": [
+            {
+                "value": "all",
+                "label": {
+                "ar": "جميع الاجهزة",
+                "en": "all pages"
+                }
+            },
+            {
+                "value": "mobile",
+                "label": {
+                "ar": "الجوال فقط",
+                "en": "Mobile only"
+                }
+            },
+            {
+                "value": "desktop",
+                "label": {
+                "ar": "اجهزة الكمبيوتر فقط",
+                "en": "Desktop only"
+                }
+            }
+        ]
+    }
+  }
+}
+{% endschema %}

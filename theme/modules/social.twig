@@ -1,0 +1,145 @@
+<section class="reviews-section" dir="ltr" section-id="{{ sectionId }}">
+    {% embed 'container.common.twig' with {
+        'class': 'w-full',
+        'title': settings.title,
+        'id': sectionId, 
+        'facebook': settings.facebook,
+        'instagram': settings.instagram,
+        'email': settings.email,
+        'twitter': settings.twitter,
+    } %}
+        {% block content %}
+            <div class="flex flex-col items-center justify-center">
+                <h5 class="text-black text-[16px] text-center mb-px">{{ title }}</h5>
+                <div class="flex gap-1">
+                    {% if email %}
+                        <a id="email-button" class="flex items-center justify-center group hover:bg-black hover:border-black is-outline email tooltip tooltipstered h-[41.3px] w-[41.3px] rounded-full border-[2px] border-[rgb(192,192,192)]"
+                        href="mailto:{{email }}" target="_blank" rel="noopener noreferrer nofollow" data-label="Facebook" aria-label="Follow on Facebook">
+                            <i class="icon-envelop text-[1.2em] text-[rgb(192,192,192)] group-hover:text-white"></i>
+                        </a>
+                    {% endif %}
+                    {% if instagram %}
+                        <a id="instagram-button" class="flex items-center justify-center group hover:bg-[#3b6994] hover:border-[#3b6994] is-outline instagram tooltip tooltipstered h-[41.3px] w-[41.3px] rounded-full border-[2px] border-[rgb(192,192,192)]"
+                        href="{{ instagram }}" target="_blank" rel="noopener noreferrer nofollow" data-label="Facebook" aria-label="Follow on Facebook">
+                            <i class="icon-instagram text-[1.2em] text-[rgb(192,192,192)] group-hover:text-white"></i>
+                        </a>
+                    {% endif %}
+                    {% if facebook %}
+                        <a id="facebook-button" class="flex items-center justify-center group hover:bg-[#3a589d] hover:border-[#3a589d] is-outline facebook tooltip tooltipstered h-[41.3px] w-[41.3px] rounded-full border-[2px] border-[rgb(192,192,192)]"
+                        href="{{ facebook }}" target="_blank" rel="noopener noreferrer nofollow" data-label="Facebook" aria-label="Follow on Facebook">
+                            <i class="icon-facebook text-[1.2em] text-[rgb(192,192,192)] group-hover:text-white"></i>
+                        </a>
+                    {% endif %}
+                    {% if twitter %}
+                        <a id="twitter-button" class="flex items-center justify-center group hover:bg-black hover:border-black is-outline twitter tooltip tooltipstered h-[41.3px] w-[41.3px] rounded-full border-[2px] border-[rgb(192,192,192)]"
+                        href="{{ twitter }}" target="_blank" rel="noopener noreferrer nofollow" data-label="Facebook" aria-label="Follow on Facebook">
+                            <i class="icon-twitter text-[1.2em] text-[rgb(192,192,192)] group-hover:text-white"></i>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endblock %}
+    {% endembed %}
+</section>
+
+<script>
+{% if settings.facebook %}
+tippy('#facebook-button', {
+    content: 'Follow On Facebook',
+});
+{% endif %}
+{% if settings.instagram %}
+tippy('#instagram-button', {
+    content: 'Follow On Instagram',
+});
+{% endif %}
+{% if settings.twitter %}
+tippy('#twitter-button', {
+    content: 'Follow On X',
+});
+{% endif %}
+{% if settings.email %}
+tippy('#email-button', {
+    content: 'Send us an email',
+});
+{% endif %}
+</script>
+
+
+{% schema %}
+{
+  "name": {
+    "ar": "حسابات التواصل",
+    "en": "Social Accounts"
+  },
+  "icon": "fa fa-twitter",
+  "display": true,
+  "settings": {
+    "title": {
+        "type": "text",
+        "label": {
+            "ar": "العنوان",
+            "en": "Title"
+        }
+    },
+    "facebook": {
+        "type": "text",
+        "label": {
+            "ar": "facebook",
+            "en": "facebook"
+        }
+    },
+    "twitter": {
+        "type": "text",
+        "label": {
+            "ar": "twitter/X",
+            "en": "twitter/X"
+        }
+    },
+    "instagram": {
+        "type": "text",
+        "label": {
+            "ar": "instagram",
+            "en": "instagram"
+        }
+    },
+    "email": {
+        "type": "text",
+        "label": {
+            "ar": "email",
+            "en": "email"
+        }
+    },
+    "only": {
+        "type": "radios",
+        "label": {
+            "ar": "عرض فقط على:",
+            "en": "Show only on:"
+        },
+        "options": [
+            {
+                "value": "all",
+                "label": {
+                "ar": "جميع الاجهزة",
+                "en": "all pages"
+                }
+            },
+            {
+                "value": "mobile",
+                "label": {
+                "ar": "الجوال فقط",
+                "en": "Mobile only"
+                }
+            },
+            {
+                "value": "desktop",
+                "label": {
+                "ar": "اجهزة الكمبيوتر فقط",
+                "en": "Desktop only"
+                }
+            }
+        ]
+    }
+  }
+}
+{% endschema %}

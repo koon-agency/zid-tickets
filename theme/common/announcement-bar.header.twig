@@ -1,0 +1,5 @@
+{% if props.announcement_bar_text %}
+<a {% if props.announcement_bar_url %}href="{{ props.announcement_bar_url }}"{% endif %} class="w-full py-1 lg:min-h-[34px] flex items-center justify-center {{ class }}" style="background: {{ props.announcement_bar_background_color ?? '#000' }}">
+    <p class="text-center text-xs lg:text-sm" style="color: {{ props.announcement_bar_text_color ?? '#fff' }}">{{ props.announcement_bar_text }}</p>
+</a>
+{% endif %}

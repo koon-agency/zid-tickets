@@ -1,0 +1,165 @@
+<section class="reviews-section" dir="ltr" section-id="{{ sectionId }}">
+    {% embed 'container.common.twig' with {'class': 'w-full',
+        'overall':{
+            'title': settings.overall_title,
+            'stars': settings.overall_stars,
+            'count': settings.overall_count
+        },
+        'reviews': settings.reviews_list,
+        'id': sectionId
+    } %}
+        {% block content %}
+
+            <div class="flex flex-col lg:flex-row w-full">
+                <div class="flex-col h-full items-center justify-center w-[200px]">
+                    <h6 class="font-helvetica text-2xl font-medium mb-3 text-black text-center">{{ overall.title }}</h6>
+                    <div class="px-5">
+                    {% include 'stars.reviews.twig' with {'stars': overall.stars} %}
+                    </div>
+                    <p class="text-[13px] font-light text-black text-center mt-3">
+                        {{ locals.based_on }} <span class="font-bold underline">{{ overall.count }} {{ locals.reviews }}</span>
+                    </p>
+                </div>
+                <div class="w-[calc(100%-_200px)]">
+                    <div class="splide mx-auto px-[3.2em]" id="section-{{id}}">
+                        <div class="splide__track">
+                            <ul class="splide__list h-auto">
+                                {% for review in reviews %}
+                                <li class="splide__slide w-full">
+                                    {% include 'review.reviews.modules.twig' with {'props': {
+                                        'title': review.title,
+                                        'content': review.content,
+                                        'name': review.name,
+                                        'stars': review.stars
+                                    }, 'index': key} %}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+    {% endembed %}
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  new Splide(document.getElementById('section-{{sectionId}}'), {
+        type   : 'loop',
+        direction: 'rtl',
+        perPage: 4,
+        drag   : true,
+        snap   : true,
+        arrows: true,
+        pagination: false,
+        gap: '30px',
+        breakpoints: {
+            720: {
+                perPage: 2,
+            }
+        },
+        {# arrowPath: 'M10.5088835 12l3.3080582-3.02451041c.2440777-.22315674.2440777-.5849653 0-.80812204-.2440776-.22315673-.6398058-.22315673-.8838834 0L9.18305826 11.595939c-.24407768.2231567-.24407768.5849653 0 .808122l3.75000004 3.4285714c.2440776.2231568.6398058.2231568.8838834 0 .2440777-.2231567.2440777-.5849653 0-.808122L10.5088835 12z' #}
+      }).mount();
+});
+</script>
+
+{% schema %}
+{
+    "name": {
+    "ar": "التقييمات",
+    "en": "Reviews"
+  },
+  "icon": "fal fa-star",
+  "display": true,
+  "settings": {
+    "overall": {
+        "type": "fieldset",
+        "label": {
+            "ar": "التقييم العام",
+            "en": "Overall Rating"
+        },
+        "icon": "font_awesome",
+        "expandable": true,
+        "settings": {
+            "title": {
+                "type": "text",
+                "label": {
+                    "ar": "العنوان",
+                    "en": "Title"
+                }
+            },       
+            "stars": {
+                "type": "range",
+                "label": {
+                    "ar": "النجوم",
+                    "en": "Stars"
+                },
+                "minimum": 1,
+                "maximum": 5,
+                "step": 1
+            },
+            "count": {
+                "type": "text",
+                "label": {
+                    "ar": "العدد",
+                    "en": "Count"
+                }
+            }
+        }
+    },
+    "reviews": {
+        "type": "fieldset",
+        "label": {
+            "ar": "التقييمات",
+            "en": "Ratings"
+        },
+        "icon": "font_awesome",
+        "expandable": true,
+        "settings": {
+            "list": {
+                "type": "list",
+                "settings_label": {
+                    "ar": "التقييم",
+                    "en": "Rating"
+                },
+                "noLabel": true,
+                "settings": {
+                        "title": {
+                        "type": "text",
+                        "label": {
+                            "ar": "العنوان",
+                            "en": "Title"
+                        }
+                    },
+                    "content": {
+                        "type": "textarea",
+                        "label": {
+                            "ar": "المحتوى",
+                            "en": "Content"
+                        }
+                    },
+                    "name": {
+                        "type": "text",
+                        "label": {
+                            "ar": "الاسم",
+                            "en": "Name"
+                        }
+                    },
+                    "stars": {
+                        "type": "range",
+                        "label": {
+                            "ar": "النجوم",
+                            "en": "Stars"
+                        },
+                        "minimum": 1,
+                        "maximum": 5,
+                        "step": 1
+                    }
+                }
+            }
+        }
+    }
+  }
+}
+{% endschema %}

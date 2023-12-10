@@ -5,7 +5,33 @@ module.exports = {
     "./theme/src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            color: '#0a0a0a',
+          },
+        },
+      },
+      fontFamily: {
+        body: ["Montserrat-Arabic", "Montserrat", "sans-serif"],
+        icons: ["fl-icons"],
+        helvetica: ["Helvetica Neue", "Helvetica", "Arial", "sans-serif"]
+      },
+      fontWeight: {
+        bolder: 'bolder',
+      },
+      colors: {
+        "primary": {
+          DEFAULT: "var(--primary-color)",
+        },
+        "secondary": {
+          DEFAULT: "var(--secondary-color)",
+        },
+      }
+    },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 }

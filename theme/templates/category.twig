@@ -5,11 +5,417 @@
 {% block header %} {{ include('header.twig') }} {% endblock %}
 
 {% block main_content %}
+    <section class="category pt-[15px]" dir="ltr">
+        {% embed 'container.common.twig' with {'class': 'w-full max-w-5xl mb-2 !px-0', 'products': products, 'category': category} %}
+            {% block content %}
+            {% if '__BF_CATEGORY__' in category.description %}
+                <div class="special-content hidden">{{ category.description | raw }}</div>
+                {% set direction = 'ltr' %}
+                {% if session.lang.code == 'ar' %}
+                    {% set direction = 'rtl' %}
+                {% endif %}
+                <div class="content grid grid-cols-2 lg:grid-cols-4" x-data="content()" direction="{{ direction }}">
+                    <template x-for="item in data">
+                    <div :class="{'col-span-2 lg:col-span-4': !isdigits(item)}">
+                        <template x-if="!isdigits(item)">
+                            <h4 x-text="item" class="text-center mb-[27px] text-[20.8px] text-[#020202]"></h4>
+                        </template>
+                        <template x-if="isdigits(item)">
+                            <a :href="getCategory(item).url" class="w-full px-[9.8px] pb-[19.6px] block">
+                                <img class="h-[286px] object-contain" :src="getCategory(item).image" alt="">
+                                <p class="p-2.5 pb-5 text-[#020202] font-bold text-center" x-text="getCategory(item).name"></p>
+                            </a>
+                        </template>
+                    </div>
+                    </template>
+                </div>
 
-    <section class="category">
-        <div class="category-title">
-            <h2>{{ category.name }}</h2>
-        </div>
+                <script>
+                    function content() {
+                        return {
+                            data: [],
+                            categories: {},
+                            async init() {
+                                const content = document.querySelector('.special-content');
+                                this.parseContent(content);
+                                this.flattenCategories((await zid.store.product.fetchCategories()).data.categories);
+                                console.log(this.categories);
+                                console.log(this.data);
+                            },
+                            parseContent(element) {
+                                this.data = element.textContent.replace('__BF_CATEGORY__\n', '').split('\n');
+                            },
+                            getCategory(id) {
+                                return this.categories[id];
+                            },
+                            isdigits(string) {
+                                if(typeof string !== "string"){
+                                return false
+                                } 
+                                return !isNaN(string) &&  !isNaN(parseFloat(string))
+                            },
+                            flattenCategories(all) {
+                                all.forEach((item) => {
+                                    this.categories[item.id] = {
+                                        id: item.id,
+                                        name: item.name.replaceAll('6', '').replaceAll(/\s+/g, ' ').trim(),
+                                        url: item.url,
+                                        image: item.image_full_size ?? '{{ asset_url ~ "category-placeholder.jpg" }}',
+                                    };
+                                    if (item.sub_categories.length > 0) {
+                                        this.flattenCategories(item.sub_categories);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                    function renderPage() {
+                        const content = document.querySelector('.special-content');
+                        parseContent(content);
+                        const container = document.querySelector('.content');
+                        data.forEach((item) => {
+                            if (isdigits(item)) {
+                                const img = document.createElement('img');
+                                img.src = item;
+                                container.appendChild(img);
+                                return;
+                            }
+                            const div = document.createElement('div');
+                            div.innerHTML = item;
+                            container.appendChild(div);
+                        });
+                    }
+                </script>
+
+            {% elseif '__BF_FILOUS__' in category.description %}
+                <div class="special-content hidden">{{ category.description | raw }}</div>
+                {% set direction = 'ltr' %}
+                {% if session.lang.code == 'ar' %}
+                    {% set direction = 'rtl' %}
+                {% endif %}
+                <div class="content grid grid-cols-2 lg:grid-cols-4" x-data="content()" direction="{{ direction }}">
+                    <template x-for="item in data">
+                    <div class="h-full" :class="{'col-span-2 lg:col-span-4': !isdigits(item)}">
+                        <template x-if="!isdigits(item)">
+                            <div class="flex w-full items-center justify-between mb-[34px]">
+                                <div class="line flex-1 h-0.5 opacity-10 bg-[#0a0a0a] w-full"></div>
+                                <h1 class="text-center mx-[15px] text-[#0a0a0a] font-bold uppercase text-[20px]" x-text="item"></h1>
+                                <div class="line flex-1 h-0.5 opacity-10 bg-[#0a0a0a] w-full"></div>
+                            </div>
+                        </template>
+                        <template x-if="isdigits(item) && getCategory(item)">
+                            <div class="h-full px-[9.8px] pb-[19.6px]">
+                                <div class="h-full shadow-[0_3px_6px_-4px_rgba(0,0,0,.16),_0_3px_6px_rgba(0,0,0,.23)] hover:shadow-[0_1px_3px_-2px_rgba(0,0,0,.12),_0_1px_2px_rgba(0,0,0,.24)] transition-shadow duration-300">
+                                    <a :href="getCategory(item).url" class="w-full flex flex-col h-full">
+                                        <img :src="getCategory(item).image" alt="">
+                                        <p class="p-2.5 pb-5 text-[#020202] font-bold text-center text-[12.8px] mt-auto" x-text="getCategory(item).name"></p>
+                                    </a>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    </template>
+                </div>
+
+                <script>
+                    function content() {
+                        return {
+                            data: [],
+                            categories: {},
+                            async init() {
+                                const content = document.querySelector('.special-content');
+                                this.parseContent(content);
+                                this.flattenCategories((await zid.store.product.fetchCategories()).data.categories);
+                                console.log(this.categories);
+                                console.log(this.data);
+                            },
+                            parseContent(element) {
+                                this.data = element.textContent.replace('__BF_FILOUS__\n', '').split('\n');
+                            },
+                            getCategory(id) {
+                                return this.categories[id];
+                            },
+                            isdigits(string) {
+                                if(typeof string !== "string"){
+                                return false
+                                } 
+                                return !isNaN(string) &&  !isNaN(parseFloat(string))
+                            },
+                            flattenCategories(all) {
+                                all.forEach((item) => {
+                                    this.categories[item.id] = {
+                                        id: item.id,
+                                        name: item.name.replaceAll('6', '').replaceAll(/\s+/g, ' ').trim(),
+                                        url: item.url,
+                                        image: item.image_full_size ?? '{{ asset_url ~ "category-placeholder.jpg" }}',
+                                    };
+                                    if (item.sub_categories.length > 0) {
+                                        this.flattenCategories(item.sub_categories);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                    function renderPage() {
+                        const content = document.querySelector('.special-content');
+                        parseContent(content);
+                        const container = document.querySelector('.content');
+                        data.forEach((item) => {
+                            if (isdigits(item)) {
+                                const img = document.createElement('img');
+                                img.src = item;
+                                container.appendChild(img);
+                                return;
+                            }
+                            const div = document.createElement('div');
+                            div.innerHTML = item;
+                            container.appendChild(div);
+                        });
+                    }
+                </script>
+            {% elseif '__BF_COLLECTION__' in category.description %}
+                <div class="special-content hidden">{{ category.description | raw }}</div>
+                <div  x-data="content()">
+                    <template x-for="item in output">
+                        <div>
+                            <template x-if="item.type === 'banner'">
+                                <div class="h-[130px] flex items-center justify-center banner-background mb-[30px]" :style="'background-color: ' + item.color">
+                                    <h1 class="font-bold text-white text-center uppercase text-[22px] lg:text-[32px]" x-html="renderText(item.title)">
+                                    </h1>
+                                </div>
+                            </template>
+                            <template x-if="item.type === 'bears'">
+                                <div class="flex items-center justify-center flex-wrap">
+                                    <template x-for="bear in item.bears">
+                                        <div class="flex flex-col w-1/2 lg:w-1/5 px-2.5">
+                                            <img class="w-full h-auto" :src="bear.image" alt="">
+                                            <h4 class="pt-2.5 pb-5 text-[#0a0a0a] font-bold text-center" x-html="renderText(bear.title)"></h4>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                            <template x-if="item.type === 'title'">
+                                <div class="h-[62px] flex items-center justify-center mt-4" :style="'background-color: ' + item.color">
+                                    <h3 class="text-white font-bold text-[22px] lg:text-[32px] text-center" x-html="renderText(item.title)"></h3>
+                                </div>
+                            </template>
+                            <template x-if="item.type === 'products'">
+                                <div class="grid gap-[19.6px] px-[9.8px] mt-[30px] grid-cols-2" :class="{'lg:grid-cols-3': item.products.length <= 3, 'lg:grid-cols-4': item.products.length >= 4}">
+                                    <template x-for="product in item.products">
+                                        <template x-if="getProduct(product)">
+                                            <div class="product-item w-full relative mx-auto mb-[20px]" :class="{'product-item-out-of-stock': getProduct(product).is_infinite == false && getProduct(product).quantity <= 0}">
+                                                <template x-for="attr in getProduct(product).attributes">
+                                                    <template x-if="attr.name.toUpperCase().includes('TAG') || attr.name.toUpperCase().includes('وسم')">
+                                                        <div class="tag absolute top-[30px] left-0 text-white bg-[#4b9960] font-black text-[12.8px] py-0.5 px-1 uppercase" x-text="attr.value">
+                                                        </div>
+                                                    </template>
+                                                </template>
+                                                <a :href="getProduct(product).html_url" class="flex flex-col justify-start">
+                                                    <div class="box-1-1">
+                                                        <div class="content w-full">
+                                                            <div class="flex justify-center" style="width: 100%; height: 100%;">
+                                                                <template x-if="getProduct(product).images">
+                                                                <img :id="'product-card-img-' + getProduct(product).id" class="object-contain"
+                                                                        :src="getProduct(product).images[0]['image']['large']"
+                                                                    alt="" loading="lazy" >
+                                                                </template>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <template x-if="getProduct(product).attributes.length > 0">
+                                                        <ul class="product-attributes w-full flex items-center justify-center lg:justify-center gap-[10px] mt-3">
+                                                            <template x-for="attr in getProduct(product).attributes" x-effect="output.length > 0 && $nextTick(() => tipp())">
+                                                                <template x-if="attr.type == 'color' || attr.name.toUpperCase().includes('COLOR') || attr.name.includes('لون') || attr.name.includes('لوان')">
+                                                                    <li :id="'color-' + attr.id" class="choice cursor-pointer rounded-[2px] !p-[2px] color-choice h-[30px] w-[30px]">
+                                                                        <div class="color rounded-[2px] h-full w-full" :style="'background-color: ' + attr.type_value"></div>
+                                                                    </li>
+                                                                </template>
+                                                            </template>
+                                                        </ul>
+                                                    </template>
+
+                                                    <div class="text-[0.9rem] text-center mt-5 uppercase text-black"><span x-text="getProduct(product).name"></span></div>
+                                                    <div class="product-crd-spec">
+                                                        <template x-if="getProduct(product).formatted_sale_price !== null">
+                                                            <div class="section-product-price">
+                                                                <div class="text-[0.9rem] font-bold text-center pt-1 text-black"><span x-text="getProduct(product).formatted_sale_price"></span></div>
+                                                            </div>
+                                                        </template>
+                                                        <template x-if="getProduct(product).formatted_sale_price === null">
+                                                            <div class="text-[0.9rem] font-bold text-center pt-1 text-black" ><span x-text="getProduct(product).formatted_price"></span></div>
+                                                        </template>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </template>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+                <script>
+                    function content() {
+                        return {
+                            data: [],
+                            output: [],
+                            async init() {
+                                const content = document.querySelector('.special-content');
+                                this.parseContent(content);
+                                this.organize();
+                            },
+                            parseContent(element) {
+                                this.data = element.textContent.replace('__BF_COLLECTION__\n', '').replaceAll(/(\\n)+/g, '\n').split('\n');
+                            },
+                            getCategory(id) {
+                                return this.categories[id];
+                            },
+                            isdigits(string) {
+                                if(typeof string !== "string"){
+                                return false
+                                } 
+                                return !isNaN(string) &&  !isNaN(parseFloat(string))
+                            },
+                            renderText(string) {
+                                return string.trim().replaceAll('\n', '<br>');
+                            },
+                            getProduct(sku) {
+                                return Alpine.store('all_products').getProductBySku(sku)
+                            },
+                            isColor(string) {
+                                return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(string);
+                            },
+                            isUrl(string) {
+                                return /^(http|https):\/\/[^ "]+$/.test(string);
+                            },
+                            tipp() {
+                                this.output.filter((item) => {
+                                    return item.type == 'products';
+                                }).forEach((item) => {
+                                    item.products.forEach((sku) => {
+                                        const product = this.getProduct(sku);
+                                        if (product) {
+                                            product.attributes.forEach((attr) => {
+                                                if (attr.type == 'color' || attr.name.toUpperCase().includes('COLOR') || attr.name.includes('لون') || attr.name.includes('لوان')) {
+                                                    tippy('#color-' + attr.id, {
+                                                        content: attr.value,
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    });
+                                });
+                            },
+                            organize() {
+                                pointer = 0;
+                                this.data.forEach((item) => {
+                                    if (item.trim() == '__BANNER__') {
+                                        this.output.push({
+                                            type: 'banner',
+                                            title: '',
+                                        });
+                                        pointer = this.output.length - 1;
+                                        return;
+                                    } else if (item.trim() == '__BEARS__') {
+                                        this.output.push({
+                                            type: 'bears',
+                                            bears: [],
+                                        });
+                                        pointer = this.output.length - 1;
+                                        return;
+                                    } else if (item.trim() == '__BEAR__') {
+                                        if (this.output[pointer]?.type == 'bears') {
+                                            this.output[pointer].bears.push({
+                                                title: '',
+                                                image: ''
+                                            });
+                                            return;
+                                        }
+                                        this.pointer = this.output.length;
+                                        return;
+                                    } else if (item.trim() == '__TITLE__') {
+                                        this.output.push({
+                                            type: 'title',
+                                            title: '',
+                                            color: '#000',
+                                        });
+                                        pointer = this.output.length - 1;
+                                        return;
+                                    } else if (item.trim() == '__PRODUCTS__') {
+                                        this.output.push({
+                                            type: 'products',
+                                            products: [],
+                                        });
+                                        pointer = this.output.length - 1;
+                                        return;
+                                    } else {
+                                        if (this.output[pointer]?.type == 'banner') {
+                                            if (this.isColor(item)) {
+                                                this.output[pointer].color = item;
+                                                return;
+                                            } else {
+                                                this.output[pointer].title += '\n' + item;
+                                                return;
+                                            }
+                                        }
+                                        else if (this.output[pointer]?.type == 'bears' && this.output[pointer].bears.length > 0) {
+                                            if (this.isUrl(item)) {
+                                                this.output[pointer].bears[this.output[pointer].bears.length - 1].image = item;
+                                                return;
+                                            } else {
+                                                this.output[pointer].bears[this.output[pointer].bears.length - 1].title += '\n' + item;
+                                                return;
+                                            }
+                                        }
+                                        else if (this.output[pointer]?.type == 'title') {
+                                            if (this.isColor(item)) {
+                                                this.output[pointer].color = item;
+                                                return;
+                                            } else {
+                                                this.output[pointer].title += '\n' + item;
+                                                return;
+                                            }
+                                        }
+                                        else if (this.output[pointer]?.type == 'products') {
+                                            this.output[pointer]?.products.push(item);
+                                        }
+                                    }
+                                })
+                                console.log(this.data, this.output);
+                            }
+                        }
+                    }
+                    function renderPage() {
+                        const content = document.querySelector('.special-content');
+                        parseContent(content);
+                        const container = document.querySelector('.content');
+                        data.forEach((item) => {
+                            if (isdigits(item)) {
+                                const img = document.createElement('img');
+                                img.src = item;
+                                container.appendChild(img);
+                                return;
+                            }
+                            const div = document.createElement('div');
+                            div.innerHTML = item;
+                            container.appendChild(div);
+                        });
+                    }
+                </script>
+            {% else %}
+                <div class="my-12">
+                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-y-8">
+                        {% for product in products.data %}
+                            {% include 'product-card.twig' with {'product': product} %}
+                        {% endfor %}
+                    </div>
+                {% include 'pagination.twig' with { 'totalPages' : products.last_page , 'currentPage' : products.current_page } %}
+                </div>
+            {% endif %}
+            {% endblock %}
+        {% endembed %}
     </section>
 
 {% endblock %}

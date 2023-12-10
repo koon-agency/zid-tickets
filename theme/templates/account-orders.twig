@@ -6,7 +6,75 @@
 
 {% block main_content %}
 
-    <h1>account-orders</h1>
+    <section class="account account-orders">
+        <div class="w-full border-y border-y-[#ececec] bg-[#f7f7f7]">
+            <div class="p-[15px] min-h-[60px]">
+                <h1 class="font-black text-black text-[1.4em] lg:text-[1.7em] leading-5 text-center uppercase">
+                    {{ locals.profile.my_account }}
+                </h1>
+            </div>
+        </div>
+
+
+        {% embed 'container.common.twig' with {'class': 'w-full mt-[15px] mb-[30px] max-w-5xl'} %}
+            {% block content %}
+                <div class="flex">
+                    <div class="flex-[1] border-e border-e-[#ececec] ps-[15px] pb-[30px]">
+                        <div class="w-full flex gap-[15px] items-center justify-start">
+                            <img class="w-[70px]" src="{{ asset_url ~ 'bear.svg' }}" alt="">
+                            <p class="text-black text-base text-start">{{ customer.name }}</p>
+                        </div>
+                        <ul class="mt-[15px] flex flex-col">
+                            <li class="border-r-[3px] border-r-[#0a0a0a]">
+                                <a class="flex justify-start items-center gap-[15px] py-2.5 font-semibold text-[12.8px] uppercase text-[#121212d9]" href="/account-orders">
+                                    <img class="h-5 w-auto" src="{{ asset_url ~ 'orders.svg' }}" alt="">
+                                    {{ locals.profile.orders.title }}
+                                </a>
+                            </li>
+                            <li class="border-t border-t-[#ececec] hover:border-r-[3px] hover:border-r-[#0a0a0a] transition duration-300">
+                                <a class="flex justify-start items-center gap-[15px] py-2.5 font-semibold text-[12.8px] uppercase text-[#666666d9] hover:text-[#121212d9]" href="/account-addresses">
+                                    <img class="h-5 w-auto" src="{{ asset_url ~ 'location.svg' }}" alt="">
+                                    {{ locals.profile.addresses.title }}
+                                </a>
+                            </li>
+                            <li class="border-t border-t-[#ececec] hover:border-r-[3px] hover:border-r-[#0a0a0a] transition duration-300">
+                                <a class="flex justify-start items-center gap-[15px] py-2.5 font-semibold text-[12.8px] uppercase text-[#666666d9] hover:text-[#121212d9]" href="/account-profile">
+                                    <img class="h-5 w-auto" src="{{ asset_url ~ 'profile.svg' }}" alt="">
+                                    {{ locals.profile.title }}
+                                </a>
+                            </li>
+                            <li class="border-t border-t-[#ececec] hover:border-r-[3px] hover:border-r-[#0a0a0a] transition duration-300">
+                                <a class="flex justify-start items-center gap-[15px] py-2.5 font-semibold text-[12.8px] uppercase text-[#666666d9] hover:text-[#121212d9]" href="/auth/logout">
+                                    <img class="h-5 w-auto" src="{{ asset_url ~ 'logout.svg' }}" alt="">
+                                    {{ locals.logout }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="flex-[3] ps-[30px] pb-[30px] pe-[15px]">
+                        <div class="w-full flex items-center justify-between border-b-[0.5px] border-green pb-2">
+                            <p class="text-sm text-black uppercase font-bold">{{ locals.orders.id }}</p>
+                            <p class="text-sm text-black uppercase font-bold">{{ locals.orders.date }}</p>
+                            <p class="text-sm text-black uppercase font-bold">{{ locals.orders.status }}</p>
+                            <p class="text-sm text-black uppercase font-bold">{{ locals.orders.total }}</p>
+                        </div>
+                        <div class="pt-6">
+                        {% for order in orders %}
+                            <a href="/orders/{{ order.code }}/invoice" class="w-full flex items-center justify-between px-4 py-3 border border-[#ececec] hover:border-black">
+                            <p class="text-sm text-black">#{{ order.id }}</p>
+                            <p class="text-sm text-black">{{ datetimeFormat(order.created_at, 'd-m-Y g:i:s A', session.lang.code) }}</p>
+                            <p class="text-sm text-black">{{ order.order_status.name }}</p>
+                            <p class="text-sm text-black">{{ order.order_total_string }}</p>
+                            </a>
+                        {% else %}
+                            <p class="my-3 text-black text-center">{{ locals.orders.empty }}</p>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endblock %}
+        {% endembed %}
+    </section>
 
 {% endblock %}
 

@@ -1,0 +1,7 @@
+<li class="breadcrumb-item text-[18.5px] {% if props.link %} text-[#666666b3] hover:text-black {% else %} text-black font-black {% endif %}">
+{% if props.link %}
+    <a href="{{ props.link }}" aria-current="page">{{ props.text }}</a>
+{% else %}
+    {{ props.text }}
+{% endif %}
+</li>

@@ -5,11 +5,20 @@
 {% block header %} {{ include('header.twig') }} {% endblock %}
 
 {% block main_content %}
+    <section class="products pt-[15px]">
+    {% embed 'container.common.twig' with {'class': 'w-full block max-w-5xl mb-2'} %}
+            {% block content %}
+                <div class="my-12">
+                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-y-8">
+                        {% for product in products.data %}
+                            {% include 'product-card.twig' with {'product': product} %}
+                        {% endfor %}
+                    </div>
 
-    <section class="products">
-        <div class="products-title">
-            <h2>{{ locals.products }}</h2>
-        </div>
+                    {% include 'pagination.twig' with { 'totalPages' : products.last_page , 'currentPage' : products.current_page } %}
+                </div>
+            {% endblock %}
+    {% endembed %}
     </section>
 
 {% endblock %}

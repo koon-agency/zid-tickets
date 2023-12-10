@@ -1,0 +1,92 @@
+<section class="video-section relative{% if settings.spaces %} py-14 {% endif %}" section-id="{{ sectionId }}">
+    {% if not settings.fullscreen %}
+        {% embed 'container.common.twig' with {'class': 'w-full', 'desktop': settings.desktop, 'mobile': settings.mobile} %}
+            {% block content %}
+                {% include 'video.modules.twig' with {'props': settings} %}
+            {% endblock %}
+        {% endembed %}
+    {% else %}
+        {% include 'video.modules.twig' with {'props': settings} %}
+    {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": {
+    "ar": "فيديو بنر",
+    "en": "Video Banner"
+  },
+  "icon": "fa fa-play",
+  "display": true,
+  "settings": {
+    "mobile": {
+        "type": "text",
+        "label": {
+            "ar": "رابط الفيديو للموبايل",
+            "en": "Video link for mobile"
+        },
+        "info": {
+            "ar": "يجب أن يكون الفديو بصيغة mp4",
+            "en": "Video must be mp4 format"
+        }
+    },
+    "desktop": {
+        "type": "text",
+        "label": {
+            "ar": "رابط الفيديو للديسكتوب",
+            "en": "Video link for desktop"
+        },
+        "info": {
+            "ar": "يجب أن يكون الفديو بصيغة mp4",
+            "en": "Video must be mp4 format"
+        }
+    },
+    "fullscreen": {
+        "type": "checkbox",
+        "label": {
+            "ar": "",
+            "en": ""
+        },
+        "option": {
+          "ar": "فديو بحجم الشاشة؟",
+          "en": "Fullscreen video?"
+        },
+        "noLabel": true
+    },
+    "spaces": {
+      "type": "checkbox",
+      "label": {
+          "ar": "",
+          "en": ""
+      },
+      "option": {
+        "ar": "ترك مسافة أعلى وأسفل الفديو؟",
+        "en": "Add vertical spaces?"
+      },
+      "default": true,
+      "noLabel": true
+    },
+    "title": {
+        "type": "text",
+        "label": {
+        "ar": "العنوان",
+        "en": "Title"
+      }
+    },
+    "button": {
+        "type": "text",
+        "label": {
+        "ar": "عنوان الزر",
+        "en": "Button text"
+      }
+    },
+    "url": {
+        "type": "url",
+        "label": {
+        "ar": "رابط الزر",
+        "en": "Button Link"
+      }
+    }
+  }
+}
+{% endschema %}

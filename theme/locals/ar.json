@@ -3,6 +3,94 @@
     "products": "المنتجات",
     "categories": "التصنيفات",
     "login": "تسجيل الدخول",
-    "logout": "خروح",
-    "hello": "اهلاً"
+    "logout": "تسجيل الخروج",
+    "hello": "اهلاً",
+    "next": "التالي",
+    "prev": "السابق",
+    "header": {
+        "search": {
+            "placeholder": "ابحث في المنتجات…"
+        }
+    },
+    "cart": {
+        "title": "سلة التسوق",
+        "checkout_details": "تفاصيل الدفع",
+        "order_complete": "الطلب مكتمل",
+        "empty_cart": "السلة فارغة",
+        "description": "",
+        "cart_back_to_store": "متابعة التسوق",
+        "product": "المنتج",
+        "quantity": "الكمية",
+        "price": "السعر",
+        "subtotal": "المجموع الفرعي",
+        "checkout": "متابعة الشراء",
+        "summary": "مجموع السلة",
+        "back_to_store": "العودة للمتجر",
+        "coupon":"كوبون",
+        "coupon_discount":"كوبون الخصم",
+        "coupon_code":"كود الخصم",
+        "apply_coupon": "تطبيق الكوبون",
+        "coupon_discount_enter": "ادخل كود الخصم",
+        "coupon_discount_submit": "إرسال",
+        "sorry": "عذرًا، هذا الكوبون غير موجود",
+        "sent_successfully":"تم تطبيق الكوبون بنجاح"
+    },
+    "profile": {
+        "title": "معلومات الحساب",
+        "my_account": "حسابي",
+        "orders": {
+            "title": "الطلبات",
+            "id": "رقم الطلب",
+            "date": "التاريخ",
+            "status": "الحالة",
+            "total": "المجموع",
+            "empty": "لا يوجد طلبات"
+        },
+        "addresses": {
+            "title": "العناوين",
+            "empty": "لا يوجد عناوين",
+            "new": "عنوان جديد",
+            "location": "الموقع"
+        }
+    },
+    "addresses": {
+        "title": "العناوين",
+        "new": "عنوان جديد",
+        "empty": "ليس لديك عناوين محفوظة",
+        "location": "الموقع"
+    },
+    "orders": {
+        "title": "الطلبات",
+        "id": "رقم الطلب",
+        "date": "التاريخ",
+        "status": "الحالة",
+        "total": "المجموع",
+        "empty": "ليس لديك طلبات"
+    },
+    "based_on": "بناء على",
+    "reviews": "تقييم",
+    "instagram_follow": "تابعنا على انستغرام",
+    "add_to_cart": "أضف إلى السلة",
+    "added_successfully": "تمت الإضافة بنجاح إلى السلة",
+    "subtotal": "المجموع الفرعي",
+    "view_cart": "عرض السلة",
+    "checkout": "الدفع",
+    "you_may_also_like": "قد يعجبك أيضاً",
+    "product": {
+        "feature": [
+            "توصيل سريع",
+            "الاسترجاع خلال 14 يومًا",
+            "آمن & دفع آمن 100٪",
+            "ملابس عالية الجودة"
+        ]
+    },
+    "in_stock": "متوفر",
+    "out_of_stock": "نفدت الكمية",
+    "notify_me": "نبهني عندما يكون المنتج متاح",
+    "delivery": "التوصيل في خلال 1-5 أيام",
+    "notify_me_success": "تم الإرسال بنجاح",
+    "sorry": "عذرًا لقد حدث خطأ ما",
+    "join_waitlist": "انضم لقائمة الانتظار",
+    "email": "البريد الإلكتروني",
+    "out_of_stick_desc": "انضم لقائمة الانتظار ليتم إعلامك عند توفر المنتج"
 }

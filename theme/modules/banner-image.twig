@@ -1,0 +1,122 @@
+<section section-id="{{ sectionId }}"
+    class="image-banner py-12">
+    <div class="relative {% if settings.fullscreen %}w-full{% else %} px-[15px] mx-auto {% endif %} {% if settings.only == 'mobile' %} block lg:hidden {% elseif settings.only == 'desktop' %} hidden lg:block{% endif %}">
+      <a href="{% if settings.url %}{{ settings.url }}{% else %}/{% endif %}">
+        <img class="{% if not settings.fullscreen %}rounded-lg{% endif %} w-full block lg:hidden" 
+          src="{{ imageUrl(settings.mobile) }}" loading="lazy"
+        alt="">
+        <img class="{% if not settings.fullscreen %}rounded-lg{% endif %} w-full hidden lg:block h-[500px] object-cover object-center" 
+          src="{{ imageUrl(settings.desktop) }}" loading="lazy"
+        alt="">
+      </a>
+    <div class="absolute lg:bottom-2 right-[50%] bottom-1/2 transform translate-x-1/2 translate-y-1/2 lg:translate-y-0">
+        {% if settings.text %}
+            <h6 class="text-black font-black text-[19.3px] mb-[20px]">{{ settings.text }}</h6>
+        {% endif %}
+        {% if settings.button and settings.url %}
+        <div class="flex items-center justify-center">
+            <a href="{{ settings.url }}" class="text-white bg-black px-[20px] font-black text-[0.97rem] py-2 mx-auto text-center">{{ settings.button }}</a>
+        </div>
+        {% endif %}
+    </div>
+    </div>
+</section>
+
+
+{% schema %}
+{
+  "name": {
+    "ar": "بانر عريض",
+    "en": "Wide Banner"
+  },
+  "icon": "fal fa-image",
+  "display": true,
+  "settings": {
+    "mobile": {
+        "type": "image",
+        "label": {
+            "ar": "صورة الجوال",
+            "en": "Image for mobile"
+        },
+        "info": {
+            "ar": "",
+            "en": ""
+        }
+    },
+    "desktop": {
+        "type": "image",
+        "label": {
+            "ar": "صورة سطح المكتب",
+            "en": "Image for desktop"
+        },
+        "info": {
+            "ar": "",
+            "en": ""
+        }
+    },
+    "fullscreen": {
+        "type": "checkbox",
+        "label": {
+            "ar": "",
+            "en": ""
+        },
+        "option": {
+          "ar": "صورة بحجم الشاشة؟",
+          "en": "Fullscreen image?"
+        },
+        "noLabel": true
+    },
+    "url": {
+        "type": "url",
+        "label": {
+        "ar": "الرابط",
+        "en": "Link"
+      }
+    },
+    "text": {
+        "type": "text",
+        "label": {
+            "ar": "العنوان",
+            "en": "text"
+        }
+    },
+    "button": {
+        "type": "text",
+        "label": {
+        "ar": "عنوان الزر",
+        "en": "Button text"
+      }
+    },
+    "only": {
+        "type": "radios",
+        "label": {
+            "ar": "عرض فقط على:",
+            "en": "Show only on:"
+        },
+        "options": [
+            {
+                "value": "all",
+                "label": {
+                "ar": "جميع الاجهزة",
+                "en": "all pages"
+                }
+            },
+            {
+                "value": "mobile",
+                "label": {
+                "ar": "الجوال فقط",
+                "en": "Mobile only"
+                }
+            },
+            {
+                "value": "desktop",
+                "label": {
+                "ar": "اجهزة الكمبيوتر فقط",
+                "en": "Desktop only"
+                }
+            }
+        ]
+    }
+  }
+}
+{% endschema %}

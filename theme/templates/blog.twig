@@ -6,7 +6,215 @@
 
 {% block main_content %}
 
-    <h1>blog</h1>
+    <section class="blog-page pt-[15px]">
+		{% embed 'container.common.twig' with
+            {
+                'class': 'w-full max-w-5xl',
+                'blog': blog
+            }
+        %}
+			{% block content %}
+            {% if '__BF_CATEGORY__' in blog.content %}
+                <div class="special-content hidden">{{ blog.content | raw }}</div>
+                <div class="content grid grid-cols-2 lg:grid-cols-4" x-data="content()">
+                    <template x-for="item in data">
+                    <div :class="{'col-span-2 lg:col-span-4': !isdigits(item)}">
+                        <template x-if="!isdigits(item)">
+                            <h4 x-text="item" class="text-center mb-[27px] text-[20.8px] text-[#020202]"></h4>
+                        </template>
+                        <template x-if="isdigits(item)">
+                            <a :href="getCategory(item).url" class="w-full px-[9.8px] pb-[19.6px] block">
+                                <img :src="getCategory(item).image" alt="">
+                                <p class="p-2.5 pb-5 text-[#020202] font-bold text-center" x-text="getCategory(item).name"></p>
+                            </a>
+                        </template>
+                    </div>
+                    </template>
+                </div>
+
+                <script>
+                    function content() {
+                        return {
+                            data: [],
+                            categories: {},
+                            async init() {
+                                const content = document.querySelector('.special-content');
+                                this.parseContent(content);
+                                this.flattenCategories((await zid.store.product.fetchCategories()).data.categories);
+                                console.log(this.categories);
+                                console.log(this.data);
+                            },
+                            parseContent(element) {
+                                if (element.childNodes.length > 0) {
+                                    // Iterate over each child node
+                                    for (let i = 0; i < element.childNodes.length; i++) {
+                                        const childNode = element.childNodes[i];
+
+                                        // Check if the child node is a text node
+                                        if (childNode.nodeType === Node.TEXT_NODE) {
+                                            if (childNode.textContent !== '__BF_CATEGORY__') {
+                                                this.data.push(childNode.textContent);
+                                            }
+                                        } else if (childNode.nodeType === Node.ELEMENT_NODE) {
+                                            // Recursively call the function for nested elements
+                                            this.parseContent(childNode);
+                                        }
+                                    }
+                                }
+                            },
+                            getCategory(id) {
+                                return this.categories[id];
+                            },
+                            isdigits(string) {
+                                if(typeof string !== "string"){
+                                return false
+                                } 
+                                return !isNaN(string) &&  !isNaN(parseFloat(string))
+                            },
+                            flattenCategories(all) {
+                                all.forEach((item) => {
+                                    this.categories[item.id] = {
+                                        id: item.id,
+                                        name: item.name.replaceAll('6', '').replaceAll(/\s+/g, ' ').trim(),
+                                        url: item.url,
+                                        image: item.image_full_size ?? '{{ asset_url ~ "category-placeholder.jpg" }}',
+                                    };
+                                    if (item.sub_categories.length > 0) {
+                                        this.flattenCategories(item.sub_categories);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                    function renderPage() {
+                        const content = document.querySelector('.special-content');
+                        parseContent(content);
+                        const container = document.querySelector('.content');
+                        data.forEach((item) => {
+                            if (isdigits(item)) {
+                                const img = document.createElement('img');
+                                img.src = item;
+                                container.appendChild(img);
+                                return;
+                            }
+                            const div = document.createElement('div');
+                            div.innerHTML = item;
+                            container.appendChild(div);
+                        });
+                    }
+                </script>
+
+            {% elseif '__BF_FILOUS__' in blog.content %}
+                <div class="special-content hidden">{{ blog.content | raw }}</div>
+                <div class="content grid grid-cols-2 lg:grid-cols-4" x-data="content()">
+                    <template x-for="item in data">
+                    <div :class="{'col-span-2 lg:col-span-4': !isdigits(item)}">
+                        <template x-if="!isdigits(item)">
+                            <div class="flex w-full items-center justify-between mb-[34px]">
+                                <div class="line flex-1 h-0.5 opacity-10 bg-[#0a0a0a] w-full"></div>
+                                <h1 class="text-center mx-[15px] text-[#0a0a0a] font-bold uppercase text-[20px]" x-text="item"></h1>
+                                <div class="line flex-1 h-0.5 opacity-10 bg-[#0a0a0a] w-full"></div>
+                            </div>
+                        </template>
+                        <template x-if="isdigits(item)">
+                            <div class=" px-[9.8px] pb-[19.6px]">
+                                <div class="shadow-[0_3px_6px_-4px_rgba(0,0,0,.16),_0_3px_6px_rgba(0,0,0,.23)] hover:shadow-[0_1px_3px_-2px_rgba(0,0,0,.12),_0_1px_2px_rgba(0,0,0,.24)] transition-shadow duration-300">
+                                    <a :href="getCategory(item).url" class="w-full block">
+                                        <img :src="getCategory(item).image" alt="">
+                                        <p class="p-2.5 pb-5 text-[#020202] font-bold text-center text-[12.8px]" x-text="getCategory(item).name"></p>
+                                    </a>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    </template>
+                </div>
+
+                <script>
+                    function content() {
+                        return {
+                            data: [],
+                            categories: {},
+                            async init() {
+                                const content = document.querySelector('.special-content');
+                                this.parseContent(content);
+                                this.flattenCategories((await zid.store.product.fetchCategories()).data.categories);
+                                console.log(this.categories);
+                                console.log(this.data);
+                            },
+                            parseContent(element) {
+                                if (element.childNodes.length > 0) {
+                                    // Iterate over each child node
+                                    for (let i = 0; i < element.childNodes.length; i++) {
+                                        const childNode = element.childNodes[i];
+
+                                        // Check if the child node is a text node
+                                        if (childNode.nodeType === Node.TEXT_NODE) {
+                                            if (childNode.textContent !== '__BF_FILOUS__') {
+                                                this.data.push(childNode.textContent);
+                                            }
+                                        } else if (childNode.nodeType === Node.ELEMENT_NODE) {
+                                            // Recursively call the function for nested elements
+                                            this.parseContent(childNode);
+                                        }
+                                    }
+                                }
+                            },
+                            getCategory(id) {
+                                return this.categories[id];
+                            },
+                            isdigits(string) {
+                                if(typeof string !== "string"){
+                                return false
+                                } 
+                                return !isNaN(string) &&  !isNaN(parseFloat(string))
+                            },
+                            flattenCategories(all) {
+                                all.forEach((item) => {
+                                    this.categories[item.id] = {
+                                        id: item.id,
+                                        name: item.name.replaceAll('6', '').replaceAll(/\s+/g, ' ').trim(),
+                                        url: item.url,
+                                        image: item.image_full_size ?? '{{ asset_url ~ "category-placeholder.jpg" }}',
+                                    };
+                                    if (item.sub_categories.length > 0) {
+                                        this.flattenCategories(item.sub_categories);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                    function renderPage() {
+                        const content = document.querySelector('.special-content');
+                        parseContent(content);
+                        const container = document.querySelector('.content');
+                        data.forEach((item) => {
+                            if (isdigits(item)) {
+                                const img = document.createElement('img');
+                                img.src = item;
+                                container.appendChild(img);
+                                return;
+                            }
+                            const div = document.createElement('div');
+                            div.innerHTML = item;
+                            container.appendChild(div);
+                        });
+                    }
+                </script>
+            {% else %}
+                <div class="flex w-full items-center justify-between mb-[34px]">
+                    <div class="line flex-1 h-0.5 opacity-10 bg-[#0a0a0a] w-full"></div>
+                    <h1 class="text-center mx-[15px] text-[#0a0a0a] font-bold uppercase text-[20px]">{{ blog.title }}</h1>
+                    <div class="line flex-1 h-0.5 opacity-10 bg-[#0a0a0a] w-full"></div>
+                </div>
+
+                <article class="pb-[90px] prose">
+                    {{ blog.content | raw }}
+                </article>
+            {% endif %}
+            {% endblock %}
+        {% endembed %}
+    </section>
 
 {% endblock %}
 

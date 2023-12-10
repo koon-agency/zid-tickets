@@ -4,5 +4,93 @@
     "categories": "Categories",
     "login": "Login",
     "logout": "Logout",
-    "hello": "Hello"
+    "hello": "Hello",
+    "header": {
+        "search": {
+            "placeholder": "Search for Products…"
+        }
+    },
+    "next": "Next",
+    "prev": "Prev",
+    "cart": {
+        "title": "Shopping Cart",
+        "checkout_details": "Checkout Details",
+        "order_complete": "Order Complete",
+        "description": "",
+        "empty_cart": "Your cart is currently empty.",
+        "cart_back_to_store": "Continue Shopping",
+        "product": "Product",
+        "quantity": "Quantity",
+        "price": "Price",
+        "subtotal": "Subtotal",
+        "checkout": "Proceed to Checkout",
+        "summary":"Cart Totals",
+        "back_to_store": "Return to Shop",
+        "coupon":"Coupon",
+        "coupon_discount":"Discount coupon",
+        "coupon_code":"Coupon code",
+        "apply_coupon": "Apply Coupon",
+        "coupon_discount_enter": "Enter discount coupon",
+        "coupon_discount_submit": "Send",
+        "sorry": "Sorry, Coupon does not exist",
+        "sent_successfully":"Coupon Applied Successfully"
+    },
+    "profile": {
+        "title": "Account details",
+        "my_account": "My Account",
+        "orders": {
+            "title": "Orders",
+            "id": "Order ID",
+            "date": "Date",
+            "status": "Status",
+            "total": "Total",
+            "empty": "You have no orders yet"
+        },
+        "addresses": {
+            "title": "Addresses",
+            "new": "New address",
+            "empty": "You have no addresses yet",
+            "location": "Location"
+        }
+    },
+    "orders": {
+        "title": "Orders",
+        "id": "Order ID",
+        "date": "Date",
+        "status": "Status",
+        "total": "Total",
+        "empty": "You have no orders yet"
+    },
+    "addresses": {
+        "title": "Addresses",
+        "new": "New Address",
+        "empty": "You have no addresses yet",
+        "location": "Location"
+    },
+    "based_on": "Based on",
+    "reviews": "reviews",
+    "instagram_follow": "Follow on Instagram",
+    "add_to_cart": "Add to cart",
+    "added_successfully": "has been added to your cart.",
+    "subtotal": "Subtotal",
+    "view_cart": "View cart",
+    "checkout": "Checkout",
+    "you_may_also_like": "You may also like…",
+    "product": {
+        "feature": [
+            "QUICK DELIVERY",
+            "14 DAYS RETURN",
+            "100% SAFE & SECURE PAYMENTS",
+            "QUALITY GARMENTS"
+        ]
+    },
+    "in_stock": "In stock",
+    "out_of_stock": "Sold out",
+    "delivery": "delivery in 1-5 working days",
+    "notify_me_success": "Sent successfully",
+    "sorry": "Sorry something went wrong",
+    "notify_me": "Notify me when this product is available",
+    "join_waitlist": "Join Waitlist",
+    "email": "Email Address",
+    "out_of_stick_desc": "Join the waitlist to be emailed when this product becomes available"
 }

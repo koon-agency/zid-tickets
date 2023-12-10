@@ -3,8 +3,8 @@ import { defineConfig } from 'vite'
 export default defineConfig({
     publicDir: 'theme/assets',
     mode: 'production',
-    emptyOutDir: false,
     build: {
+        emptyOutDir: false,
         minify: true,
         lib: {
             emptyOutDir: false,

@@ -6,7 +6,89 @@
 
 {% block main_content %}
 
-    <h1>account-addresses</h1>
+    <section class="account account-addresses">
+        <div class="w-full border-y border-y-[#ececec] bg-[#f7f7f7]">
+            <div class="p-[15px] min-h-[60px]">
+                <h1 class="font-black text-black text-[1.4em] lg:text-[1.7em] leading-5 text-center uppercase">
+                    {{ locals.profile.my_account }}
+                </h1>
+            </div>
+        </div>
+
+
+        {% embed 'container.common.twig' with {'class': 'w-full mt-[15px] mb-[30px] max-w-5xl'} %}
+            {% block content %}
+                <div class="flex">
+                    <div class="flex-[1] border-e border-e-[#ececec] ps-[15px] pb-[30px]">
+                        <div class="w-full flex gap-[15px] items-center justify-start">
+                            <img class="w-[70px]" src="{{ asset_url ~ 'bear.svg' }}" alt="">
+                            <p class="text-black text-base text-start">{{ customer.name }}</p>
+                        </div>
+                        <ul class="mt-[15px] flex flex-col">
+                            <li class="hover:border-r-[3px] hover:border-r-[#0a0a0a] transition duration-300">
+                                <a class="flex justify-start items-center gap-[15px] py-2.5 font-semibold text-[12.8px] uppercase text-[#666666d9] hover:text-[#121212d9]" href="/account-orders">
+                                    <img class="h-5 w-auto" src="{{ asset_url ~ 'orders.svg' }}" alt="">
+                                    {{ locals.profile.orders.title }}
+                                </a>
+                            </li>
+                            <li class="border-t border-t-[#ececec] border-r-[3px] border-r-[#0a0a0a]">
+                                <a class="flex justify-start items-center gap-[15px] py-2.5 font-semibold text-[12.8px] uppercase text-[#121212d9]" href="/account-addresses">
+                                    <img class="h-5 w-auto" src="{{ asset_url ~ 'location.svg' }}" alt="">
+                                    {{ locals.profile.addresses.title }}
+                                </a>
+                            </li>
+                            <li class="border-t border-t-[#ececec] hover:border-r-[3px] hover:border-r-[#0a0a0a] transition duration-300">
+                                <a class="flex justify-start items-center gap-[15px] py-2.5 font-semibold text-[12.8px] uppercase text-[#666666d9] hover:text-[#121212d9]" href="/account-profile">
+                                    <img class="h-5 w-auto" src="{{ asset_url ~ 'profile.svg' }}" alt="">
+                                    {{ locals.profile.title }}
+                                </a>
+                            </li>
+                            <li class="border-t border-t-[#ececec] hover:border-r-[3px] hover:border-r-[#0a0a0a] transition duration-300">
+                                <a class="flex justify-start items-center gap-[15px] py-2.5 font-semibold text-[12.8px] uppercase text-[#666666d9] hover:text-[#121212d9]" href="/auth/logout">
+                                    <img class="h-5 w-auto" src="{{ asset_url ~ 'logout.svg' }}" alt="">
+                                    {{ locals.logout }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="flex-[3] ps-[30px] pb-[30px] pe-[15px]">
+                        <div class="w-full flex">
+                            <a href="/account-addresses/add" class="block bg-[#4b9960] btn text-white uppercase text-[.97em] font-bolder px-[1.2em] py-2 text-center">{{ locals.addresses.new }}</a>
+                        </div>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+                            {% for address in addresses %}
+                            <div id="address-div-{{ address.id }}" class="w-full flex flex-col justify-center px-4 py-3 gap-2 border border-green/12 hover:border-green">
+                            <div class="w-full flex justify-between">
+                            <p class="text-green">#{{ loop.index }}</p>
+                            <button class="delete-button" onclick="deleteAddress({{ address.id }})">
+                                <img class="delete-address-progress hidden absolute" src="{{ asset_url }}spinner.gif" width="15" height="15"/>
+                                <span class="icon-trash-alt"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z" stroke="#EC5550" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.16998 14.83L14.83 9.17004" stroke="#EC5550" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.83 14.83L9.16998 9.17004" stroke="#EC5550" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                            </button>
+                            </div>
+                            <a class="w-full" href="/account-addresses/{{ address.id }}/edit">
+                                <h5 class="text-sm text-green">{{ address.name }}</h5>
+                                <p class="text-sm text-green">{{ address.address_street }}</p>
+                                <p class="text-sm text-green">{{ address.country.name }}, {{ address.city.name }}, {{ address.address_district }}</p>
+                            </a>
+                            {% if address.address_lat %}
+                            <a class="text-green text-xs hover:underline mt-2" target="_blank" href="https://maps.google.com/?q={{ address.address_lat }},{{ address.address_lng }}">
+                                <svg class="inline-block h-6 text-green mr-1" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"></path>
+                                </svg>
+                                {{ locals.addresses.location }}
+                            </a>
+                            {% endif %}
+                            </div>
+                        {% else %}
+                            <p class="my-3 text-light-400 text-center col-span-2">{{ locals.addresses.empty }}</p>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endblock %}
+        {% endembed %}
+    </section>
 
 {% endblock %}
 

@@ -6,7 +6,397 @@
 
 {% block main_content %}
 
-    <h1>Cart</h1>
+    <section class="cart-page">
+    {% embed 'container.common.twig' with {
+        'class': 'w-full max-w-5xl',
+        'cart': cart
+    } %}
+			{% block content %}
+        <div class="pt-[30px] hidden lg:block">
+            <div class="flex items-center justify-center gap-3.5">
+                <a href="/cart/view" class="flex gap-2 items-center justify-center">
+                    <div class="bg-[#4b9960] rounded-full h-[1.5em] w-[1.5em] text-white font-bold flex items-center justify-center">
+                        1
+                    </div>
+                    <p class="text-black uppercase text-[25.6px]">{{ locals.cart.title }}</p>
+                </a>
+                <i class="icon-angle-right opacity-[0.35] text-[25.6px] rtl:transform rtl:rotate-180"></i>
+                <a href="{% if customer %}/checkout/choose-address-and-shipping{% else %}/auth/login?redirect_to=/checkout/choose-address-and-shipping{% endif %}" class="flex gap-2 items-center justify-center group">
+                    <div class="bg-[#ccc] rounded-full h-[1.5em] w-[1.5em] text-white font-bold flex items-center justify-center">
+                        2
+                    </div>
+                    <p class="text-[#ccc] group-hover:text-black uppercase text-[25.6px]">{{ locals.cart.checkout_details }}</p>
+                </a>
+                <i class="icon-angle-right opacity-[0.35] text-[25.6px] rtl:transform rtl:rotate-180"></i>
+                <div class="flex gap-2 items-center justify-center">
+                    <div class="bg-[#ccc] rounded-full h-[1.5em] w-[1.5em] text-white font-bold flex items-center justify-center">
+                        3
+                    </div>
+                    <p class="text-[#ccc] uppercase text-[25.6px]">{{ locals.cart.order_complete }}</p>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="pt-[30px] grid grid-cols-12 {% if cart.products_count == 0 %}hidden{% endif %}">
+            <div class="lg:col-span-7 col-span-12 rtl:lg:border-l ltr:lg:border-r ltr:lg:border-r-[#ececec] rtl:lg:border-l-[#ececec]">
+                <div class="pt-2.5 px-[30px] pb-[30px]">
+                    <div class="grid grid-cols-6 border-b-[3px] border-b-[#ececec]">
+                        <p class="font-bold text-[14.4px] uppercase pb-[7px] text-black">{{ locals.cart.product }}</p>
+                        <div class="col-span-3 col-start-4 pb-[7px]">
+                        <div class="flex gap-4 rtl:gap-8 justify-end">
+                            <p class="font-bold text-[14.4px] uppercase text-black text-center hidden lg:block">{{ locals.cart.price }}</p>
+                            <p class="font-bold text-[14.4px] uppercase text-black text-center">{{ locals.cart.quantity }}</p>
+                            <p class="font-bold text-[14.4px] uppercase text-black text-center hidden lg:block">{{ locals.cart.subtotal }}</p>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-6">
+                        {% for product in cart.products %}
+                        <div class="col-span-5 lg:col-span-3 flex items-center justify-start py-[15px] gap-[7.2px] border-b border-b-[#ececec]">
+                            <div class="cart-product-delete">
+                                <a onclick="cartProductRemove(this)" data-cart-product-id="{{ product.id }}" data-product-id="{{ product.product_id }}" data-template="template_for_cart_products_list" class="border-2 cursor-pointer border-[#ccc] hover:border-black rounded-full text-[#ccc] hover:text-black h-6 w-6 text-[15px] font-bold flex items-center justify-center mb-auto align-middle">×</a>
+                            </div>
+                            <div class="cart-product-col-img">
+                                <a class="cart-product-image-link" href="/products/{{ product.product_id }}">
+                                    {% if product.images %}
+                                        <img class="cart-product-image w-[90px] h-auto object-contain" src="{{ product.images[0]['thumbs']['small'] }}" />
+                                    {% else %}
+                                        <span class="cart-product-no-image"></span>
+                                    {% endif %}
+                                </a>
+                            </div>
+                            <div class="cart-product-col-details">
+                                <h1><a class="cart-product-image-link text-[#020202] text-[14.4px]" href="/products/{{ product.product_id }}">{{ product.name }}</a></h1>
+                                {% if product.custom_fields %}
+                                    <div class="custom-options-summary">
+                                        {% for custom_field in product.custom_fields %}
+                                            <div class="custom-field-row">
+                                                {% if custom_field.type == 'TEXT' or custom_field.type == 'NUMBER' %}
+                                                    <span class="custom-field-type-text">
+                                                        <span class="prefix"></span>
+                                                        <span class="custom-field-name"> {{custom_field.name}} </span>
+                                                        <span class="custom-field-value">{{custom_field.value}}</span>
+                                                        <span class="postfix"></span>
+                                                    </span>
+                                                {% endif %}
+
+                                                {% if custom_field.type == 'CHECKBOX' or custom_field.type == 'DROPDOWN' %}
+                                                    <span class="custom-field-type-checkbox">
+                                                        <span class="prefix"></span>
+                                                        <span class="custom-field-name"> {{custom_field.label}} </span>
+                                                        <span class="custom-field-value"><span class="icon-check-circle"></span>&nbsp;{{custom_field.name}}</span>
+                                                        <span class="postfix"></span>
+                                                    </span>
+                                                {% endif %}
+
+                                                {% if custom_field.type == 'DATE' %}
+                                                    <span class="custom-field-type-text">
+                                                        <span class="prefix"></span>
+                                                        <span class="custom-field-name"> {{custom_field.name}} </span>
+                                                        {% if custom_field.value %}
+                                                            <span class="custom-field-value">{{custom_field.value}}</span>
+                                                        {% endif %}
+                                                        <span class="postfix"></span>
+                                                    </span>
+                                                {% endif %}
+
+                                                {% if custom_field.type == 'TIME' %}
+                                                    <span class="custom-field-type-text">
+                                                        <span class="prefix"></span>
+                                                        <span class="custom-field-name"> {{custom_field.name}} </span>
+                                                        {% if custom_field.value %}
+                                                            <span class="custom-field-value">{{ timeFormat(custom_field.value) }}</span>
+                                                        {% endif %}
+                                                        <span class="postfix"></span>
+                                                    </span>
+                                                {% endif %}
+
+                                                {% if custom_field.type == 'IMAGE' %}
+                                                    <span class="custom-field-type-text custom-field-type-image">
+                                                        <span class="prefix"></span>
+                                                        <span class="custom-field-name"> {{custom_field.name}} </span>
+                                                        {% if custom_field.value %}
+                                                            <a class="custom-field-value" href="{{ custom_field.formatted_value }}" target="_blank">
+                                                                <img src="{{ custom_field.formatted_value }}" width="55" height="55"/>
+                                                            </a>
+                                                        {% endif %}
+                                                        <span class="postfix"></span>
+                                                    </span>
+                                                {% endif %}
+
+                                                {% if custom_field.type == 'FILE' %}
+                                                    <span class="custom-field-type-text custom-field-type-file">
+                                                        <span class="prefix"></span>
+                                                        <span class="custom-field-name"> {{custom_field.name}} </span>
+                                                        {% if custom_field.value %}
+                                                            <a class="custom-field-value" href="{{ custom_field.formatted_value }}" target="_blank">
+                                                            {{ locals.cart_product_file_download }}
+                                                            </a>
+                                                        {% endif %}
+                                                        <span class="postfix"></span>
+                                                    </span>
+                                                {% endif %}
+
+                                                {% if custom_field.additions_price %}
+                                                    <span class="custom-field-additional-price">
+                                                        {{custom_field.additions_price_string}}
+                                                    </span>
+                                                {% endif %}
+
+                                            </div>
+                                        {% endfor %}
+
+                                    </div>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                        <div class="flex lg:col-span-3 lg:col-start-4 justify-between items-center lg:ps-5 border-b border-b-[#ececec]">
+                            <p class="cart-product-total-before-price font-bold text-black text-[12px] py-[15px] hidden lg:block">{{ product.price_string }}</p>
+
+                            <div class="cart-product-quantity-dropdown form-group">
+                                <div>
+                                    {% if product.product_class != 'crowdfunding_project' %}
+
+                                    <label>{{ locals.cart_product_quantity }}</label>
+                                    <select data-cart-product-id="{{ product.id }}"
+                                            data-product-id="{{ product.product_id }}"
+                                            data-template="template_for_cart_products_list" onchange="cartProductQuantityChanged(event)">
+
+                                        {% if product.original_product_quantity is null %}
+                                            {% set maxQuantity = 100 %}
+                                        {% else %}
+                                            {% set maxQuantity = product.original_product_quantity %}
+                                        {% endif %}
+
+                                        {% for n in rangeN(0, maxQuantity) %}
+                                            <option value="{{ n }}" {% if n == product.quantity %}selected{% endif %}>{{ n }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% else %}
+                                        <div class="product-card-donation-form-container"
+                                            data-donation-message-lang="{{ session.lang.code }}"
+                                            data-donation-form-product-id="{{ product.id }}"
+                                            data-donation-cart-form-product-id="{{ product.id }}"
+                                        >
+
+                                            <div class="input-placeholder-donation-amount" data-placeholder="{{ session.currency.symbol }}">
+                                                <input class="form-control input-donation-amount donation-input cart-donation-input"
+                                                    data-cart-product-id="{{ product.id }}"
+                                                    data-product-id="{{ product.product_id }}"
+                                                    data-template="template_for_cart_products_list"
+                                                    type="text"
+                                                    data-donation-remaining-amount="{{ product.original_product_quantity }}"
+                                                    value="{{ product.total |round(2, 'common') }}"
+                                                    onclick="event.preventDefault()"
+                                                />
+                                            </div>
+                                            <div style="position: relative">
+                                                <span class="data-donation-remaining-amount-exceed-message"></span>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <p class="cart-product-total-before-price font-bold text-black text-[12px] py-[15px] hidden lg:block">{{ product.total_string }}</p>
+                        </div>
+
+                        {% if product.error_message %}
+                            <div class="cart-product-error-messages">
+                                    <span class="message">
+                                        {{ product.error_message | raw }}
+                                    </span>
+                            </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-5 col-span-12">
+                <div class="pt-2.5 px-[30px] pb-[30px]">
+                    <div class="border-b-[3px] border-b-[#ececec]">
+                        <p class="font-bold text-[14.4px] uppercase pb-[7px] text-black">{{ locals.cart.summary }}</p>
+                    </div>
+                    <div class="mt-4">
+                        <ul class="border-b-[3px] border-b-[#ececec]">
+                        {% for cartTotal in cart.totals %}
+                            <li class="flex items-center justify-between py-3 border-b border-b-[#ececec] {% if cartTotal.code == 'total' %}cart__total-item--total{%else%}cart__total-item{%endif%}">
+                                <p class="text-[14.4px] text-black"> {{ cartTotal.title }} </p>
+                                <p class="font-bold text-[14.4px] text-black"> {{ cartTotal.value_string }} </p>
+                            </li>
+                        {% endfor %}
+                        </ul>
+
+                        <div class="my-6 w-full">
+                            <a href="{% if customer %}/checkout/choose-address-and-shipping{% else %}/auth/login?redirect_to=/checkout/choose-address-and-shipping{% endif %}"
+                            class="w-full block bg-[#4b9960] btn text-white uppercase text-[.97em] font-bolder px-[1.2em] py-2 text-center">
+                                {{ locals.cart.checkout }}
+                            </a>
+
+                            <div>{{ template_for_cart_payments_widget }}</div>
+                        </div>
+                    </div>
+                    <div class="border-b-[3px] border-b-[#ececec]">
+                        <h3 class="font-bold text-[0.95em] pb-[7px] text-[#0a0a0a]">
+                            <i class="icon-tag me-1 opacity-[0.35] text-[#0a0a0a]"></i>
+                            {{ locals.cart.coupon }}
+                        </h3>
+                    </div>
+                    <div class="mt-[15px]">
+                        <input class="send-coupon border border-[#ddd] mb-[15.5px] active:outline-none focus:outline-none focus:shadow-[0_0_5px_#ccc] text-[#333] bg-white shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)] hover:shadow-[inset_0_-1.8em_1em_0_transparent] text-[0.97em] h-[2.507em] px-3 w-full"
+                        type="text" name="coupon" id="" placeholder="{{ locals.cart.coupon_code }}">
+
+                        <button onclick="sendCoupon()" href="{% if customer %}/checkout/choose-address-and-shipping{% else %}/auth/login?redirect_to=/checkout/choose-address-and-shipping{% endif %}"
+                            class="w-full block bg-[#f9f9f9] hover:shadow-[inset_0_0_0_100px_rgba(0,0,0,0.2)] text-[#666] text-[.97em] px-[1.2em] py-2 text-center border border-[#ddd] transition duration-300">
+                                {{ locals.cart.apply_coupon }}
+                        </button>
+
+                        <p id="coupon-message"></p>
+
+                        {% if cart.coupon.message %}
+                            <div class="flex items-center justify-start" role="alert">
+                                <span class="text-black text-sm mt-1">{{ cart.coupon.message }}</span>&nbsp;&nbsp;
+                                <a onclick="deleteCoupon()" style="color: inherit; cursor: pointer">
+                                    <span class="icon-trash-alt"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z" stroke="#EC5550" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.16998 14.83L14.83 9.17004" stroke="#EC5550" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.83 14.83L9.16998 9.17004" stroke="#EC5550" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                    <img class="delete-coupon-progress hidden" src="{{ asset_url }}spinner.gif" width="15" height="15"/>
+                                </a>
+                            </div>
+                        {% endif %}
+
+                        <div class="mt-[15.5px]">
+                            {% include "payment-icons.twig" %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-[30px] pb-[30px] {% if cart.products_count == 0 %}hidden{% endif %}">
+        </div>
+
+            <div class="cart__empty flex flex-col justify-center items-center py-12 {% if cart.products_count > 0 %}hidden{% endif %}">
+                <p class="cart__empty-text text-[#020202] text-base pb-2">{{ locals.cart.empty_cart }}</p>
+                <a href="/" class="cart__empty-btn btn bg-[#020202] text-white uppercase mb-11 px-[18.5px] min-h-[2.5em] flex items-center justify-center font-bold">{{ locals.cart.back_to_store }}</a>
+            </div>
+        {% endblock %}
+    {% endembed %}
+    </section>
+
+{% endblock %}
+
+{% block footer_scripts %}
+
+    {{ cart_view_scripts|raw }}
+
+    <script>
+
+    function sendCoupon() {
+        if(!document.querySelector('.send-coupon-progress').classList.contains('hidden'))
+            return;
+
+        document.querySelector('.send-coupon-progress').classList.remove('hidden');
+        zid.store.cart.redeemCoupon(document.querySelector('.send-coupon').value)
+            .then(function (response) {
+                if(response.status  === 'success'){
+                    document.getElementById('coupon-message').innerText = '{{ locals.cart.sent_successfully }}';
+                    document.getElementById('coupon-message').classList.add('text-green-500')
+                    window.location.reload();
+                }else{
+                    document.getElementById('coupon-message').innerText = '{{ locals.cart.sorry }}';
+                    document.getElementById('coupon-message').classList.add('text-red-500')
+                }
+                document.querySelector('.send-coupon-progress').classList.add('hidden');
+            }).catch(function (err) {
+                document.querySelector('.send-coupon-progress').classList.add('hidden');
+            })
+    }
+
+    function deleteCoupon() {
+        if(!document.querySelector('.send-coupon-progress').classList.contains('hidden'))
+            return;
+
+        document.querySelector('.send-coupon-progress').classList.remove('hidden');
+        zid.store.cart.removeCoupon().then(function (response) {
+            if(response.status  === 'success'){
+                window.location.reload();
+            }else{
+                document.getElementById('coupon-message').innerText = '{{ locals.cart.sorry }}';
+                document.getElementById('coupon-message').classList.add('text-red-500')
+            }
+            document.querySelector('.send-coupon-progress').classList.add('hidden');
+        })
+    }
+    function cartProductsHtmlChanged(html, cart) {
+        window.location.reload();
+        return;
+        console.log('cartProductsHtmlChanged', html, cart)
+        {# setCartBadge(cart.products_count) #}
+        
+        if (cart.products_count <= 0){
+            document.querySelector('.cart__empty').classList.remove('hidden')
+            document.querySelector('.cart__empty').classList.add('flex', 'flex-col', 'justify-center', 'items-center')
+            document.querySelector('.cart.cart_page').classList.remove('flex')
+            document.querySelector('.cart.cart_page').classList.add('hidden')
+            updateCartProducts(cart, false);
+            return;
+        } else {
+            document.querySelector('.cart__empty').style.display = 'none'
+            document.querySelector('.cart.cart_page').style.display = 'flex'
+        }
+
+
+        document.querySelector('.template_for_cart_products_list').innerHTML = html;
+        document.querySelectorAll('.icon-delete').forEach(function(elm) {
+            elm.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z" stroke="#EC5550" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.16998 14.83L14.83 9.17004" stroke="#EC5550" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.83 14.83L9.16998 9.17004" stroke="#EC5550" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        })
+
+        if (cart &&  cart.totals) {
+            let strCartTotals = '';
+            for (let i = 0; i < cart.totals.length; i++) {
+                let cartTotal = cart.totals[i];
+
+                let totalClass = 'cart__total-item';
+                if (cartTotal.code === 'total') {
+                    totalClass = 'cart__total-item--total';
+                }
+                if(i === cart.totals.length - 1) {
+                    strCartTotals += `
+                    <li class="${totalClass}">
+                    <p>${cartTotal.title }</p>
+                    <p>${cartTotal.value_string }</p>
+                    </li>`
+                } else {
+                strCartTotals += `
+                    <li class="${totalClass} cart__total-item">
+                    <p>${cartTotal.title }</p>
+                    <p>${cartTotal.value_string }</p>
+                    </li>`
+
+                }
+
+                
+            }
+
+            document.querySelector('.cart_page .cart__total-list').innerHTML = strCartTotals;
+        }
+    }
+{#         
+        function setCartBadge(badge) {
+            document.querySelector('.header-section span[x-text="count"]').innerHTML = badge;
+        } #}
+        
+    </script>
+
+    {# <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> #}
 
 {% endblock %}
 

@@ -1,0 +1,67 @@
+{% if product %}
+<div class="product-item w-full relative mx-auto {% if product.is_infinite == false and product.quantity <= 0 %}product-item-out-of-stock{% endif %}">
+    {% if product.attributes | length > 0 %}
+        {% for index, attr in product.attributes %}
+            {% if 'TAG' in (attr.name | upper) or "وسم" in attr.name %}
+                <div class="tag absolute top-[30px] left-0 text-white bg-[#4b9960] font-black text-[12.8px] py-0.5 px-1 uppercase">
+                    {{ attr.value }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <a href="/products/{{ product.slug }}" class="flex flex-col justify-start">
+        <div class="box-1-1">
+            <div class="content w-full">
+                <div class="flex justify-center" style="width: 100%; height: 100%;">
+                    <img id="product-card-img-{{ product.id }}" class="object-contain h-[250px] xl:h-[360px]"
+                            {% if product.images %}
+                                src="{{ imageUrl(product.images[0]['image']['large']) }}"
+                             {% else %}
+                                src="{{ imageUrl(asset_url ~ 'product-img.svg',{ w: 235, q: 85, f:'auto' }) }}"
+                            {% endif %}
+                         alt="{{ product.name }}" loading="lazy" >
+                    <span class="product-card-bundle-offer" data-bundle-offer-product-id="{{ product.id }}"></span>
+                </div>
+            </div>
+        </div>
+
+        {% if product.attributes | length > 0 %}
+        <ul class="product-attributes w-full flex items-center justify-center lg:justify-center gap-[10px] mt-3">
+        {% for index, attr in product.attributes %}
+            {% if attr.type == 'color' or 'COLOR' in (attr.name | upper) or 'لون' in attr.name or 'لوان' in attr.name %}
+                <li id="color-{{ attr.id }}" class="choice cursor-pointer rounded-[2px] !p-[2px] color-choice h-[30px] w-[30px]">
+                    <div class="color rounded-[2px] h-full w-full" style="background-color: {{ attr.type_value }}"></div>
+                </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="text-[0.9rem] text-center mt-5 uppercase text-black"><span>{{ product.name }}</span></div>
+        <div class="product-crd-spec">
+            {% if product.formatted_sale_price is not null %}
+                <div class="section-product-price">
+                    <div class="text-[0.9rem] font-bold text-center pt-1 text-black"><span>{{ product.formatted_sale_price }}</span></div>
+                    {# <div class="text-center" style="color: #494949">
+                        <span class="product-prev-price ">{{ product.formatted_price }}</span>
+                        <span style="color:#000;">
+                            &nbsp;  &nbsp;{{ locals.product_discount }}&nbsp;{{ product.discount_percentage }}%
+                        </span>
+                    </div> #}
+                </div>
+            {% else %}
+                <div class="text-[0.9rem] font-bold text-center pt-1 text-black" ><span>{{ product.formatted_price }}</span></div>
+            {% endif %}
+        </div>
+    </a>
+</div>
+<script>
+{% for index, attr in product.attributes %}
+    {% if attr.type == 'color' or 'COLOR' in (attr.name | upper) or 'لون' in attr.name or 'لوان' in attr.name %}
+        tippy('#color-{{ attr.id }}', {
+            content: '{{ attr.value }}',
+        });
+    {% endif %}
+{% endfor %}
+</script>
+{% endif %}

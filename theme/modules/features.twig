@@ -1,0 +1,96 @@
+<section section-id="{{ sectionId }}" class="features py-12 {% if settings.only == 'mobile' %} block lg:hidden {% elseif settings.only == 'desktop' %} hidden lg:block{% endif %}">
+    <div class="flex flex-col items-center justify-between lg:flex-row mx-auto">
+        {% for key, feature in settings.features %}
+        <div class="feature-item flex flex-col items-center justify-center feature-{{ key }} mx-auto w-full">
+            <img class="h-[60px] w-auto" src="{{ imageUrl(feature.image) }}" loading="lazy" alt="" />
+            <p class="text-[0.8rem] text-primary pt-[19px]">{{ feature.title }}</p>
+            <p class="text-xs text-primary pt-1">{{ feature.desc }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+
+
+{% schema %}
+{
+  "name": {
+    "ar": "مميزات المتجر",
+    "en": "Features"
+  },
+  "icon": "fal fa-sparkles",
+  "display": true,
+  "settings": {
+    "features": {
+      "type": "list",
+      "noLabel": true,
+      "maxItems": 4,
+      "info": {
+        "ar": "",
+        "en": ""
+      },
+      "settings_label":{
+        "ar": "الصورة",
+        "en": "Picture"
+      },
+      "settings": {
+        "title": {
+          "type": "text",
+          "label": {
+            "ar": "العنوان",
+            "en": "text"
+          }
+        },
+        "desc": {
+          "type": "text",
+          "label": {
+            "ar": "الوصف",
+            "en": "Description"
+          }
+        },
+        "image": {
+          "type": "image",
+          "label": {
+            "ar": "الصورة",
+            "en": "Image"
+          },
+          "info": {
+            "ar": "",
+            "en": ""
+          }
+        }
+      }
+    },
+    "only": {
+        "type": "radios",
+        "label": {
+            "ar": "عرض فقط على:",
+            "en": "Show only on:"
+        },
+        "options": [
+            {
+                "value": "all",
+                "label": {
+                "ar": "جميع الاجهزة",
+                "en": "all pages"
+                }
+            },
+            {
+                "value": "mobile",
+                "label": {
+                "ar": "الجوال فقط",
+                "en": "Mobile only"
+                }
+            },
+            {
+                "value": "desktop",
+                "label": {
+                "ar": "اجهزة الكمبيوتر فقط",
+                "en": "Desktop only"
+                }
+            }
+        ]
+    }
+  }
+}
+{% endschema %}

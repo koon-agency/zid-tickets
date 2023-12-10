@@ -1,0 +1,105 @@
+<div section-id="{{ sectionId }}"
+    class="hero-paragraphs-section {% if settings.only == 'mobile' %} block lg:hidden {% elseif settings.only == 'desktop' %} hidden lg:block{% endif %}">
+    {% embed 'container.common.twig' with {'class': 'w-full', 'title': settings.title, 'id': sectionId, 'content': settings.content_list} %}
+        {% block content %}
+            {% if title %}
+                <h3 class="text-center text-[20.8px] text-black mb-[2.7em]">{{ title }}</h3>
+            {% endif %}
+            {% if content | length > 0 %}
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-y-6 lg:gap-y-4">
+                    {% for item in content %}
+                        <div class="block w-full px-[30px]">
+                            <h5 class="text-black font-bold text-[16px]">{{ item.title }}</h5>
+                            <p class="text-[16px] text-black">{{ item.content }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+</div>
+
+{% schema %}
+{
+    "name": {
+    "ar": "قائمة محتوى",
+    "en": "Hero paragraphs"
+  },
+  "icon": "fal fa-lines",
+  "display": true,
+  "settings": {
+    "title": {
+        "type": "text",
+        "label": {
+            "ar": "العنوان",
+            "en": "Title"
+        }
+    },
+    "only": {
+        "type": "radios",
+        "label": {
+            "ar": "عرض فقط على:",
+            "en": "Show only on:"
+        },
+        "options": [
+            {
+                "value": "all",
+                "label": {
+                "ar": "جميع الاجهزة",
+                "en": "all pages"
+                }
+            },
+            {
+                "value": "mobile",
+                "label": {
+                "ar": "الجوال فقط",
+                "en": "Mobile only"
+                }
+            },
+            {
+                "value": "desktop",
+                "label": {
+                "ar": "اجهزة الكمبيوتر فقط",
+                "en": "Desktop only"
+                }
+            }
+        ]
+    },
+    "content": {
+        "type": "fieldset",
+        "label": {
+            "ar": "المحتوى",
+            "en": "Contents"
+        },
+        "icon": "font_awesome",
+        "expandable": true,
+        "settings": {
+            "list": {
+                "type": "list",
+                "settings_label": {
+                    "ar": "محتوى",
+                    "en": "Content"
+                },
+                "noLabel": true,
+                "settings": {
+                    "title": {
+                        "type": "text",
+                        "label": {
+                            "ar": "العنوان",
+                            "en": "Title"
+                        }
+                    },
+                    "content": {
+                        "type": "textarea",
+                        "label": {
+                            "ar": "المحتوى",
+                            "en": "Content"
+                        }
+                    }
+                }
+            }
+        }
+    }
+  }
+}
+{% endschema %}
