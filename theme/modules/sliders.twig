@@ -1,0 +1,147 @@
+<div section-id="{{ sectionId }}"
+     class="categories-section py-8 lg:py-10 {% if settings.only == 'mobile' %} block lg:hidden {% elseif settings.only == 'desktop' %} hidden lg:block{% endif %}">
+    {% embed 'container.common.twig' with {'class': 'w-full', 'title': settings.title, 'id': sectionId, 'items': settings.items} %}
+        {% block content %}
+          {% if title %}
+            <h3 class="text-center text-xl text-black font-bold">{{ title }}</h3>
+          {% endif %}
+            <div class="splide lg:px-24" id="section-{{id}}" role="group" aria-label="Splide Basic HTML Example">
+              <div class="splide__track">
+                  <ul class="splide__list pswp-gallery pswp-gallery--single-column">
+                  {% for key, item in items %}
+                      <li class="splide__slide px-2 lg:px-4">
+                          <a href="#" class="block">
+                              <div class="flex flex-col w-full items-center justify-center">
+                                  <img class="w-full object-cover" {% if item.image %}
+                                      src="{{ imageUrl(item.image) }}"
+                                  {% else %}
+                                      src="{{ imageUrl(asset_url ~ 'product-img.svg') }}"
+                                  {% endif %} alt="" />
+                              </div>
+                          </a>
+                      </li>
+                  {% endfor %}
+                  </ul>
+              </div>
+            </div>
+        {% endblock %}
+    {% endembed %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  new Splide(document.getElementById('section-{{sectionId}}'), {
+    type : 'loop',
+    direction: 'rtl',
+    perPage: 6,
+    autoplay: true,
+    interval: 3000,
+    drag   : 'free',
+    snap   : true,
+    padding: {
+      right: 0,
+      left: 0
+    },
+    gap: '6rem',
+    arrows: false,
+    pagination: false,
+    breakpoints: {
+      720: {
+        perPage: 4,
+        gap: '2rem',
+      }
+    },
+    autoScroll: {
+      speed: 0.35,
+      pauseOnHover: false,
+      pauseOnFocus: false
+    },
+  }).mount();
+});
+</script>
+
+
+{% schema %}
+{
+  "name": {
+    "ar": "شريط صور متحركة",
+    "en": "Slider"
+  },
+  "icon": "fal fa-cabinet-filing",
+  "display": true,
+  "settings": {
+    "title": {
+      "type": "text",
+      "label": {
+        "ar": "العنوان",
+        "en": "text"
+      }
+    },
+    "items": {
+      "type": "list",
+      "noLabel": true,
+      "settings_label":{
+        "ar": "العناصر",
+        "en": "Items"
+      },
+      "settings": {
+        "url": {
+          "type": "text",
+          "label": {
+            "ar": "الرابط",
+            "en": "الرابط"
+          }
+        },
+        "title": {
+          "type": "text",
+          "label": {
+            "ar": "العنوان",
+            "en": "text"
+          }
+        },
+        "image": {
+          "type": "image",
+          "label": {
+            "ar": "الصورة",
+            "en": "Image"
+          },
+          "info": {
+            "ar": "",
+            "en": ""
+          }
+        }
+      }
+    },
+    "only": {
+        "type": "radios",
+        "label": {
+            "ar": "عرض فقط على:",
+            "en": "Show only on:"
+        },
+        "options": [
+            {
+                "value": "all",
+                "label": {
+                "ar": "جميع الاجهزة",
+                "en": "all pages"
+                }
+            },
+            {
+                "value": "mobile",
+                "label": {
+                "ar": "الجوال فقط",
+                "en": "Mobile only"
+                }
+            },
+            {
+                "value": "desktop",
+                "label": {
+                "ar": "اجهزة الكمبيوتر فقط",
+                "en": "Desktop only"
+                }
+            }
+        ]
+    }
+  }
+}
+{% endschema %}

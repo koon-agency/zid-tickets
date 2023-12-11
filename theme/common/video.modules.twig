@@ -1,7 +1,4 @@
-{% if props.url %}
-<a href="{{ props.url }}" class="block !m-0 !p-0 w-full">
-{% endif %}
-<video class="lg:h-auto !w-full object-cover h-[500px] hidden lg:block !m-0 !p-0"
+<video class="lg:h-auto !w-full object-cover h-[500px] hidden lg:block !m-0 !p-0 rounded-xl"
     width="425"
     height="240"
     loop
@@ -11,7 +8,7 @@
     src="{{ props.desktop }}"
     type="video/mp4">
 </video>
-<video class="lg:h-auto !w-full object-cover h-[500px] block lg:hidden !m-0 !p-0"
+<video class="lg:h-auto !w-full object-cover h-[500px] block lg:hidden !m-0 !p-0 rounded-xl"
     width="425"
     height="240"
     loop
@@ -21,14 +18,3 @@
     src="{{ props.mobile }}"
     type="video/mp4">
 </video>
-<div class="absolute bottom-[15%] lg:bottom-[10%] rtl:right-[5%] ltr:left-[5%]">
-    {% if props.title %}
-    <h6 class="text-white font-bold text-[20.8px] lg:text-[2rem] mb-6 lg:mb-11">{{ props.title }}</h6>
-    {% endif %}
-    {% if props.button and props.url %}
-    <a href="{{ props.url }}" class="text-white bg-black px-4 lg:px-6 py-2 lg:py-3 font-bold text-[12.5px] lg:text-[1.3rem]">{{ props.button }}</a>
-    {% endif %}
-</div>
-{% if props.url %}
-</a>
-{% endif %}

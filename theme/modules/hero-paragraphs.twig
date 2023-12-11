@@ -1,20 +1,17 @@
 <div section-id="{{ sectionId }}"
-    class="hero-paragraphs-section {% if settings.only == 'mobile' %} block lg:hidden {% elseif settings.only == 'desktop' %} hidden lg:block{% endif %}">
-    {% embed 'container.common.twig' with {'class': 'w-full', 'title': settings.title, 'id': sectionId, 'content': settings.content_list} %}
+    class="hero-paragraphs-section {% if settings.spaces %} py-12 {% else %} lg:py-8{% endif %} {% if settings.only == 'mobile' %} block lg:hidden {% elseif settings.only == 'desktop' %} hidden lg:block{% endif %}">
+    {% embed 'container.common.twig' with {'class': 'w-full', 'title': settings.title, 'desc': settings.desc, 'id': sectionId, 'button': settings.button, 'url': settings.url} %}
         {% block content %}
             {% if title %}
-                <h3 class="text-center text-[20.8px] text-black mb-[2.7em]">{{ title }}</h3>
+                <h3 class="text-start font-bold text-4xl lg:text-5xl text-black mb-3 lg:mb-6">{{ title }}</h3>
             {% endif %}
-            {% if content | length > 0 %}
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-y-6 lg:gap-y-4">
-                    {% for item in content %}
-                        <div class="block w-full px-[30px]">
-                            <h5 class="text-black font-bold text-[16px]">{{ item.title }}</h5>
-                            <p class="text-[16px] text-black">{{ item.content }}</p>
-                        </div>
-                    {% endfor %}
-                </div>
+            {% if desc %}
+                <p class="text-start font-bold text-base lg:text-lg text-[#737373] mb-3 lg:mb-6">{{ desc }}</p>
             {% endif %}
+            {% if button and url %}
+                <a href="{{ url }}" class="text-white bg-primary rounded-full px-6 lg:px-8 py-2 lg:py-3 font-bold text-lg lg:text-2xl">{{ button }}</a>
+            {% endif %}
+            
         {% endblock %}
     {% endembed %}
 </div>
@@ -34,6 +31,40 @@
             "ar": "العنوان",
             "en": "Title"
         }
+    },
+    "desc": {
+        "type": "textarea",
+        "label": {
+        "ar": "الوصف",
+        "en": "Description"
+      }
+    },
+    "button": {
+        "type": "text",
+        "label": {
+        "ar": "عنوان الزر",
+        "en": "Button text"
+      }
+    },
+    "url": {
+        "type": "text",
+        "label": {
+        "ar": "رابط الزر",
+        "en": "Button text"
+      }
+    },
+    "spaces": {
+      "type": "checkbox",
+      "label": {
+          "ar": "",
+          "en": ""
+      },
+      "option": {
+        "ar": "ترك مسافة أعلى وأسفل القسم؟",
+        "en": "Add vertical spaces?"
+      },
+      "default": true,
+      "noLabel": true
     },
     "only": {
         "type": "radios",
@@ -64,41 +95,6 @@
                 }
             }
         ]
-    },
-    "content": {
-        "type": "fieldset",
-        "label": {
-            "ar": "المحتوى",
-            "en": "Contents"
-        },
-        "icon": "font_awesome",
-        "expandable": true,
-        "settings": {
-            "list": {
-                "type": "list",
-                "settings_label": {
-                    "ar": "محتوى",
-                    "en": "Content"
-                },
-                "noLabel": true,
-                "settings": {
-                    "title": {
-                        "type": "text",
-                        "label": {
-                            "ar": "العنوان",
-                            "en": "Title"
-                        }
-                    },
-                    "content": {
-                        "type": "textarea",
-                        "label": {
-                            "ar": "المحتوى",
-                            "en": "Content"
-                        }
-                    }
-                }
-            }
-        }
     }
   }
 }

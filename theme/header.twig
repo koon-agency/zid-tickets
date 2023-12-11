@@ -3,19 +3,10 @@
         {% include 'announcement-bar.header.twig' with { 'props': settings, 'class': 'order-1 lg:order-none' } %}
         {% embed 'container.common.twig' with {'class': 'w-full'} %}
             {% block content %}
-              {% if session.lang.code == 'en' %}
-                  {% set title = 'AR' %}
-                  {% set to = 'ar' %}
-                  {% set flag = 'sa' %}
-              {% else %}
-                  {% set title = 'EN' %}
-                  {% set to = 'en' %}
-                  {% set flag = 'en' %}
-              {% endif %}
-              <div class="main-header flex items-center justify-between py-1.5 lg:py-[13px] lg:px-6">
-                  <div class="flex-1 left-header" x-data="sideMenu()">
+              <div class="main-header flex items-center justify-between py-3 lg:py-4 lg:px-6">
+                  <div class="left-header ml-5" x-data="sideMenu()">
                     <div class="header-button block lg:hidden" @click="toggle()">
-                      <i class="icon-menu text-[#020202] text-[1.6em]"></i>
+                      <i class="icon-menu text-primary text-3xl"></i>
                     </div>
                     <div x-cloak class="bg-black/60 fixed inset-0 z-40" x-show="open" @click="open = false" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
                     <div class="fixed top-0 rtl:left-0 ltr:right-0 h-[40px] w-[40px] z-50" x-show="open" @click="open = false" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
@@ -32,15 +23,8 @@
                       x-transition:leave-start="transform rtl:origin-right ltr:origin-left ltr:translate-x-0"
                       x-transition:leave-end="transform rtl:origin-right ltr:origin-left rtl:translate-x-full ltr:-translate-x-full"
                       x-init="() => { $el.classList.remove('hidden');$el.classList.add('flex') }"
-                      class="flex-col mt-2 items-start hidden rtl fixed rtl:right-0 ltr:left-0 w-[260px] h-screen top-[-8px] bg-white/95 z-50 overflow-auto">
+                      class="flex-col mt-2 px-2 items-start hidden rtl fixed rtl:right-0 ltr:left-0 w-[260px] h-screen top-[-8px] bg-white z-50 overflow-auto">
                       <div class="mt-[30px] mb-[15px] px-[20px] flex items-center justify-between w-full">
-                          <div class="sidemenu-button">
-                              <button href="" class="language-button flex items-center justify-center gap-1" x-data="language('{{ session.lang.code }}')" @click="change('{{ to }}')">
-                                  {# <i class="icon-language"></i> #}
-                                  {{ title }}
-                                  <img src="{{ asset_url ~ flag ~ '.png' }}" alt="">
-                              </button>
-                          </div>
                           <div class="sidemenu-button">
                             {% if customer %}
                                 <a href="/account-profile" class="user-button">
@@ -54,13 +38,13 @@
                           </div>
                       </div>
                       {% for menu in main_navigation_menu.items %}
-                      <li class="relative py-[15px] ps-[20px] border-b-[0.5px] border-b-[#ececec] w-full" x-data="{open: false}" :class="{'bg-black/5': open}">
+                      <li class="relative py-[12px] ps-[20px] w-full rounded-xl group hover:bg-[#f8f7fe]" x-data="{open: false}" :class="{'bg-black/5': open}">
                           <div class="flex items-center justify-between w-full" dir="auto">
-                            <a href="{{ menu.url }}" class="text-black font-bold text-[14.4px] uppercase w-full">
+                            <a href="{{ menu.url }}" class="font-arlit font-normal text-[#62606f] group-hover:text-[#7462f4] active:text-[#7462f4] focus:text-[#7462f4] uppercase w-full">
                               <span x-data="{title: '{{ menu.name }}'}" x-text="title.replaceAll('6', '').replaceAll(/\s+/g, ' ')"></span>
                             </a>
                             {% if menu.items | length > 0 %}
-                            <i class="icon-angle-down opacity-60 text-[27.9px] text-[rgb(2,2,2)] transform !px-5" :class="{'rotate-180': open}" @click="open = !open"></i>
+                            <i class="icon-angle-down text-[27.9px] text-primary transform !px-5" :class="{'rotate-180': open}" @click="open = !open"></i>
                             {% endif %}
                           </div>
                           {% if menu.items | length > 0 %}
@@ -90,7 +74,7 @@
                       {% endfor %}
                     </ul>
                   </div>
-                  {% include 'logo.common.twig' with {'class': 'h-[19px] w-auto'} %}
+                  {% include 'logo.common.twig' with {'class': 'h-[48px] lg:h-[72px] w-auto'} %}
                   <div class="flex-1 right-header">
                       <div class="w-full flex justify-end gap-6">
                           <div class="header-button hidden lg:block relative group">
@@ -132,154 +116,11 @@
                                 </a>
                             {% endif %}
                           </div>
-                          <div class="header-button cart-button relative group" x-data="{}">
-                              <a href="/cart/view" class="cart-button relative">
-                                  <i class="icon-cart"></i>
-                                  <div id="cart-count" x-cloak x-data="{}" x-show="$store.cart.count > 0" x-text="$store.cart.count" class="absolute bg-primary rounded-full w-[17px] h-[17px] top-[-5px] right-[-8px] text-white text-[11px] flex items-center justify-center"></div>
-                              </a>
-                              <div class="pt-[20%] absolute hidden -end-[100px] top-full z-50 group-hover:lg:block">
-                                <div class="bg-white border-2 border-[#c4c4c4] py-5 min-w-[260px] shadow-[1px_1px_15px_rgba(0,0,0,0.15)]">
-                                  <ul class="px-5">
-                                    <template x-for="product in $store.cart.products">
-                                        <li class="flex items-center justify-start gap-4 pb-2 border-b border-b-[#ececec]">
-                                          <img class="h-[60px]" x-bind:src="product.images[0].thumbs.small" alt="">
-                                          <div class="flex flex-col">
-                                            <p class="text-black text-[16px]" x-text="product.name"></p>
-                                            <p class="pt-2">
-                                              <span class="text-[13.6px] text-[#777]" x-text="product.quantity"></span><span class="text-[13.6px] text-[#777]">×</span>
-                                              <span class="font-bold text-[#111] text-[13.6px] opacity-60" x-text="product.price_string"></span>
-                                            </p>
-                                          </div>
-                                          <div class="flex flex-col items-start justify-start h-full mb-auto">
-                                            <button class="border-2 border-black rounded-full text-black h-5 w-5 text-[15px] font-bold flex items-center justify-center mb-auto">×</button>
-                                          </div>
-                                        </li>
-                                    </template>
-                                    <li class="h-2.5" x-show="$store.cart.products.length <= 0"></li>
-                                    <li class="py-2.5 border-t-1 border-b-2 border-[#ececec]" x-show="$store.cart.products.length != 0" x-cloak>
-                                      <p class="text-center" x-cloak>
-                                      <span class="text-[#777] text-[16px] font-bold">{{ locals.subtotal }}</span>:
-                                      <span class="text-[#111] font-bold text-[16px]" x-text="$store.cart.subtotal"></span>  <span class="text-[#111] font-bold text-[16px]" x-text="$store.cart.currency"></span>
-                                      </p>
-                                    </li>
-                                    <li class="flex flex-col" x-cloak x-show="$store.cart.products.length != 0">
-                                      <a href="/cart/view" class="bg-black font-black text-[15.5px] leading-[37.248px] mt-2 text-white text-center" x-cloak>
-                                      {{ locals.view_cart }}
-                                      </a>
-                                      <a href="{% if customer %}/checkout/choose-address-and-shipping{% else %}/auth/login?redirect_to=/checkout/choose-address-and-shipping{% endif %}" class="bg-[#4b9960] btn font-black text-[15.5px] leading-[37.248px] mt-2 text-white text-center" x-cloak>
-                                      {{ locals.checkout }}
-                                      </a>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-                          </div>
-                          <div class="header-button hidden lg:block">
-                              <div class="relative z-10" x-data="{ open: false }" @click.away="open = false">
-                                  <div x-cloak x-show="open" @click="open = false" class="search-overlay fixed inset-0 h-full bg-black bg-opacity-[0.15] cursor-pointer z-40"></div>
-                                  <div @click.away="open = false" class="bg-white absolute z-50 top-[150%] rtl:left-0 lg:ltr:right-0 lg:rtl:right-auto p-3 rounded-xl flex items-center justify-center" x-show="open" x-cloak>
-                                      <div class="form-group mb-0">
-                                          <div class="autocomplete" style="position: relative">
-                                          <form action="/products">
-                                              <input type="text" name="search"
-                                                  class="search-input px-6 text-lg focus:outline-none focus:border-2 focus:border-black bg-[#eee] hover:bg-white rounded-3xl w-96 py-2.5 placeholder:text-gray-600"
-                                                  autocomplete="true" spellcheck="true" x-ref="input"
-                                                  placeholder="{% if settings.header_search_placeholder %}{{ settings.header_search_placeholder }}{% else %}{{ locals.header.search.placeholder }}{% endif %}">
-                                          </form>
-                                              <div class="autocomplete-items"></div>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <button class="search-button" @click="open = !open; $nextTick(() => { $refs.input.focus(); })">
-                                      <svg xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 0 18 18">
-                                          <path d=" M 16.722523,17.901412 C 16.572585,17.825208 15.36088,16.670476 14.029846,15.33534 L 11.609782,12.907819 11.01926,13.29667 C 8.7613237,14.783493 5.6172703,14.768302 3.332423,13.259528 -0.07366363,11.010358 -1.0146502,6.5989684 1.1898146,3.2148776
-                                              1.5505179,2.6611594 2.4056498,1.7447266 2.9644271,1.3130497 3.4423015,0.94387379 4.3921825,0.48568469 5.1732652,0.2475835 5.886299,0.03022609 6.1341883,0 7.2037391,0 8.2732897,0 8.521179,0.03022609 9.234213,0.2475835 c 0.781083,0.23810119 1.730962,0.69629029 2.208837,1.0654662
-                                              0.532501,0.4113763 1.39922,1.3400096 1.760153,1.8858877 1.520655,2.2998531 1.599025,5.3023778 0.199549,7.6451086 -0.208076,0.348322 -0.393306,0.668209 -0.411622,0.710863 -0.01831,0.04265 1.065556,1.18264 2.408603,2.533307 1.343046,1.350666 2.486621,2.574792 2.541278,2.720279 0.282475,0.7519
-                                              -0.503089,1.456506 -1.218488,1.092917 z M 8.4027892,12.475062 C 9.434946,12.25579 10.131043,11.855461 10.99416,10.984753 11.554519,10.419467 11.842507,10.042366 12.062078,9.5863882 12.794223,8.0659672 12.793657,6.2652398 12.060578,4.756293 11.680383,3.9737304 10.453587,2.7178427
-                                              9.730569,2.3710306 8.6921295,1.8729196 8.3992147,1.807606 7.2037567,1.807606 6.0082984,1.807606 5.7153841,1.87292 4.6769446,2.3710306 3.9539263,2.7178427 2.7271301,3.9737304 2.3469352,4.756293 1.6138384,6.2652398 1.6132726,8.0659672 2.3454252,9.5863882 c 0.4167354,0.8654208 1.5978784,2.0575608
-                                              2.4443766,2.4671358 1.0971012,0.530827 2.3890403,0.681561 3.6130134,0.421538 z
-                                          "></path>
-                                      </svg>
-                                  </button>
-                              </div>
-                          </div>
-                          <div class="header-button hidden lg:block">
-                              <button href="" class="language-button flex items-center justify-center gap-1" x-data="language('{{ session.lang.code }}')" @click="change('{{ to }}')">
-                                  {# <i class="icon-language"></i> #}
-                                  {{ title }}
-                                  <img src="{{ asset_url ~ flag ~ '.png' }}" alt="">
-                              </button>
-                          </div>
-                          <div class="hidden">
-                          {% include 'template_for_shipping_destination_currency_lang' with { 'hideDestination' : true, 'hideLanguage' : false , 'hideCurrency' : false  } %}
-                          </div>
                       </div>
                   </div>
               </div>
             {% endblock %}
         {% endembed %}
-
-        {% embed 'container.common.twig' with {'class': 'w-full hidden lg:block mb-2'} %}
-            {% block content %}
-              <ul class="flex items-center justify-center flex-wrap gap-[22.4px]">
-                {% for menu in main_navigation_menu.items %}
-                  <li class="relative group">
-                    <a class="text-black font-normal uppercase flex gap-[3.2px] items-center justify-center" href="{{ menu.url }}">
-                      <span x-data="{title: '{{ menu.name }}'}" x-text="title.replaceAll('6', '').replaceAll(/\s+/g, ' ')"></span>
-                      {% if menu.items | length > 0 %}
-                      <i class="icon-angle-down opacity-60"></i>
-                      {% endif %}
-                    </a>
-                    {% if menu.items | length > 0 %}
-                        <div class="pt-2 absolute z-50 hidden top-full group-hover:lg:block">
-                          <ul class="bg-white border-2 border-[#c4c4c4] py-5 min-w-[260px] shadow-[1px_1px_15px_rgba(0,0,0,0.15)]">
-                            {% for subitem in menu.items %}
-                              <li class="ps-[7px] ">
-                                <a href="{{ subitem.url }}" class="p-2.5 flex items-center justify-start text-black font-normal text-[16px] hover:bg-black hover:bg-opacity-[0.03] gap-2.5">
-                                  <img class="h-5 w-auto" x-data="headerIcons()" :src="data['{{ subitem.name | lower }}'.replaceAll('6', '').replaceAll(/\s+/g, ' ').trim()]" alt="">
-                                  <span x-data="{'title': '{{ subitem.name }}'}" x-text="title.replaceAll('6', '').replaceAll(/\s+/g, ' ').trim()"></span>
-                                </a>
-                              </li>
-                              {% if subitem.items | length > 0 %}
-                                {% for dsubitem in subitem.items %}
-                                <li class="ps-[14px] ">
-                                <a href="{{ dsubitem.url }}" class="p-2.5 flex items-center justify-start text-black font-normal text-[16px] hover:bg-black hover:bg-opacity-[0.03] gap-2.5">
-                                -
-                                  <img class="h-5 w-auto" x-data="headerIcons()" :src="data['{{ dsubitem.name | lower }}'.replaceAll('6', '').replaceAll(/\s+/g, ' ').trim()]" alt="">
-                                  <span x-data="{'title': '{{ dsubitem.name }}'}" x-text="title.replaceAll('6', '').replaceAll(/\s+/g, ' ').trim()"></span>
-                                </a>
-                              </li>
-                                {% endfor %}
-                              {% endif %}
-                            {% endfor %}
-                          </ul>
-                        </div>
-                      {% endif %}
-                  </li>
-                {% endfor %}
-              </ul>
-            {% endblock %}
-        {% endembed %}
-
-        <div class="bg-[#eee] w-full lg:hidden block order-2">
-              <form action="/products" class="flex items-center justify-start" x-data="{}">
-                <button class="search-button ps-6 pe-5" @click="$refs.input.focus();">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 18 18">
-                        <path d=" M 16.722523,17.901412 C 16.572585,17.825208 15.36088,16.670476 14.029846,15.33534 L 11.609782,12.907819 11.01926,13.29667 C 8.7613237,14.783493 5.6172703,14.768302 3.332423,13.259528 -0.07366363,11.010358 -1.0146502,6.5989684 1.1898146,3.2148776
-                            1.5505179,2.6611594 2.4056498,1.7447266 2.9644271,1.3130497 3.4423015,0.94387379 4.3921825,0.48568469 5.1732652,0.2475835 5.886299,0.03022609 6.1341883,0 7.2037391,0 8.2732897,0 8.521179,0.03022609 9.234213,0.2475835 c 0.781083,0.23810119 1.730962,0.69629029 2.208837,1.0654662
-                            0.532501,0.4113763 1.39922,1.3400096 1.760153,1.8858877 1.520655,2.2998531 1.599025,5.3023778 0.199549,7.6451086 -0.208076,0.348322 -0.393306,0.668209 -0.411622,0.710863 -0.01831,0.04265 1.065556,1.18264 2.408603,2.533307 1.343046,1.350666 2.486621,2.574792 2.541278,2.720279 0.282475,0.7519
-                            -0.503089,1.456506 -1.218488,1.092917 z M 8.4027892,12.475062 C 9.434946,12.25579 10.131043,11.855461 10.99416,10.984753 11.554519,10.419467 11.842507,10.042366 12.062078,9.5863882 12.794223,8.0659672 12.793657,6.2652398 12.060578,4.756293 11.680383,3.9737304 10.453587,2.7178427
-                            9.730569,2.3710306 8.6921295,1.8729196 8.3992147,1.807606 7.2037567,1.807606 6.0082984,1.807606 5.7153841,1.87292 4.6769446,2.3710306 3.9539263,2.7178427 2.7271301,3.9737304 2.3469352,4.756293 1.6138384,6.2652398 1.6132726,8.0659672 2.3454252,9.5863882 c 0.4167354,0.8654208 1.5978784,2.0575608
-                            2.4443766,2.4671358 1.0971012,0.530827 2.3890403,0.681561 3.6130134,0.421538 z
-                        "></path>
-                    </svg>
-                </button>
-                  <input type="text" name="search"
-                      class="search-input px-5 text-base focus:outline-none focus:border-2 focus:border-black bg-[#eee] w-96 py-2 placeholder:text-gray-600"
-                      autocomplete="true" spellcheck="true" x-ref="input"
-                      placeholder="{% if settings.header_search_placeholder %}{{ settings.header_search_placeholder }}{% else %}{{ locals.header.search.placeholder }}{% endif %}">
-              </form>
-        </div>
 
     </div>
     <script>

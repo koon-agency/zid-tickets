@@ -1,0 +1,156 @@
+<div section-id="{{ sectionId }}"
+     class="categories-section max-w-[86rem] mx-auto py-12 lg:py-14 {% if settings.only == 'mobile' %} block lg:hidden {% elseif settings.only == 'desktop' %} hidden lg:block{% endif %}">
+    {% if settings.title %}
+    <h3 class="text-center text-xl text-black font-bold">{{ settings.title }}</h3>
+    {% endif %}
+    <div class="splide px-2" id="section-{{sectionId}}" role="group" aria-label="Splide Basic HTML Example">
+        <div class="splide__track">
+            <ul class="splide__list pswp-gallery pswp-gallery--single-column">
+            {% for key, item in settings.items %}
+                <li class="splide__slide px-1 lg:px-2">
+                    <a href="#" class="block">
+                        <div class="flex flex-col w-full items-start justify-center">
+                            <img class="w-full object-cover" {% if item.image %}
+                                src="{{ imageUrl(item.image) }}"
+                            {% else %}
+                                src="{{ imageUrl(asset_url ~ 'product-img.svg') }}"
+                            {% endif %} alt="" />
+                            {% if item.title %}
+                                <h5 class="text-start font-bold text-xl lg:text-3xl text-black mt-2 mb-1 lg:mb-2">{{ item.title }}</h5>
+                            {% endif %}
+                            {% if item.desc %}
+                                <p class="text-start font-bold text-xs lg:text-base text-[#737373] pl-1">{{ item.desc }}</p>
+                            {% endif %}
+                        </div>
+                    </a>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  new Splide(document.getElementById('section-{{sectionId}}'), {
+    type : 'slide',
+    direction: 'rtl',
+    perPage: 4,
+    drag   : 'free',
+    snap   : true,
+    padding: {
+      right: 0,
+      left: '11.25%'
+    },
+    breakpoints: {
+      720: {
+        perPage: 2,
+        padding: {
+            right: 0,
+            left: '22.5%'
+        },
+      }
+    },
+    arrows: false,
+    pagination: false,
+    autoScroll: {
+      speed: 0.35,
+      pauseOnHover: false,
+      pauseOnFocus: false
+    },
+  }).mount();
+});
+</script>
+
+
+{% schema %}
+{
+  "name": {
+    "ar": "شريط صور طرف الشاشة",
+    "en": "Window Side Slider"
+  },
+  "icon": "fal fa-cabinet-filing",
+  "display": true,
+  "settings": {
+    "title": {
+      "type": "text",
+      "label": {
+        "ar": "العنوان",
+        "en": "text"
+      }
+    },
+    "items": {
+      "type": "list",
+      "noLabel": true,
+      "settings_label":{
+        "ar": "العناصر",
+        "en": "Items"
+      },
+      "settings": {
+        "url": {
+          "type": "text",
+          "label": {
+            "ar": "الرابط",
+            "en": "الرابط"
+          }
+        },
+        "title": {
+          "type": "text",
+          "label": {
+            "ar": "العنوان",
+            "en": "text"
+          }
+        },
+        "desc": {
+          "type": "text",
+          "label": {
+            "ar": "الوصف",
+            "en": "Description"
+          }
+        },
+        "image": {
+          "type": "image",
+          "label": {
+            "ar": "الصورة",
+            "en": "Image"
+          },
+          "info": {
+            "ar": "",
+            "en": ""
+          }
+        }
+      }
+    },
+    "only": {
+        "type": "radios",
+        "label": {
+            "ar": "عرض فقط على:",
+            "en": "Show only on:"
+        },
+        "options": [
+            {
+                "value": "all",
+                "label": {
+                "ar": "جميع الاجهزة",
+                "en": "all pages"
+                }
+            },
+            {
+                "value": "mobile",
+                "label": {
+                "ar": "الجوال فقط",
+                "en": "Mobile only"
+                }
+            },
+            {
+                "value": "desktop",
+                "label": {
+                "ar": "اجهزة الكمبيوتر فقط",
+                "en": "Desktop only"
+                }
+            }
+        ]
+    }
+  }
+}
+{% endschema %}

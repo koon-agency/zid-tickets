@@ -14,9 +14,9 @@ module.exports = {
         },
       },
       fontFamily: {
-        body: ["Montserrat-Arabic", "Montserrat", "sans-serif"],
+        body: ["zid-font"],
         icons: ["fl-icons"],
-        helvetica: ["Helvetica Neue", "Helvetica", "Arial", "sans-serif"]
+        arlit: ['IBM Plex Sans Arabic', 'sans-serif']
       },
       fontWeight: {
         bolder: 'bolder',
