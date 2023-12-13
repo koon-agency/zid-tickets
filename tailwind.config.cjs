@@ -14,9 +14,10 @@ module.exports = {
         },
       },
       fontFamily: {
-        body: ["zid-font"],
-        icons: ["fl-icons"],
-        arlit: ['IBM Plex Sans Arabic', 'sans-serif']
+        body: ['IBM Plex Sans Arabic', 'sans-serif'],
+        icons: ['IBM Plex Sans Arabic', 'sans-serif'],
+        arlit: ['IBM Plex Sans Arabic', 'sans-serif'],
+        shamel: ["zid-font"],
       },
       fontWeight: {
         bolder: 'bolder',
