@@ -1,0 +1,259 @@
+<div section-id="{{ sectionId }}"
+     class="categories-section max-w-[86rem] mx-auto {% if settings.only == 'mobile' %} block lg:hidden {% elseif settings.only == 'desktop' %} hidden lg:block{% endif %}">
+     {% embed 'container.common.twig' with {'class': 'w-full', 'props': settings, 'id': sectionId} %}
+        {% block content %}
+            <div class="splide px-2" id="section-{{id}}" role="group" aria-label="Splide Basic HTML Example">
+                <div class="splide__track">
+                    <ul class="splide__list pswp-gallery pswp-gallery--single-column">
+                    {% for key, item in props.items %}
+                        <li class="splide__slide p-6 rounded-3xl bg-cover" style="background-image: url('{{ imageUrl(props.bg) }}')">
+                            <div class="flex flex-col w-full items-start justify-center">
+                                {% if item.subtitle %}
+                                    <small class="text-start font-bold text-base lg:text-lg text-white mb-1">{{ item.subtitle }}</small>
+                                {% endif %}
+                                {% if item.title %}
+                                    <h5 class="text-start font-bold text-3xl lg:text-4xl text-white mb-1 lg:mb-2">{{ item.title }}</h5>
+                                {% endif %}
+                                {% if item.date and item.time %}
+                                    <div class="flex items-center w-full mt-4 lg:mt-6">
+                                        <div class="flex text-white items-center font-bold w-1/2 text-sm lg:text-base">
+                                            <svg class="text-white h-6 pl-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
+                                            </svg>
+                                            {{ item.date }}
+                                        </div>
+                                        <div class="flex text-white items-center font-bold w-1/2 text-sm lg:text-base">
+                                            <svg class="text-white h-6 pl-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            {{ item.time }}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {% if item.title_1 or item.title_2 or item.title_3 %}
+                                <div class="mt-4 lg:mt-6 flex flex-col">
+                                    <div class="flex flex-row">
+                                        <div class="h-full flex flex-col items-center justify-center">
+                                            <p class="bg-white rounded-full w-8 h-8 flex items-center justify-center text-center text-primary text-base">
+                                            1
+                                            </p>
+                                            <div class="w-px border-l-[3px] border-dashed border-l-white h-12">
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col pr-2 lg:pr-4">
+                                            <h6 class="text-start font-bold text-base lg:text-lg text-white">{{ item.title_1 }}</h6>
+                                            <p class="text-start font-arlit text-xs lg:text-xs text-white pl-1">{{ item.desc_1 }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-row">
+                                        <div class="h-full flex flex-col items-center justify-center">
+                                            <p class="bg-white rounded-full w-8 h-8 flex items-center justify-center text-center text-primary text-base">
+                                            2
+                                            </p>
+                                            <div class="w-px border-l-[3px] border-dashed border-l-white h-12">
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col pr-2 lg:pr-4">
+                                            <h6 class="text-start font-bold text-base lg:text-lg text-white">{{ item.title_2 }}</h6>
+                                            <p class="text-start font-arlit text-xs lg:text-xs text-white pl-1">{{ item.desc_2 }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-row mb-2">
+                                        <div class="h-full flex flex-col">
+                                            <p class="bg-white rounded-full w-8 h-8 flex items-center justify-center text-center text-primary text-base">
+                                            3
+                                            </p>
+                                        </div>
+                                        <div class="flex flex-col pr-2 lg:pr-4">
+                                            <h6 class="text-start font-bold text-base lg:text-lg text-white">{{ item.title_3 }}</h6>
+                                            <p class="text-start font-arlit text-xs lg:text-xs text-white pl-1">{{ item.desc_3 }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% if item.desc %}
+                                    <p class="text-start font-arlit text-xs lg:text-base text-white pl-1">{{ item.desc }}</p>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endblock %}
+    {% endembed %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  new Splide(document.getElementById('section-{{sectionId}}'), {
+    type : 'slide',
+    direction: 'rtl',
+    perPage: 3,
+    drag   : 'free',
+    snap   : true,
+    gap: '2rem',
+    breakpoints: {
+      720: {
+        gap: '1rem',
+        perPage: 1,
+        pagination: true,
+      }
+    },
+    arrows: false,
+    pagination: false,
+    autoScroll: {
+      speed: 0.35,
+      pauseOnHover: false,
+      pauseOnFocus: false
+    },
+  }).mount();
+});
+</script>
+<style>
+    #section-{{sectionId}} .splide__pagination {
+        bottom: -2rem;
+    }
+</style>
+
+
+{% schema %}
+{
+  "name": {
+    "ar": "شريط بطاقات",
+    "en": "Cards Slider"
+  },
+  "icon": "fal fa-card",
+  "display": true,
+  "settings": {
+    "bg": {
+        "type": "image",
+        "label": {
+            "ar": "خلفية البطاقات",
+            "en": "Card Background"
+        },
+        "info": {
+            "ar": "",
+            "en": ""
+        }
+    },
+    "items": {
+      "type": "list",
+      "noLabel": true,
+      "settings_label":{
+        "ar": "العناصر",
+        "en": "Items"
+      },
+      "settings": {
+        "subtitle": {
+          "type": "text",
+          "label": {
+            "ar": "العنوان الفرعي",
+            "en": "Subtitle"
+          }
+        },
+        "title": {
+          "type": "text",
+          "label": {
+            "ar": "العنوان",
+            "en": "Title"
+          }
+        },
+        "desc": {
+          "type": "textarea",
+          "label": {
+            "ar": "الوصف",
+            "en": "Description"
+          }
+        },
+        "date": {
+          "type": "text",
+          "label": {
+            "ar": "التاريخ",
+            "en": "Date"
+          }
+        },
+        "time": {
+          "type": "text",
+          "label": {
+            "ar": "الوقت",
+            "en": "Time"
+          }
+        },
+        "title_1": {
+          "type": "text",
+          "label": {
+            "ar": "عنوان نقطة 1",
+            "en": "Title"
+          }
+        },
+        "desc_1": {
+          "type": "textarea",
+          "label": {
+            "ar": "وصف نقطة 1",
+            "en": "Description"
+          }
+        },
+        "title_2": {
+          "type": "text",
+          "label": {
+            "ar": "عنوان نقطة 2",
+            "en": "Title"
+          }
+        },
+        "desc_2": {
+          "type": "textarea",
+          "label": {
+            "ar": "وصف نقطة 2",
+            "en": "Description"
+          }
+        },
+        "title_3": {
+          "type": "text",
+          "label": {
+            "ar": "عنوان نقطة 3",
+            "en": "Title"
+          }
+        },
+        "desc_3": {
+          "type": "textarea",
+          "label": {
+            "ar": "وصف نقطة 3",
+            "en": "Description"
+          }
+        }
+      }
+    },
+    "only": {
+        "type": "radios",
+        "label": {
+            "ar": "عرض فقط على:",
+            "en": "Show only on:"
+        },
+        "options": [
+            {
+                "value": "all",
+                "label": {
+                "ar": "جميع الاجهزة",
+                "en": "all pages"
+                }
+            },
+            {
+                "value": "mobile",
+                "label": {
+                "ar": "الجوال فقط",
+                "en": "Mobile only"
+                }
+            },
+            {
+                "value": "desktop",
+                "label": {
+                "ar": "اجهزة الكمبيوتر فقط",
+                "en": "Desktop only"
+                }
+            }
+        ]
+    }
+  }
+}
+{% endschema %}

@@ -1,4 +1,4 @@
-<header class='header-section'>
+<header class='header-section bg-[#F7F7F8]'>
     <div class="flex flex-col">
         {% include 'announcement-bar.header.twig' with { 'props': settings, 'class': 'order-1 lg:order-none' } %}
         {% embed 'container.common.twig' with {'class': 'w-full'} %}
@@ -28,11 +28,15 @@
                           <div class="sidemenu-button">
                             {% if customer %}
                                 <a href="/account-profile" class="user-button">
-                                    <i class="icon-user"></i>
+                                    <svg class="text-primary h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
                                 </a>
                             {% else %}
                                 <a href="/auth/login" class="user-button">
-                                    <i class="icon-user"></i>
+                                    <svg class="text-primary h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
                                 </a>
                             {% endif %}
                           </div>
@@ -112,7 +116,9 @@
                                 </div>
                             {% else %}
                                 <a href="/auth/login" class="user-button relative">
-                                    <i class="icon-user"></i>
+                                    <svg class="text-primary h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
                                 </a>
                             {% endif %}
                           </div>

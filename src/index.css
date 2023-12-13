@@ -267,3 +267,21 @@ i[class^=icon-] {
     vertical-align: middle;
     width: 6px;
 }
+.splide__pagination__page.is-active {
+    background: var(--primary-color) !important;
+    opacity: 1 !important;
+}
+.splide__pagination__page {
+    background: var(--primary-color) !important;
+    opacity: 0.5 !important;
+    width: 24px !important;
+    border-radius: 8px !important;
+    height: 6px !important;
+    margin-left: 8px !important;
+}
+
+.grad-text {
+    background: linear-gradient(270deg, #802BD6 0%, #7462F4 50.18%, #8080FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }

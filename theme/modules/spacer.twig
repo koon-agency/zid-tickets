@@ -1,0 +1,69 @@
+<section class="spacer {% if settings.only == 'mobile' %} block lg:hidden {% elseif settings.only == 'desktop' %} hidden lg:block{% endif %}" id="section-{{ sectionId }}"></section>
+
+<style>
+    #section-{{sectionId}} {
+        padding-top: {{ settings.px }};
+    }
+    @media (max-width: 991px) {
+        #section-{{sectionId}} {
+            padding-top: {{ settings.mpx }} !important;
+        }
+    }
+</style>
+
+{% schema %}
+{
+    "name": {
+    "ar": "مسافة",
+    "en": "Spacer"
+  },
+  "icon": "fal fa-line",
+  "display": true,
+  "settings": {
+    "px": {
+        "type": "text",
+        "label": {
+            "ar": "الارتفاع للدسكتوب",
+            "en": "Desktop Height"
+        }
+    },
+    "mpx": {
+        "type": "text",
+        "label": {
+            "ar": "الارتفاع للجوال",
+            "en": "Mobile Height"
+        }
+    },
+    "only": {
+        "type": "radios",
+        "label": {
+            "ar": "عرض فقط على:",
+            "en": "Show only on:"
+        },
+        "options": [
+            {
+                "value": "all",
+                "label": {
+                "ar": "جميع الاجهزة",
+                "en": "all pages"
+                }
+            },
+            {
+                "value": "mobile",
+                "label": {
+                "ar": "الجوال فقط",
+                "en": "Mobile only"
+                }
+            },
+            {
+                "value": "desktop",
+                "label": {
+                "ar": "اجهزة الكمبيوتر فقط",
+                "en": "Desktop only"
+                }
+            }
+        ]
+    }
+  }
+}
+{% endschema %}

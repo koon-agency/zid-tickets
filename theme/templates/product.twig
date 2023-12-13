@@ -161,44 +161,6 @@
 					</div>
 				</div>
 			</div>
-			<section class="features py-12 max-w-5xl mx-auto">
-				<div class="flex items-center justify-between flex-row mx-auto">
-					<div class="feature-item flex flex-col items-center justify-center feature-0 mx-auto w-full">
-						<img class="w-[40px] h-auto" src="https://media.zid.store/cf880a23-3a88-4a35-8103-c282b61e28ad/7c6fd6a0-3440-41cc-87e2-b1850d3479f9.png" loading="lazy" alt="">
-						<p class="text-[10px] lg:text-[12.5px] text-primary pt-[19px] font-black text-center">{{ locals.product.feature[0] }}</p>
-					</div>
-					<div class="feature-item flex flex-col items-center justify-center feature-3 mx-auto w-full">
-						<img class="w-[40px] h-auto" src="https://media.zid.store/cf880a23-3a88-4a35-8103-c282b61e28ad/18715393-9ac6-457d-a692-af4b5f8e2c07.png" loading="lazy" alt="">
-						<p class="text-[10px] lg:text-[12.5px] text-primary pt-[19px] font-black text-center">{{ locals.product.feature[1] }}</p>
-					</div>
-					<div class="feature-item flex flex-col items-center justify-center feature-2 mx-auto w-full">
-						<img class="w-[40px] h-auto" src="https://media.zid.store/cf880a23-3a88-4a35-8103-c282b61e28ad/23340bd2-639e-4ee9-8692-bc055984bfb9.png" loading="lazy" alt="">
-						<p class="text-[10px] lg:text-[12.5px] text-primary pt-[19px] font-black text-center">{{ locals.product.feature[2] }}</p>
-					</div>
-					<div class="feature-item flex flex-col items-center justify-center feature-1 mx-auto w-full">
-						<img class="w-[40px] h-auto" src="https://media.zid.store/cf880a23-3a88-4a35-8103-c282b61e28ad/fc2900e8-38a5-4ea8-b421-0de1932074ca.png" loading="lazy" alt="">
-						<p class="text-[10px] lg:text-[12.5px] text-primary pt-[19px] font-black text-center">{{ locals.product.feature[3] }}</p>
-					</div>
-				</div>
-			</section>
-			{% if (product.related_products | length) >  0 %}
-				<section class="products-section my-12 !px-0 bg-secondary-t relative xl:px-8">
-					{% embed 'container.common.twig' with {'class': 'w-full max-w-5xl', 'products': product.related_products} %}
-							{% block content %}
-								<h3 class="text-start text-xl text-black font-bold">{{ locals.you_may_also_like }}</h3>
-								<div class="flex flex-col w-full mx-auto pt-6">
-									<div class="container grid grid-cols-2 lg:grid-cols-4 group mx-auto" id="suggested-products">
-										{% for product in products %}
-											<div class="w-full">
-												{% include 'product-card.twig' with {'product' : product, 'index': key} %}
-											</div>
-										{% endfor %}
-									</div>
-								</div>
-							{% endblock %}
-					{% endembed %}
-				</section>
-			{% endif %}
 		{% endblock %}
 	{% endembed %}
 </section>

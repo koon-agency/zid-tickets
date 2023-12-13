@@ -1,0 +1,118 @@
+<section class="main-section bg-[#F7F7F8] py-14 lg:py-20 relative{% if settings.spaces %} py-14 {% endif %}" section-id="{{ sectionId }}">
+    {% embed 'container.common.twig' with {'class': 'w-full', 'props': settings} %}
+        {% block content %}
+          <div class="flex flex-col-reverse lg:flex-row justify-between items-center w-full">
+
+            <div>
+              {% if props.title %}
+                <h1 class="grad-text font-shamel font-bold text-4xl lg:text-5xl mb-2 !leading-loose">{{ props.title }}</h1>
+              {% endif %}
+              {% if props.desc %}
+                <p class="text-[#3B3A43] lg:max-w-[60%] text-base lg:text-lg mb-4 lg:mb-8">{{ props.desc }}</p>
+              {% endif %}
+              {% if props.sub %}
+                <p class="grad-text font-medium text-xl lg:text-2xl mb-8">{{ props.sub }}</p>
+              {% endif %}
+
+              {% if props.button and props.url %}
+                <div class="flex">
+                  <a href="{{ props.url }}" class="text-white bg-primary rounded-lg px-4 lg:px-6 py-1.5 text-lg lg:text-lg mb-4 flex items-center group gap-4">
+                  {{ props.button }}
+                    <svg class="h-4 text-white transition duration-300 transform group-hover:-translate-x-1.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                    </svg>
+                  </a>
+                </div>
+              {% endif %}
+
+              {% if props.info %}
+                <p class="text-[#3B3A43] lg:max-w-[60%] text-sm lg:text-sm">{{ props.info }}</p>
+              {% endif %}
+            </div>
+
+            <div class="pb-6 lg:pb-0">
+              <img class="w-full px-12 lg:px-0 lg:h-96" src="{{ props.image }}" alt="">
+            </div>
+          </div>
+        {% endblock %}
+    {% endembed %}
+</section>
+
+{% schema %}
+{
+  "name": {
+    "ar": "بنر رئيسي",
+    "en": "Main Banner"
+  },
+  "icon": "fa fa-play",
+  "display": true,
+  "settings": {
+    "image": {
+        "type": "image",
+        "label": {
+            "ar": "صورة",
+            "en": "Image"
+        },
+        "info": {
+            "ar": "",
+            "en": ""
+        }
+    },
+    "spaces": {
+      "type": "checkbox",
+      "label": {
+          "ar": "",
+          "en": ""
+      },
+      "option": {
+        "ar": "ترك مسافة أعلى وأسفل الفديو؟",
+        "en": "Add vertical spaces?"
+      },
+      "default": true,
+      "noLabel": true
+    },
+    "title": {
+        "type": "text",
+        "label": {
+        "ar": "العنوان",
+        "en": "Title"
+      }
+    },
+    "sub": {
+        "type": "text",
+        "label": {
+        "ar": "فرعي",
+        "en": "Sub"
+      }
+    },
+    "info": {
+        "type": "text",
+        "label": {
+        "ar": "معلومات",
+        "en": "Info"
+      }
+    },
+    "desc": {
+        "type": "textarea",
+        "label": {
+        "ar": "الوصف",
+        "en": "Description"
+      }
+    },
+        "button": {
+        "type": "text",
+        "label": {
+        "ar": "عنوان الزر",
+        "en": "Button text"
+      }
+    },
+    "url": {
+        "type": "text",
+        "label": {
+        "ar": "رابط الزر",
+        "en": "Button text"
+      }
+    }
+  }
+}
+{% endschema %}

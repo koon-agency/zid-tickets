@@ -1,0 +1,131 @@
+<div section-id="{{ sectionId }}"
+    class="consultance-section {% if settings.only == 'mobile' %} block lg:hidden {% elseif settings.only == 'desktop' %} hidden lg:block{% endif %}">
+    {% embed 'container.common.twig' with {'class': 'w-full', 'props': settings} %}
+        {% block content %}
+
+            <div class="rounded-2xl bg-cover lg:bg-center relative px-4 lg:px-8 lg:pt-8 pb-8" style="background-image: url('{{ props.bg }}')">
+                <img class="relative lg:absolute lg:left-8 -top-16 lg:w-52 w-full mr-auto" src="{{ props.image }}" alt="">
+                <div class="-mt-4 lg:mt-0">
+                    <h5 class="text-white font-bold text-3xl lg:text-4xl mb-3">
+                        {{ props.title }}
+                    </h5>
+                    <p class="text-white font-arlit text-lg lg:text-xl mb-8 lg:mb-10 max-w-[50%]">
+                        {{ props.desc }}
+                    </p>
+
+                    {% if props.button and props.url %}
+                    <div class="w-full lg:flex">
+                        <a href="{{ props.url }}" class="w-full lg:w-auto rounded-2xl py-2 px-4 flex lg:bg-white bg-[#A3A3EA] group">
+                            <span class="text-white lg:text-primary font-bold mx-auto">
+                            {{  props.button }}
+                            </span>
+                            <svg class="h-6 lg:pr-4 text-white lg:text-primary transition duration-300 transform group-hover:-translate-x-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                            </svg>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% if title %}
+                <h3 class="text-start font-bold text-4xl lg:text-5xl text-black mb-3 lg:mb-6">{{ title }}</h3>
+            {% endif %}
+            {% if subtitle %}
+                <h3 class="text-start font-bold text-lg lg:text-xl text-black mb-3 lg:mb-6">{{ subtitle }}</h3>
+            {% endif %}
+            {% if desc %}
+                <p class="text-start font-arlit text-base lg:text-lg text-[#737373] mb-3 lg:mb-6">{{ desc }}</p>
+            {% endif %}
+            {% if button and url %}
+                <a href="{{ url }}" class="text-white bg-primary rounded-full px-6 lg:px-8 py-2 lg:py-3 font-bold text-lg lg:text-2xl">{{ button }}</a>
+            {% endif %}
+            
+        {% endblock %}
+    {% endembed %}
+</div>
+
+
+{% schema %}
+{
+  "name": {
+    "ar": "استشارات",
+    "en": "Consultance"
+  },
+  "icon": "fal fa-card",
+  "display": true,
+  "settings": {
+    "title": {
+        "type": "text",
+        "label": {
+            "ar": "العنوان",
+            "en": "Title"
+        }
+    },
+    "desc": {
+        "type": "textarea",
+        "label": {
+        "ar": "الوصف",
+        "en": "Description"
+      }
+    },
+    "button": {
+        "type": "text",
+        "label": {
+            "ar": "عنوان الزر",
+            "en": "Button Title"
+        }
+    },
+    "url": {
+        "type": "text",
+        "label": {
+        "ar": "رابط الزر",
+        "en": "button url"
+      }
+    },
+    "bg": {
+        "type": "image",
+        "label": {
+        "ar": "الخلفية",
+        "en": "background"
+      }
+    },
+    "image": {
+        "type": "image",
+        "label": {
+        "ar": "الصورة",
+        "en": "Image"
+      }
+    },
+    "only": {
+        "type": "radios",
+        "label": {
+            "ar": "عرض فقط على:",
+            "en": "Show only on:"
+        },
+        "options": [
+            {
+                "value": "all",
+                "label": {
+                "ar": "جميع الاجهزة",
+                "en": "all pages"
+                }
+            },
+            {
+                "value": "mobile",
+                "label": {
+                "ar": "الجوال فقط",
+                "en": "Mobile only"
+                }
+            },
+            {
+                "value": "desktop",
+                "label": {
+                "ar": "اجهزة الكمبيوتر فقط",
+                "en": "Desktop only"
+                }
+            }
+        ]
+    }
+  }
+}
+{% endschema %}

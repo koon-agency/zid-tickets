@@ -1,5 +1,5 @@
 <div section-id="{{ sectionId }}"
-     class="categories-section py-8 lg:py-10 {% if settings.only == 'mobile' %} block lg:hidden {% elseif settings.only == 'desktop' %} hidden lg:block{% endif %}">
+     class="categories-section py-8 {% if settings.only == 'mobile' %} block lg:hidden {% elseif settings.only == 'desktop' %} hidden lg:block{% endif %}">
     {% embed 'container.common.twig' with {'class': 'w-full', 'title': settings.title, 'id': sectionId, 'items': settings.items} %}
         {% block content %}
           {% if title %}
@@ -10,15 +10,13 @@
                   <ul class="splide__list pswp-gallery pswp-gallery--single-column">
                   {% for key, item in items %}
                       <li class="splide__slide px-2 lg:px-4">
-                          <a href="#" class="block">
-                              <div class="flex flex-col w-full items-center justify-center">
-                                  <img class="w-full object-cover" {% if item.image %}
-                                      src="{{ imageUrl(item.image) }}"
-                                  {% else %}
-                                      src="{{ imageUrl(asset_url ~ 'product-img.svg') }}"
-                                  {% endif %} alt="" />
-                              </div>
-                          </a>
+                          <div class="flex flex-col w-full items-center justify-center">
+                              <img class="w-full object-cover" {% if item.image %}
+                                  src="{{ imageUrl(item.image) }}"
+                              {% else %}
+                                  src="{{ imageUrl(asset_url ~ 'product-img.svg') }}"
+                              {% endif %} alt="" />
+                          </div>
                       </li>
                   {% endfor %}
                   </ul>
@@ -36,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
     perPage: 6,
     autoplay: true,
     interval: 3000,
+    perMove: 1,
     drag   : 'free',
     snap   : true,
     padding: {

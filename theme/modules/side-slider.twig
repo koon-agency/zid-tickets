@@ -1,28 +1,32 @@
 <div section-id="{{ sectionId }}"
-     class="categories-section max-w-[86rem] mx-auto py-12 lg:py-14 {% if settings.only == 'mobile' %} block lg:hidden {% elseif settings.only == 'desktop' %} hidden lg:block{% endif %}">
+     class="categories-section max-w-[86rem] px-4 lg:px-0 py-14 mx-auto {% if settings.only == 'mobile' %} block lg:hidden {% elseif settings.only == 'desktop' %} hidden lg:block{% endif %}">
     {% if settings.title %}
-    <h3 class="text-center text-xl text-black font-bold">{{ settings.title }}</h3>
+        <h3 class="text-start font-shamel  !leading-loose font-bold text-3xl lg:text-4xl text-[#27262C]">{{ settings.title }}</h3>
     {% endif %}
-    <div class="splide px-2" id="section-{{sectionId}}" role="group" aria-label="Splide Basic HTML Example">
-        <div class="splide__track">
+    {% if settings.subtitle %}
+        <h3 class="text-start font-medium text-lg lg:text-xl text-[3B3A43] mb-3 lg:mb-6">{{ settings.subtitle }}</h3>
+    {% endif %}
+    {% if settings.desc %}
+        <p class="text-start lg:max-w-[60%] text-base lg:text-lg text-[#3B3A43] mb-3 lg:mb-6">{{ settings.desc }}</p>
+    {% endif %}
+    <div class="splide lg:px-2 py-6" id="section-{{sectionId}}" role="group" aria-label="Splide Basic HTML Example">
+        <div class="splide__track !overflow-visible">
             <ul class="splide__list pswp-gallery pswp-gallery--single-column">
             {% for key, item in settings.items %}
-                <li class="splide__slide px-1 lg:px-2">
-                    <a href="#" class="block">
-                        <div class="flex flex-col w-full items-start justify-center">
-                            <img class="w-full object-cover" {% if item.image %}
-                                src="{{ imageUrl(item.image) }}"
-                            {% else %}
-                                src="{{ imageUrl(asset_url ~ 'product-img.svg') }}"
-                            {% endif %} alt="" />
-                            {% if item.title %}
-                                <h5 class="text-start font-bold text-xl lg:text-3xl text-black mt-2 mb-1 lg:mb-2">{{ item.title }}</h5>
-                            {% endif %}
-                            {% if item.desc %}
-                                <p class="text-start font-bold text-xs lg:text-base text-[#737373] pl-1">{{ item.desc }}</p>
-                            {% endif %}
-                        </div>
-                    </a>
+                <li class="splide__slide pl-4 lg:pl-6">
+                    <div class="flex flex-col w-full items-start justify-center">
+                        <img class="w-full object-cover" {% if item.image %}
+                            src="{{ imageUrl(item.image) }}"
+                        {% else %}
+                            src="{{ imageUrl(asset_url ~ 'product-img.svg') }}"
+                        {% endif %} alt="" />
+                        {% if item.title %}
+                            <h5 class="text-start font-bold text-xl lg:text-3xl text-[#373438] mt-2 mb-1 lg:mb-2 px-1">{{ item.title }}</h5>
+                        {% endif %}
+                        {% if item.desc %}
+                            <p class="text-start font-arlit text-sm lg:text-lg text-[#3B3A43] px-1">{{ item.desc }}</p>
+                        {% endif %}
+                    </div>
                 </li>
             {% endfor %}
             </ul>
@@ -40,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
     snap   : true,
     padding: {
       right: 0,
-      left: '11.25%'
+      left: '5.625%'
     },
     breakpoints: {
       720: {
@@ -73,10 +77,24 @@ document.addEventListener('DOMContentLoaded', function() {
   "display": true,
   "settings": {
     "title": {
-      "type": "text",
-      "label": {
-        "ar": "العنوان",
-        "en": "text"
+        "type": "text",
+        "label": {
+            "ar": "العنوان",
+            "en": "Title"
+        }
+    },
+    "subtitle": {
+        "type": "text",
+        "label": {
+            "ar": "العنوان الفرعي",
+            "en": "Subtitle"
+        }
+    },
+    "desc": {
+        "type": "textarea",
+        "label": {
+        "ar": "الوصف",
+        "en": "Description"
       }
     },
     "items": {
@@ -87,13 +105,6 @@ document.addEventListener('DOMContentLoaded', function() {
         "en": "Items"
       },
       "settings": {
-        "url": {
-          "type": "text",
-          "label": {
-            "ar": "الرابط",
-            "en": "الرابط"
-          }
-        },
         "title": {
           "type": "text",
           "label": {
