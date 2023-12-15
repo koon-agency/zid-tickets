@@ -68,7 +68,7 @@
             </div>
 
             <div class="flex justify-center pt-8">
-                <button onclick="addToCart()" class="text-primary bg-white rounded-xl px-6 lg:px-8 py-4 text-base mb-4 flex items-center group gap-6 font-medium">
+                <button onclick="addToCart('5e4f8167-a4cc-47b6-ad6b-7388908e04be')" class="text-primary bg-white rounded-xl px-6 lg:px-8 py-4 text-base mb-4 flex items-center group gap-6 font-medium">
                 {{ settings.first_button }}
                 <svg class="h-4 text-primary transition duration-300 transform group-hover:-translate-x-1.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
@@ -79,14 +79,14 @@
         {% endif %}
 
         {% if settings.second_prod %}
-        <div class="bg-cover bg-center py-8 rounded-2xl lg:w-1/2" style="background-image: url('{{ settings.second_bg }}')">
+        <div class="bg-cover bg-center py-8 rounded-2xl lg:w-1/2 relative" style="background-image: url('{{ settings.second_bg }}')">
             {% if settings.second_prod %}
                 <div class="w-full flex justify-between">
                     <div class="">
                         <h3 class="text-start w-full font-shamel px-6 text-white font-bold text-2xl lg:text-3xl lg:w-auto">{{ settings.second_prod.name }}</h3>
                         <small class="text-white px-6 text-start text-lg">VIP Ticket</small>
                     </div>
-                    <p class="text-white pl-6 lg:px-6 text-start text-lg">تذاكر محدودة</p>
+                    <p class="text-white pl-6 lg:px-6 text-start text-lg absolute left-0 py-0.5 rounded-r-md bg-white/5 border-[1.5px] border-white/20 backdrop-blur-xl" style="box-shadow: 4px 6px 10px 0px rgba(0,0,0,0.25)">تذاكر محدودة</p>
                 </div>
             {% endif %}
 
@@ -142,12 +142,12 @@
             </div>
 
             <div class="flex justify-center pt-8">
-                <a href="{{ settings.second_prod.html_url }}" class="text-primary bg-white rounded-xl px-6 lg:px-8 py-4 text-base mb-4 flex items-center group gap-6 font-medium">
+                <button onclick="addToCart('876028ff-7970-48ec-bfb3-fc32c3cf658f')"  class="text-primary bg-white rounded-xl px-6 lg:px-8 py-4 text-base mb-4 flex items-center group gap-6 font-medium">
                 {{ settings.second_button }}
                 <svg class="h-4 text-primary transition duration-300 transform group-hover:-translate-x-1.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                 </svg>
-                </a>
+                </button>
             </div>
         </div>
     {% endif %}
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 async function addToCart(id) {
     await zid.store.cart.removeProducts();
-        await zid.store.cart.addProduct({ productId: '5e4f8167-a4cc-47b6-ad6b-7388908e04be', quantity: 1 }).then(async (response) => {
+        await zid.store.cart.addProduct({ productId: id, quantity: 1 }).then(async (response) => {
             if(response.status  === 'success'){
 				window.location.href= '{% if customer %}/checkout/choose-address-and-shipping{% else %}/auth/login?redirect_to=/checkout/choose-address-and-shipping{% endif %}'
                 //setCartBadge(response.data.cart.products_count)
