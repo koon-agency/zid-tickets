@@ -84,33 +84,33 @@
                           <div class="header-button hidden lg:block relative group">
                             {% if customer %}
                                 <button class="user-button">
-                                    <i class="icon-user"></i>
+                                    <svg class="text-primary h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
                                 </button>
                                 <div class="top-full pt-1 absolute z-50 hidden group-hover:lg:block -end-[100px]">
-                                    <ul class="bg-white border-2 border-[#c4c4c4] py-5 min-w-[260px] shadow-[1px_1px_15px_rgba(0,0,0,0.15)]">
-                                      <li class="ps-[7px] ">
-                                        <a href="/account-orders" class="p-2.5 flex items-center justify-start text-black font-normal text-[16px] hover:bg-black hover:bg-opacity-[0.03] gap-2.5">
-                                          <img class="h-5 w-auto" src="{{ asset_url ~ 'orders.svg' }}" alt="">
+                                    <ul class="bg-white border border-black/20 py-4 min-w-[260px] rounded-2xl shadow-[1px_1px_15px_rgba(0,0,0,0.15)]">
+                                      <li class="px-[7px]">
+                                        <a href="/account-orders" class="py-2 px-4 flex items-center justify-start font-normal text-sm text-[#62606f] hover:text-[#7462f4] hover:bg-[#f8f7fe] active:text-[#7462f4] focus:text-[#7462f4] gap-2.5 rounded-2xl">
                                           {{ locals.profile.orders.title }}
                                         </a>
                                       </li>
-                                      <li class="ps-[7px] ">
-                                        <a href="/account-addresses" class="p-2.5 flex items-center justify-start text-black font-normal text-[16px] hover:bg-black hover:bg-opacity-[0.03] gap-2.5">
-                                          <img class="h-5 w-auto" src="{{ asset_url ~ 'location.svg' }}" alt="">
+                                      <li class="px-[7px]">
+                                        <a href="/account-addresses" class="py-2 px-4 flex items-center justify-start font-normal text-sm text-[#62606f] hover:text-[#7462f4] hover:bg-[#f8f7fe] active:text-[#7462f4] focus:text-[#7462f4] gap-2.5 rounded-2xl">
                                           {{ locals.profile.addresses.title }}
                                         </a>
                                       </li>
-                                      <li class="ps-[7px] ">
-                                        <a href="/account-profile" class="p-2.5 flex items-center justify-start text-black font-normal text-[16px] hover:bg-black hover:bg-opacity-[0.03] gap-2.5">
-                                          <img class="h-5 w-auto" src="{{ asset_url ~ 'profile.svg' }}" alt="">
+                                      <li class="px-[7px]">
+                                        <a href="/account-profile" class="py-2 px-4 flex items-center justify-start  font-normal text-sm text-[#62606f] hover:text-[#7462f4] hover:bg-[#f8f7fe] active:text-[#7462f4] focus:text-[#7462f4] gap-2.5 rounded-2xl">
                                           {{ locals.profile.title }}
                                         </a>
                                       </li>
-                                      <li class="ps-[7px] ">
-                                        <a href="/auth/logout" class="p-2.5 flex items-center justify-start text-black font-normal text-[16px] hover:bg-black hover:bg-opacity-[0.03] gap-2.5">
-                                          <img class="h-5 w-auto" src="{{ asset_url ~ 'logout.svg' }}" alt="">
-                                          {{ locals.logout }}
-                                        </a>
+                                      <li class="px-[7px] w-full">
+                                        <form class="w-full" action="/auth/logout" method="POST">
+                                          <button class="py-2 px-4 w-full flex items-center justify-start  font-normal text-sm text-[#62606f] hover:text-[#7462f4] hover:bg-[#f8f7fe] active:text-[#7462f4] focus:text-[#7462f4] gap-2.5 rounded-2xl">
+                                            {{ locals.logout }}
+                                          </button>
+                                        </form>
                                       </li>
                                     </ul>
                                 </div>

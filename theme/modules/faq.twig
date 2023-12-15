@@ -1,0 +1,138 @@
+<div section-id="{{ sectionId }}"
+     class="faq-section max-w-[86rem] px-4 lg:px-0 py-12 mx-auto {% if settings.only == 'mobile' %} block lg:hidden {% elseif settings.only == 'desktop' %} hidden lg:block{% endif %}">
+        {% if settings.title %}
+            <h3 class="text-center font-shamel  !leading-loose font-bold text-3xl lg:text-4xl text-[#27262C]">{{ settings.title }}</h3>
+        {% endif %}
+        {% if settings.subtitle %}
+            <h3 class="text-center font-medium text-lg lg:text-xl text-[3B3A43] mb-3 lg:mb-6">{{ settings.subtitle }}</h3>
+        {% endif %}
+        {% if settings.desc %}
+            <p class="text-center lg:max-w-[60%] text-base lg:text-lg text-[#3B3A43] mb-3 lg:mb-6">{{ settings.desc }}</p>
+        {% endif %}
+
+    <div class="accordions max-w-4xl mx-auto flex flex-col w-full pt-2 lg:pt-6">
+        <ul class="flex flex-col w-full !mb-0 !list-none ps-0">
+        {% for item in settings.items %}
+            <li class="w-full border-t" x-data="accordion({{ loop.index }})">
+                <h2 @click="handleClick()"
+                    class="flex flex-row items-center justify-between py-1 cursor-pointer">
+                    <span class="text-lg text-[#27262C] font-medium">{{ item.question }}</span>
+                    <p x-ref="plus" class="text-[25px] text-primary" style="display: block">+</p>
+                    <p x-ref="minus" class="text-[25px] text-primary" style="display: none">-</p>
+                </h2>
+                <div x-ref="tab"
+                    class="overflow-hidden transition-all duration-500 max-h-0">
+                <div class="text-[14.4px] text-[#3B3A43] text-color-secondary !px-2 mb-[19px] !mt-0.5">
+                    {{ item.answer }}
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<script>
+	function accordion(idx){
+		return {
+			show: false,
+			opener: '',
+			handleClick() {
+				this.show = !this.show;
+				this.$refs.tab.style.maxHeight = this.show ? this.$refs.tab.scrollHeight + 'px' : '0px'
+				this.$refs.plus.style.display = this.show ? 'none' : 'block'
+				this.$refs.minus.style.display = this.show ? 'block' : 'none'
+			}
+		}
+	};
+</script>
+
+
+
+{% schema %}
+{
+  "name": {
+    "ar": "الأسئلة الشائعة",
+    "en": "FAQs"
+  },
+  "icon": "fal fa-plus",
+  "display": true,
+  "settings": {
+    "title": {
+        "type": "text",
+        "label": {
+            "ar": "العنوان",
+            "en": "Title"
+        }
+    },
+    "subtitle": {
+        "type": "text",
+        "label": {
+            "ar": "العنوان الفرعي",
+            "en": "Subtitle"
+        }
+    },
+    "desc": {
+        "type": "textarea",
+        "label": {
+        "ar": "الوصف",
+        "en": "Description"
+      }
+    },
+    "items": {
+      "type": "list",
+      "noLabel": true,
+      "settings_label":{
+        "ar": "الأسئلة",
+        "en": "Questions"
+      },
+      "settings": {
+        "question": {
+          "type": "text",
+          "label": {
+            "ar": "السؤال",
+            "en": "question"
+          }
+        },
+        "answer": {
+          "type": "text",
+          "label": {
+            "ar": "الجواب",
+            "en": "answer"
+          }
+        }
+      }
+    },
+    "only": {
+        "type": "radios",
+        "label": {
+            "ar": "عرض فقط على:",
+            "en": "Show only on:"
+        },
+        "options": [
+            {
+                "value": "all",
+                "label": {
+                "ar": "جميع الاجهزة",
+                "en": "all pages"
+                }
+            },
+            {
+                "value": "mobile",
+                "label": {
+                "ar": "الجوال فقط",
+                "en": "Mobile only"
+                }
+            },
+            {
+                "value": "desktop",
+                "label": {
+                "ar": "اجهزة الكمبيوتر فقط",
+                "en": "Desktop only"
+                }
+            }
+        ]
+    }
+  }
+}
+{% endschema %}

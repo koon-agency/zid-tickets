@@ -62,6 +62,6 @@ document.addEventListener('alpine:init', () => {
         return this.products.find(product => product.sku === sku);
       }
     })
-})
+});
 
 Alpine.start()

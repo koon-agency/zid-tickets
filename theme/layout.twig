@@ -72,6 +72,17 @@
 
     {{ zidapi_script|raw }}
     <script type="text/javascript" src="{{ assetUrl('app.js') }}"></script>
+    <script>
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+    </script>
     {% block footer_scripts %}{% endblock %}
 </body>
 

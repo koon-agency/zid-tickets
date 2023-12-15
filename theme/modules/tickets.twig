@@ -1,0 +1,479 @@
+<div section-id="{{ sectionId }}" id="tickets"
+     class="ticket-section max-w-[86rem] px-4 lg:px-0 py-12 mx-auto {% if settings.only == 'mobile' %} block lg:hidden {% elseif settings.only == 'desktop' %} hidden lg:block{% endif %}">
+        {% if settings.title %}
+            <h3 class="text-start font-shamel  !leading-loose font-bold text-3xl lg:text-4xl text-[#27262C]">{{ settings.title }}</h3>
+        {% endif %}
+        {% if settings.subtitle %}
+            <h3 class="text-start font-medium text-lg lg:text-xl text-[3B3A43] mb-3 lg:mb-6">{{ settings.subtitle }}</h3>
+        {% endif %}
+        {% if settings.desc %}
+            <p class="text-start lg:max-w-[60%] text-base lg:text-lg text-[#3B3A43] mb-3 lg:mb-6">{{ settings.desc }}</p>
+        {% endif %}
+
+    <div class="flex flex-col lg:flex-row gap-14 lg:px-2 py-6 w-full">
+        {% if settings.first_prod %}
+        <div class="bg-cover bg-center py-8 rounded-2xl lg:w-1/2" style="background-image: url('{{ settings.first_bg }}')">
+            <h3 class="text-start font-shamel text-white font-bold text-2xl px-6 lg:text-3xl">{{ settings.first_prod.name }}</h3>
+            <small class="text-white text-start text-lg px-6">Regular Ticket</small>
+
+            <h3 class="text-start text-white font-medium text-xl lg:text-2xl pt-6 px-6">تشمل التذكرة على:</h3>
+            <div class="flex px-6 pt-4" id="first-inc-{{sectionId}}" role="group">
+                {% for key, item in settings.first_inc %}
+                    {% if item.title %}
+                        <div class="flex flex-grow w-full lg:max-w-[50%] pl-2 lg:pl-4">
+                            <div class="flex h-full flex-col w-full items-start p-3 rounded-xl justify-end bg-white/10 border-[1.5px] border-white/30 backdrop-blur-xl">
+                                <div class="flex justify-between items-center w-full">
+                                    <img class="h-20 pb-6" src="{{ imageUrl(item.icon) }}" alt="">
+                                    <p class="text-xl text-white line-through font-bold">690 ر.س</p>
+                                </div>
+                                <p class="text-start font-bold text-lg lg:text-xl text-white">{{ item.title }}</p>
+                                <p class="text-start font-medium text-base text-white/90 mt-2">{{ item.sub }}</p>
+                            </div>
+                        </div>
+                        {% if (loop.index + 1) is even and not loop.last %}
+                        <div class="flex items-center justify-center pl-2 lg:pl-4">
+                            <p class="text-white font-bold text-2xl">+</p>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <h3 class="text-start px-6 text-white font-medium text-xl lg:text-2xl pt-8">بالإضافة إلى:</h3>
+            <div class="splide pr-8 pt-4" id="first-extra-{{sectionId}}" role="group">
+                <div class="splide__track !overflow-visible lg:!overflow-hidden">
+                    <ul class="splide__list pswp-gallery pswp-gallery--single-column">
+                    {% for key, extraitem in settings.first_extra %}
+                        {% if extraitem.title %}
+                            <li class="splide__slide flex pl-2 lg:pl-4">
+                                <div class="flex h-full flex-col w-full items-start p-3 rounded-xl justify-end bg-white/10 border-[1.5px] border-white/30 backdrop-blur-xl">
+                                    <img class="h-20 pb-6" src="{{ imageUrl(extraitem.icon) }}" alt="">
+                                    <p class="text-start font-bold text-base lg:text-lg text-white">{{ extraitem.title }}</p>
+                                    <p class="text-start h-[45px] font-medium text-xs lg:text-sm text-white mt-4 lg:mt-2">{{ extraitem.sub }}</p>
+                                </div>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-center pt-8 gap-4">
+                <p class="text-white/70 font-medium line-through text-base lg:text-lg">
+                    {{ settings.first_prod.price }} ر.س
+                </p>
+                <p class="text-white font-bold text-xl lg:text-2xl">
+                    {{ settings.first_prod.sale_price }} ر.س
+                </p>
+            </div>
+
+            <div class="flex justify-center pt-8">
+                <button onclick="addToCart()" class="text-primary bg-white rounded-xl px-6 lg:px-8 py-4 text-base mb-4 flex items-center group gap-6 font-medium">
+                {{ settings.first_button }}
+                <svg class="h-4 text-primary transition duration-300 transform group-hover:-translate-x-1.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                </svg>
+                </button>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if settings.second_prod %}
+        <div class="bg-cover bg-center py-8 rounded-2xl lg:w-1/2" style="background-image: url('{{ settings.second_bg }}')">
+            {% if settings.second_prod %}
+                <div class="w-full flex justify-between">
+                    <div class="">
+                        <h3 class="text-start w-full font-shamel px-6 text-white font-bold text-2xl lg:text-3xl lg:w-auto">{{ settings.second_prod.name }}</h3>
+                        <small class="text-white px-6 text-start text-lg">VIP Ticket</small>
+                    </div>
+                    <p class="text-white pl-6 lg:px-6 text-start text-lg">تذاكر محدودة</p>
+                </div>
+            {% endif %}
+
+            <h3 class="text-start text-white font-medium text-xl lg:text-2xl pt-6 px-6">تشمل التذكرة على:</h3>
+            <div class="flex flex-col lg:flex-row px-6 pt-4" id="second-inc-{{sectionId}}" role="group">
+                {% for key, item in settings.second_inc %}
+                    {% if item.title %}
+                        <div class="flex flex-grow max-w-full lg:max-w-[50%] pl-2 lg:pl-4">
+                            <div class="flex h-full flex-col w-full items-start p-3 rounded-xl justify-end bg-white/5 border-[1.5px] border-white/20 backdrop-blur-xl">
+                                <div class="flex justify-between items-center w-full">
+                                    <img class="h-20 pb-6" src="{{ imageUrl(item.icon) }}" alt="">
+                                    <p class="text-xl text-white line-through font-bold">2300 ر.س</p>
+                                </div>
+                                <p class="text-start font-bold text-lg lg:text-xl text-white">{{ item.title }}</p>
+                                <p class="text-start font-medium text-base text-white/90 mt-2">{{ item.sub }}</p>
+                            </div>
+                        </div>
+                        {% if (loop.index + 1) is even and not loop.last %}
+                        <div class="flex items-center justify-center pl-2 lg:pl-4">
+                            <p class="text-white font-bold text-2xl">+</p>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <h3 class="text-start text-white font-medium text-xl lg:text-2xl pt-8  px-6">بالإضافة إلى:</h3>
+            <div class="splide pr-8 pt-4" id="second-extra-{{sectionId}}" role="group">
+                <div class="splide__track !overflow-visible lg:!overflow-hidden">
+                    <ul class="splide__list pswp-gallery pswp-gallery--single-column">
+                    {% for key, extraitem in settings.second_extra %}
+                        {% if extraitem.title %}
+                            <li class="splide__slide flex pl-2 lg:pl-4">
+                                <div class="flex h-full flex-col w-full items-start p-3 rounded-xl justify-end bg-white/5 border-[1.5px] border-white/20 backdrop-blur-xl">
+                                    <img class="h-20 pb-6" src="{{ imageUrl(extraitem.icon) }}" alt="">
+                                    <p class="text-start font-bold text-base lg:text-lg text-white">{{ extraitem.title }}</p>
+                                    <p class="text-start h-[45px] font-medium text-xs lg:text-sm text-white mt-4 lg:mt-2">{{ extraitem.sub }}</p>
+                                </div>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-center pt-8 gap-4">
+                <p class="text-white/70 font-medium line-through text-base lg:text-lg">
+                    {{ settings.second_prod.price }} ر.س
+                </p>
+                <p class="text-white font-bold text-xl lg:text-2xl">
+                    {{ settings.second_prod.sale_price }} ر.س
+                </p>
+            </div>
+
+            <div class="flex justify-center pt-8">
+                <a href="{{ settings.second_prod.html_url }}" class="text-primary bg-white rounded-xl px-6 lg:px-8 py-4 text-base mb-4 flex items-center group gap-6 font-medium">
+                {{ settings.second_button }}
+                <svg class="h-4 text-primary transition duration-300 transform group-hover:-translate-x-1.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                </svg>
+                </a>
+            </div>
+        </div>
+    {% endif %}
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  new Splide(document.getElementById('first-extra-{{sectionId}}'), {
+    type : 'slide',
+    direction: 'rtl',
+    perPage: 2,
+    drag   : 'free',
+    snap   : true,
+    padding: {
+      right: 0,
+      left: '11.25%'
+    },
+    breakpoints: {
+      720: {
+        perPage: 2,
+        padding: {
+            right: 0,
+            left: '11.25%'
+        },
+      }
+    },
+    arrows: false,
+    pagination: false,
+    autoScroll: {
+      speed: 0.35,
+      pauseOnHover: false,
+      pauseOnFocus: false
+    },
+  }).mount();
+});
+document.addEventListener('DOMContentLoaded', function() {
+  new Splide(document.getElementById('second-extra-{{sectionId}}'), {
+    type : 'slide',
+    direction: 'rtl',
+    perPage: 2,
+    drag   : 'free',
+    snap   : true,
+    padding: {
+      right: 0,
+      left: '11.25%'
+    },
+    breakpoints: {
+      720: {
+        perPage: 2,
+        padding: {
+            right: 0,
+            left: '11.25%'
+        },
+      }
+    },
+    arrows: false,
+    pagination: false,
+    autoScroll: {
+      speed: 0.35,
+      pauseOnHover: false,
+      pauseOnFocus: false
+    },
+  }).mount();
+});
+</script>
+
+<script>
+async function addToCart(id) {
+    await zid.store.cart.removeProducts();
+        await zid.store.cart.addProduct({ productId: '5e4f8167-a4cc-47b6-ad6b-7388908e04be', quantity: 1 }).then(async (response) => {
+            if(response.status  === 'success'){
+				window.location.href= '{% if customer %}/checkout/choose-address-and-shipping{% else %}/auth/login?redirect_to=/checkout/choose-address-and-shipping{% endif %}'
+                //setCartBadge(response.data.cart.products_count)
+            }
+    });
+}
+</script>
+
+
+{% schema %}
+{
+  "name": {
+    "ar": "تذاكر",
+    "en": "Tickets"
+  },
+  "icon": "fal fa-ticket",
+  "display": true,
+  "settings": {
+    "title": {
+        "type": "text",
+        "label": {
+            "ar": "العنوان",
+            "en": "Title"
+        }
+    },
+    "subtitle": {
+        "type": "text",
+        "label": {
+            "ar": "العنوان الفرعي",
+            "en": "Subtitle"
+        }
+    },
+    "desc": {
+        "type": "textarea",
+        "label": {
+        "ar": "الوصف",
+        "en": "Description"
+      }
+    },
+    "first": {
+        "type": "fieldset",
+        "label": {
+            "ar": "التذكرة الاولى",
+            "en": "First Ticket"
+        },
+        "expandable": true,
+        "settings": {
+            "bg": {
+                "type": "image",
+                "label": {
+                    "ar": "الخلفية",
+                    "en": "Background"
+                }
+            },
+            "prod": {
+                "type": "product",
+                "label": {
+                    "ar": "المنتج",
+                    "en": "Product"
+                }
+            },
+            "button": {
+                "type": "text",
+                "label": {
+                    "ar": "محتوى الزر",
+                    "en": "Button text"
+                }
+            },
+            "inc": {
+                "type": "list",
+                "noLabel": true,
+                "settings_label":{
+                    "ar": ":تشمل التذكرة على",
+                    "en": "Includes:"
+                },
+                "settings": {
+                    "icon": {
+                        "type": "image",
+                        "label": {
+                            "ar": "الايقونة",
+                            "en": "text"
+                        }
+                    },
+                    "title": {
+                        "type": "text",
+                        "label": {
+                            "ar": "العنوان",
+                            "en": "text"
+                        }
+                    },
+                    "sub": {
+                        "type": "text",
+                        "label": {
+                            "ar": "فرعي",
+                            "en": "subtitle"
+                        }
+                    }
+                }
+            },
+            "extra": {
+                "type": "list",
+                "noLabel": true,
+                "settings_label":{
+                    "ar": "بالإضافة",
+                    "en": "Extra:"
+                },
+                "settings": {
+                    "icon": {
+                        "type": "image",
+                        "label": {
+                            "ar": "الايقونة",
+                            "en": "text"
+                        }
+                    },
+                    "title": {
+                        "type": "text",
+                        "label": {
+                            "ar": "العنوان",
+                            "en": "text"
+                        }
+                    },
+                    "sub": {
+                        "type": "text",
+                        "label": {
+                            "ar": "فرعي",
+                            "en": "subtitle"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "second": {
+        "type": "fieldset",
+        "label": {
+            "ar": "التذكرة الثانية",
+            "en": "Second Ticket"
+        },
+        "expandable": true,
+        "settings": {
+            "bg": {
+                "type": "image",
+                "label": {
+                    "ar": "الخلفية",
+                    "en": "Background"
+                }
+            },
+            "prod": {
+                "type": "product",
+                "label": {
+                    "ar": "المنتج",
+                    "en": "Product"
+                }
+            },
+            "button": {
+                "type": "text",
+                "label": {
+                    "ar": "محتوى الزر",
+                    "en": "Button text"
+                }
+            },
+            "inc": {
+            "type": "list",
+            "noLabel": true,
+            "settings_label":{
+                "ar": ":تشمل التذكرة على",
+                "en": "Includes:"
+            },
+            "settings": {
+                "icon": {
+                    "type": "image",
+                    "label": {
+                        "ar": "الايقونة",
+                        "en": "text"
+                    }
+                },
+                "title": {
+                    "type": "text",
+                    "label": {
+                        "ar": "العنوان",
+                        "en": "text"
+                    }
+                },
+                "sub": {
+                    "type": "text",
+                    "label": {
+                        "ar": "فرعي",
+                        "en": "subtitle"
+                    }
+                }
+            }
+            },
+            "extra": {
+            "type": "list",
+            "noLabel": true,
+            "settings_label":{
+                "ar": "بالإضافة",
+                "en": "Extra:"
+            },
+            "settings": {
+                "icon": {
+                    "type": "image",
+                    "label": {
+                        "ar": "الايقونة",
+                        "en": "text"
+                    }
+                },
+                "title": {
+                    "type": "text",
+                    "label": {
+                        "ar": "العنوان",
+                        "en": "text"
+                    }
+                },
+                "sub": {
+                    "type": "text",
+                    "label": {
+                        "ar": "فرعي",
+                        "en": "subtitle"
+                    }
+                }
+            }
+            }
+        }
+    },
+    "only": {
+        "type": "radios",
+        "label": {
+            "ar": "عرض فقط على:",
+            "en": "Show only on:"
+        },
+        "options": [
+            {
+                "value": "all",
+                "label": {
+                "ar": "جميع الاجهزة",
+                "en": "all pages"
+                }
+            },
+            {
+                "value": "mobile",
+                "label": {
+                "ar": "الجوال فقط",
+                "en": "Mobile only"
+                }
+            },
+            {
+                "value": "desktop",
+                "label": {
+                "ar": "اجهزة الكمبيوتر فقط",
+                "en": "Desktop only"
+                }
+            }
+        ]
+    }
+  }
+}
+{% endschema %}

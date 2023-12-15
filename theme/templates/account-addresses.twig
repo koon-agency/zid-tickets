@@ -7,45 +7,38 @@
 {% block main_content %}
 
     <section class="account account-addresses">
-        <div class="w-full border-y border-y-[#ececec] bg-[#f7f7f7]">
-            <div class="p-[15px] min-h-[60px]">
-                <h1 class="font-black text-black text-[1.4em] lg:text-[1.7em] leading-5 text-center uppercase">
-                    {{ locals.profile.my_account }}
-                </h1>
-            </div>
-        </div>
-
-
         {% embed 'container.common.twig' with {'class': 'w-full mt-[15px] mb-[30px] max-w-5xl'} %}
             {% block content %}
+            <div class="w-full">
+                <div class="p-[15px] py-8 min-h-[60px]">
+                    <h1 class="font-black text-black grad-text font-shamel text-[1.4em] lg:text-[1.7em] text-start uppercase">
+                        {{ locals.profile.my_account }}
+                    </h1>
+                </div>
+            </div>
                 <div class="flex">
-                    <div class="flex-[1] border-e border-e-[#ececec] ps-[15px] pb-[30px]">
+                    <div class="flex-[1] border-e border-e-[#ececec] px-[15px] pb-[30px]">
                         <div class="w-full flex gap-[15px] items-center justify-start">
-                            <img class="w-[70px]" src="{{ asset_url ~ 'bear.svg' }}" alt="">
                             <p class="text-black text-base text-start">{{ customer.name }}</p>
                         </div>
                         <ul class="mt-[15px] flex flex-col">
-                            <li class="hover:border-r-[3px] hover:border-r-[#0a0a0a] transition duration-300">
-                                <a class="flex justify-start items-center gap-[15px] py-2.5 font-semibold text-[12.8px] uppercase text-[#666666d9] hover:text-[#121212d9]" href="/account-orders">
-                                    <img class="h-5 w-auto" src="{{ asset_url ~ 'orders.svg' }}" alt="">
-                                    {{ locals.profile.orders.title }}
-                                </a>
-                            </li>
-                            <li class="border-t border-t-[#ececec] border-r-[3px] border-r-[#0a0a0a]">
-                                <a class="flex justify-start items-center gap-[15px] py-2.5 font-semibold text-[12.8px] uppercase text-[#121212d9]" href="/account-addresses">
-                                    <img class="h-5 w-auto" src="{{ asset_url ~ 'location.svg' }}" alt="">
-                                    {{ locals.profile.addresses.title }}
-                                </a>
-                            </li>
-                            <li class="border-t border-t-[#ececec] hover:border-r-[3px] hover:border-r-[#0a0a0a] transition duration-300">
+                            <li class="transition duration-300">
                                 <a class="flex justify-start items-center gap-[15px] py-2.5 font-semibold text-[12.8px] uppercase text-[#666666d9] hover:text-[#121212d9]" href="/account-profile">
-                                    <img class="h-5 w-auto" src="{{ asset_url ~ 'profile.svg' }}" alt="">
                                     {{ locals.profile.title }}
                                 </a>
                             </li>
-                            <li class="border-t border-t-[#ececec] hover:border-r-[3px] hover:border-r-[#0a0a0a] transition duration-300">
+                            <li class="transition duration-300">
+                                <a class="flex justify-start items-center gap-[15px] py-2.5 font-semibold text-[12.8px] uppercase text-[#666666d9] hover:text-[#121212d9]" href="/account-orders">
+                                    {{ locals.profile.orders.title }}
+                                </a>
+                            </li>
+                            <li class="bg-[#f8f7fe] rounded-2xl px-4 py-1.5">
+                                <a class="flex justify-start items-center gap-[15px] py-2.5 font-semibold text-[12.8px] uppercase text-[#7462f4]" href="/account-addresses">
+                                    {{ locals.profile.addresses.title }}
+                                </a>
+                            </li>
+                            <li class="transition duration-300">
                                 <a class="flex justify-start items-center gap-[15px] py-2.5 font-semibold text-[12.8px] uppercase text-[#666666d9] hover:text-[#121212d9]" href="/auth/logout">
-                                    <img class="h-5 w-auto" src="{{ asset_url ~ 'logout.svg' }}" alt="">
                                     {{ locals.logout }}
                                 </a>
                             </li>

@@ -32,7 +32,8 @@
 					</p>
 				</div>
 				<div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
-					<section id="product-images" class="splide group mb-12" aria-label="Splide Basic HTML Example" dir="ltr">
+				<div>
+					<section id="product-images" class="splide group mb-4" aria-label="Splide Basic HTML Example" dir="ltr">
 						<div class="splide__arrows">
 							<button class="splide__arrow splide__arrow--prev lg:!opacity-0 group-hover:!opacity-100 transition-opacity duration-300 !-left-px rtl:right-auto !h-full !rounded-none !w-[24px] lg:!w-[30px]">
 								<svg class="flickity-button-icon text-[#111] !h-[24px] !w-[24px] lg:!h-[30px] lg:!w-[30px]" fill="currentColor" viewBox="0 0 100 100"><path d="M 10,50 L 60,100 L 70,90 L 30,50  L 70,10 L 60,0 Z" class="arrow" transform="translate(100, 100) rotate(180) "></path></svg>
@@ -53,111 +54,120 @@
 							</ul>
 						</div>
 					</section>
-					<div class="product-details pt-[30px]">
-						<h1 class="product-title text-[1.4em] lg:text-[1.75em] font-black text-start lg:text-center text-black mb-2 lg:mb-[33.6px]">{{ product.name }}</h1>
-						<div class="text-sm lg:text-[20.8px] text-black lg:font-black text-start lg:text-center mb-[20.8px]" id="price">
+				</div>
+					
+					<div class="product-details pt-4">
+						<h1 class="product-title font-shamel text-[1.4em] lg:text-[1.75em] font-black text-center lg:text-start text-black mb-2 lg:mb-[33.6px]">{{ product.name }}</h1>
+						<div class="flex items-center justify-center lg:justify-start gap-6">
 							{% if product.selected_product.formatted_sale_price %}
-								{{ product.selected_product.formatted_sale_price }}
-							{% else %}
-								{{ product.selected_product.formatted_price }}
-							{% endif %}
-						</div>
-						{% if product.selected_product.formatted_sale_price %}
-							<div class="text-sm text-light-400 opacity-60 mb-[20.8px]" id="old-price">
-								{{ product.selected_product.formatted_sale_price }}
-							</div>
-						{% endif %}
-
-						
-						<div id="out-of-stock-section" class="flex flex-col mb-[30.8px] {% if not product.selected_product.out_of_stock %}hidden{% endif %}">
-							<div class="flex items-center justify-center text-center gap-1">
-								<span class="dot pulse red"></span>
-								<p class="text-[14.4px] text-[#e83c3c]">{{ locals.out_of_stock }}</p>
-							</div>
-							<p class="text-[14.4px] mt-2 mb-[13.9px] text-[#020202]">{{ locals.out_of_stick_desc }}</p>
-							<div id="out-of-stock-body" class="flex flex-col items-center justify-center w-full">
-								<input type="hidden" id="send-notify-product-id" value="{{ product.selected_product.id }}">
-								<input id="send-notify-email" class="border border-[#ddd] mb-[13.9px] active:outline-none focus:outline-none focus:shadow-[0_0_5px_#ccc] text-[#333] bg-white shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)] hover:shadow-[inset_0_-1.8em_1em_0_transparent] text-[0.97em] h-[2.507em] px-3 w-full"
-									type="email" name="email" id="" placeholder="{{ locals.email }}">
-								<button onclick="sendProductNotifyMe()" class="btn text-[14.4px] bg-[#020202] text-white uppercase px-[17.28px] min-h-[36.px] flex items-center justify-center font-bold">
-									{{ locals.join_waitlist }}
-								</button>
-							</div>
-						</div>
-						<div id="in-stock-section" class="flex items-center justify-center text-center gap-1 mb-[20.8px] {% if product.selected_product.out_of_stock %}hidden{% endif %}">
-							<span class="dot pulse green"></span>
-							<p class="text-[14.4px] text-[#7a9c59]">{{ locals.in_stock }}</p>
-							<p class="text-[14.4px] text-[#020202]"> - {{ locals.delivery }}</p>
-						</div>
-
-						
-						<form id="product-form" class="w-full">
-						<input id="product-id" type="hidden" value="{{ product.selected_product.id }}">
-						<input id="product-quantity" type="hidden" name="quantity" value="1" />
-						<div>
-							{% if product.has_variants %}
-								<input id="product-parent-id" type="hidden" value="{{ product.id }}">
-								<div id="product-variants-options" class="flex flex-col">
-									{% for index,option in product.options %}
-										{% set type = "other" %}
-										{% if 'COLOR' in (option.name | upper) or 'لون' in option.name or 'لوان' in option.name %}
-											{% set type = "color" %}
-										{% endif %}
-										<div class="form-group w-full {% if type == 'color' %} order-10 {% endif %}">
-											<div class="w-full text-start lg:text-center mb-4">
-												<label class="{% if type != 'color' %} hidden {% endif %}text-start lg:text-center font-bold pb-2 text-black text-sm block">{{option.name}}</label>
-												<ul name="{{ option.name }}" index="{{ index }}" class="w-full flex flex-wrap items-center justify-start lg:justify-center gap-[10px]">
-													{% for index, choice in option.choices %}
-														{% if type == 'color' %}
-															{% set bg = "#010101" %}
-															{% set attrid = "" %}
-
-															{% for attr in product.attributes %}
-																{% if 'COLOR' in (attr.name | upper) or 'لون' in attr.name or 'لوان' in attr.name %}
-																	{% if (choice | upper) == (attr.value | upper) %}
-																		{% set bg = attr.type_value %}
-																		{% set attrid = attr.id %}
-																	{% endif %}
-																{% endif %}
-															{% endfor %}
-															<li value="{{ choice }}" id="color-{{ attrid }}" class="choice cursor-pointer rounded-[2px] !p-[2px] color-choice h-[30px]  w-[30px] {% if product.selected_product.attributes[0].value == choice or product.selected_product.attributes[1].value == choice %} active {% endif %}"
-																onclick="productOptionListItemClicked(event)">
-																<div class="color rounded-[2px] h-full w-full" style="background-color: {{ bg }}"></div>
-															</li>
-														{% else %}
-															<li value="{{ choice }}" x-data="{'name': '{{ choice }}'}"
-															:class="{'w-[30px] lg:w-[40px]': name.length < 4, 'px-2': name.length > 4}"
-															class="choice cursor-pointer h-[30px] text-[12px] lg:h-[40px] border font-bold text-black border-black flex items-center justify-center{% if product.selected_product.attributes[0].value == choice or product.selected_product.attributes[1].value == choice %} active {% endif %}"
-																onclick="productOptionListItemClicked(event)">
-																<span>{{choice}}</span>
-															</li>
-														{% endif %}
-													{% endfor %}
-												</ul>
-											</div>
-										</div>
-									{% endfor %}
+								<div class="text-sm font-medium text-light-400 line-through opacity-60" id="old-price">
+									{{ product.selected_product.formatted_price }}
 								</div>
 							{% endif %}
+							<div class="text-base lg:text-lg text-black font-medium text-start lg:text-center" id="price">
+								{% if product.selected_product.formatted_sale_price %}
+									{{ product.selected_product.formatted_sale_price }}
+								{% else %}
+									{{ product.selected_product.formatted_price }}
+								{% endif %}
 							</div>
+						</div>
+						
+						<form id="product-form" class="w-full mt-6">
+							<input id="product-id" type="hidden" value="{{ product.selected_product.id }}">
+							<input id="product-quantity" type="hidden" name="quantity" value="1" />
 							<div class="w-full mt-4">
 								<button id="add-unavailable" type="button" class="{% if not product.selected_product.out_of_stock %}hidden {% endif %} w-full bg-[#4b9960] text-white uppercase text-[.97em] font-bolder px-[1.2em] min-h-[3.1em] text-center cursor-default">
 									{{ locals.add_to_cart }}
 								</button>
-								<button id="add-to-cart" type="button" class="{% if product.selected_product.out_of_stock %}hidden {% endif %} w-full bg-[#4b9960] btn text-white uppercase text-[.97em] font-bolder px-[1.2em] min-h-[3.1em] text-center" onclick="productAddToCart()">
-									{{ locals.add_to_cart }}
-								</button>
-							</div>
+								
+								{% if product.id == '876028ff-7970-48ec-bfb3-fc32c3cf658f' %}
+								<p class="text-[#3B3A43] mb-5 text-sm lg:text-base text-center lg:text-start">
+									تذكرة استثنائية بوصول كامل لجميع مزايا الحدث مع اشتراكات زد السنوية بتوفير يتجاوز 4600 ريال!
+								</p>
+								{% else %}
+								<p class="text-[#3B3A43] mb-5 text-sm lg:text-base text-center lg:text-start">
+									تحوّل لتاجر في التجزئة الحديثة وتعلّم كل ما تحتاجه للانطلاقة مع حصولك على متجر إلكتروني
+								</p>
+								{% endif %}
 
-							<div class="hidden" id="product-description">
-								{{ product.description | raw }}
+								{% if product.id == '876028ff-7970-48ec-bfb3-fc32c3cf658f' %}
+								<button id="add-to-cart" type="button" style="background-image: url('https://media.zid.store/5c564f61-1c33-4b8a-ac98-96ff41867d1b/100e0e54-d3cf-4948-8058-3fe3b78a29b4.png')" class="{% if product.selected_product.out_of_stock %}hidden {% endif %}  text-white bg-cover rounded-xl px-6 lg:px-8 py-4 text-base mb-4 mx-auto lg:mx-0 flex items-center group gap-6 font-medium" onclick="productAddToCart()">
+									احجز تذكرة البريميوم الآن
+									<svg class="h-4 text-white transition duration-300 transform group-hover:-translate-x-1.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+									</svg>
+								</button>
+								{% else %}
+								<button id="add-to-cart" type="button" class="{% if product.selected_product.out_of_stock %}hidden {% endif %}  text-white bg-primary rounded-xl px-6 lg:px-8 py-4 text-base mb-4 mx-auto lg:mx-0 flex items-center group gap-6 font-medium" onclick="productAddToCart()">
+									احجز تذكرة الانطلاقة الآن
+									<svg class="h-4 text-white transition duration-300 transform group-hover:-translate-x-1.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+									</svg>
+								</button>
+								{% endif %}
 							</div>
-							<div x-data="description()" id="product-accordion" class="mt-4">
-								<template x-for="element in elements">
-									<div class="w-full" x-html="element"></div>
-								</template>
-							</div>
+						{% if product.id == '876028ff-7970-48ec-bfb3-fc32c3cf658f' %}
+						<div class="mb-12">
+							<img class="w-full" src="https://f.top4top.io/p_2905kal0r1.jpg" alt="">
+						</div>
+						{% else %}
+						<div class="mb-12">
+							<img class="w-full" src="https://h.top4top.io/p_2905ueffg1.jpg" alt="">
+						</div>
+						{% endif %}
+
+						{% if product.id == '876028ff-7970-48ec-bfb3-fc32c3cf658f' %}
+						<button id="add-to-cart" type="button" style="background-image: url('https://media.zid.store/5c564f61-1c33-4b8a-ac98-96ff41867d1b/100e0e54-d3cf-4948-8058-3fe3b78a29b4.png')" class="{% if product.selected_product.out_of_stock %}hidden {% endif %}  text-white bg-cover rounded-xl px-6 lg:px-8 py-4 text-base mb-4 mx-auto lg:mx-0 flex items-center group gap-6 font-medium" onclick="productAddToCart()">
+							احجز تذكرة البريميوم الآن
+							<svg class="h-4 text-white transition duration-300 transform group-hover:-translate-x-1.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+							</svg>
+						</button>
+						{% else %}
+						<button id="add-to-cart" type="button" class="{% if product.selected_product.out_of_stock %}hidden {% endif %}  text-white bg-primary rounded-xl px-6 lg:px-8 py-4 text-base mb-4 mx-auto lg:mx-0 flex items-center group gap-6 font-medium" onclick="productAddToCart()">
+							احجز تذكرة الانطلاقة الآن
+							<svg class="h-4 text-white transition duration-300 transform group-hover:-translate-x-1.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+							</svg>
+						</button>
+						{% endif %}
 						</form>
+						{# <div class="mb-12">
+							<h3 class="text-center font-shamel  !leading-loose font-bold text-3xl lg:text-4xl text-[#27262C] mb-6">الأسئلة الشائعة</h3>
+							<div class="accordions flex flex-col w-full tailwind">
+								<ul class="flex flex-col w-full !mb-0 !list-none ps-0">
+									<li class="w-full border-t" x-data="accordion(1)">
+										<h2 @click="handleClick()"
+											class="flex flex-row items-center justify-between py-1 cursor-pointer">
+											<span class="text-lg text-[#27262C] font-medium">سؤال</span>
+											<p x-ref="plus" class="text-[25px] text-primary" style="display: block">+</p>
+											<p x-ref="minus" class="text-[25px] text-primary" style="display: none">-</p>
+										</h2>
+										<div x-ref="tab"
+											class="overflow-hidden transition-all duration-500 max-h-0">
+										<div class="text-[14.4px] text-[#3B3A43] text-color-secondary !px-2 mb-[19px] !mt-0.5">
+											جواب
+											</div>
+										</div>
+									</li>
+									<li class="w-full border-t" x-data="accordion(1)">
+										<h2 @click="handleClick()"
+											class="flex flex-row items-center justify-between py-1 cursor-pointer">
+											<span class="text-lg text-[#27262C] font-medium">2222</span>
+											<p x-ref="plus" class="text-[25px] text-primary" style="display: block">+</p>
+											<p x-ref="minus" class="text-[25px] text-primary" style="display: none">-</p>
+										</h2>
+										<div x-ref="tab"
+											class="overflow-hidden transition-all duration-500 max-h-0">
+										<div class="text-[14.4px] text-[#3B3A43] !px-2 mb-[19px] !mt-0.5">
+											222
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div> #}
 					</div>
 				</div>
 			</div>
@@ -172,205 +182,23 @@
 	}
 }
 </style>
+<script>
+	function accordion(idx){
+		return {
+			show: false,
+			opener: '',
+			handleClick() {
+				this.show = !this.show;
+				this.$refs.tab.style.maxHeight = this.show ? this.$refs.tab.scrollHeight + 'px' : '0px'
+				this.$refs.plus.style.display = this.show ? 'none' : 'block'
+				this.$refs.minus.style.display = this.show ? 'block' : 'none'
+			}
+		}
+	};
+</script>
 
 {% block footer_scripts %}
     {{ product_view_scripts|raw }}
-	<script>
-	window.sendNotifyInProgress = false;
-		function sendProductNotifyMe() {
-			if (window.sendNotifyInProgress) 
-				return;
-
-			email = document.getElementById('send-notify-email').value;
-			productId = document.getElementById('send-notify-product-id').value;
-			if (!email || !productId) {
-				return;
-			}
-			
-            window.sendNotifyInProgress = true;
-			document.getElementById('out-of-stock-body').innerHTML = `<img class="h-8" src="{{ asset_url ~ 'spinner.gif' }}" />`
-            zid.store.product.setAvailabilityNotificationEmail(productId, email).then(function (response) {
-                if(response.status  === 'success'){
-                    document.getElementById('out-of-stock-body').innerHTML = `<p class="text-[14.4px] text-[#020202]"> {{ locals.notify_me_success }}</p>`
-                }else{
-					document.getElementById('out-of-stock-body').innerHTML = `<p class="text-[14.4px] text-[#020202]"> {{ locals.sorry }}</p>`
-                }
-				window.sendNotifyInProgress = false;
-            })
-        }
-	</script>
-
-	<script>
-	function resetNotifySection(id) {
-		email = "{{ locals.email }}"
-		join_waitlist = "{{ locals.join_waitlist }}"
-		document.getElementById('out-of-stock-body').innerHTML = `
-			<div id="out-of-stock-body" class="flex flex-col items-center justify-center w-full">
-				<input type="hidden" id="send-notify-product-id" value="${ id }">
-				<input id="send-notify-email" class="border border-[#ddd] mb-[13.9px] active:outline-none focus:outline-none focus:shadow-[0_0_5px_#ccc] text-[#333] bg-white shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)] hover:shadow-[inset_0_-1.8em_1em_0_transparent] text-[0.97em] h-[2.507em] px-3 w-full"
-					type="email" name="email" id="" placeholder="${email}">
-				<button onclick="sendProductNotifyMe()" class="btn bg-[#020202] text-white uppercase px-[18.5px] min-h-[2.5em] flex items-center justify-center font-bold">
-					${join_waitlist}
-				</button>
-		</div>`
-	}
-	</script>
-	<script>
-		{% for index,option in product.options %}
-			{% if 'COLOR' in (option.name | upper) or 'لون' in option.name or 'لوان' in option.name %}
-				{% for index, choice in option.choices %}
-					{% for attr in product.attributes %}
-						{% if 'COLOR' in (attr.name | upper) or 'لون' in attr.name or 'لوان' in attr.name %}
-							{% if (choice | upper) == (attr.value | upper) %}
-								tippy('#color-{{ attr.id }}', {
-									content: '{{ choice }}',
-								});
-							{% endif %}
-						{% endif %}
-					{% endfor %}
-				{% endfor %}
-			{% endif %}
-		{% endfor %}
-	</script>
-
-	<script>
-	function accordion(idx){
-                return {
-                    show: false,
-                    handleClick() {
-                        this.show = !this.show;
-                    },
-                    handlePlus() {
-                        return this.show ? 'hidden' : 'block';
-                    },
-                    handleMinus() {
-                        return this.show ? 'block' : 'hidden';
-                    },
-                    handleToggle() {
-                        return this.show ? `max-height: ${this.$refs.tab.scrollHeight}px` : '';
-                    }
-                }
-            };
-	</script>
-
-	<script>
-		function description() {
-			return {
-				headers: ["DETAILS", "SIZE & FIT", "SUSTAINABLE MATERIALS & CARE", "SHIPPING", "RETURNS", "PAYMENT"],
-				data: {
-					"DETAILS": []
-				},
-				elements: [],
-				init() {
-					this.pointer = this.data["DETAILS"]
-					let description = document.getElementById('product-description');
-					this.parseHtmlElement(description).then(() => {
-						Object.keys(this.data).forEach((key) => {
-							this.elements.push(this.createAccordionElement(key, this.data[key]))
-						})
-						{% if session.lang.code == 'ar' %}
-						if (!Object.keys(this.data).includes("SHIPPING")) {
-							this.elements.push(this.createAccordionElement("SHIPPING", `<ul class="list-disc list-inside pl-5"><li>مدة التوصيل: 1-5 أيام .</li><li>تكلفة التوصيل 25 ر.س.</li><li>عندما تكون شحنتك في طريقها اليك سوف يصلك بريد الكتروني للتأكيد وتتبّع الشحنة.</li><li>للمزيد من المعلومات يرجى <a href="/blogs/payment-shipping-and-returns">زيارة صفحة الأسئلة المتكررة</a>.</li>`))
-						}
-						if (!Object.keys(this.data).includes("PAYMENT")) {
-							this.elements.push(this.createAccordionElement("PAYMENT", `{% include 'payment-icons.twig' %}`))
-						}
-						if (!Object.keys(this.data).includes("RETURNS")) {
-							this.elements.push(this.createAccordionElement("RETURNS", `<ul class="list-disc list-inside pl-5"><li>يمكنكم استبدال المنتجات خلال فترة 14 يوم من تاريخ الشراء كما يمكنكم الارجاع خلال فترة 3 ايام من تاريخ الشراء .</li><li>سوف يتم استرجاع قيمة المنتجات خلال فترة 14 يوم عمل وسيتم اخباركم من خلال البريد الالكتروني .</li><li>يجب ان تكون المنتجات المستبدلة او المرتجعة بنفس حالتها الاصلية عند الشراء.</li></ul>`))
-						}
-						{% else %}
-						if (!Object.keys(this.data).includes("SHIPPING")) {
-							this.elements.push(this.createAccordionElement("SHIPPING", `<ul class="list-disc list-inside pl-5"><li>Shipping time: 1-5 business days.</li><li>The shipping costs is 25 SR.</li><li>As soon as your order is on its way to you, you will receive a shipping confirmation with a tracking link via email.</li><li>For more information you can <a href="/blogs/payment-shipping-and-returns">visit FAQ page</a>.</li>`))
-						}
-						if (!Object.keys(this.data).includes("PAYMENT")) {
-							this.elements.push(this.createAccordionElement("PAYMENT", `{% include 'payment-icons.twig' %}`))
-						}
-						if (!Object.keys(this.data).includes("RETURNS")) {
-							this.elements.push(this.createAccordionElement("RETURNS", `<ul class="list-disc list-inside pl-5"><li>You may return products within 14  days from the date of purchase to exchange your items or 3 days for refunds.</li><li>You will receive the refund within 3 to 12 working Days. We will send you an e-mail to confirm your return.</li><li>Any items returned must be in the same condition in which you received them.</li></ul>`))
-						}
-						{% endif %}
-					})
-				},
-				trans(word) {
-					{% if session.lang.code == 'ar' %}
-						dict = {
-						'DETAILS': 'وصف المنتج',
-						'SIZE & FIT': 'المقاسات',
-						'SUSTAINABLE MATERIALS & CARE': 'المواد المستدامة والعناية',
-						'SHIPPING': 'التوصيل',
-						'RETURNS': 'الاسترجاع',
-						'PAYMENT': 'الدفع'
-					}
-					return dict[word]
-					{% else %}
-					return word
-					{% endif %}
-					
-				},
-				createAccordionElement(title, content) {
-					if (Array.isArray(content[0])) {
-						content = "<ul class='list-disc list-inside pl-5'><li>" + content[0].join("</li><li>") + "</li></ul>"
-					}
-					{# if (content.length >= 1 && Array.isArray(content)) {
-						content = "<ul class='list-disc list-inside pl-5'><li>" + content.join("</li><li>") + "</li></ul>"
-					} #}
-					template = `<div class="accordions flex flex-col w-full">
-                <ul class="flex flex-col w-full">
-                    <li class="w-full bg-white border-t border-t-[#EEF1F4]" x-data="accordion(1)">
-                            <h2 @click="handleClick()"
-                                class="flex flex-row items-center justify-between py-[2px] cursor-pointer">
-								<span class="text-primary text-[0.9em] font-bold">${this.trans(title)}</span>
-								<p :class="handlePlus()" class="text-[25px] text-primary">+</p>
-								<p :class="handleMinus()" class="text-[25px] text-primary">-</p>
-                            </h2>
-                            <div x-ref="tab" :style="handleToggle()"
-                            class="overflow-hidden transition-all duration-500 max-h-0">
-                            <div class="text-[14.4px] text-[#020202] px-2 mb-[19px] mt-0.5">
-							${content}
-							</div>
-                            </div>
-                        </li>
-                </ul>
-            </div>`;
-					return template
-				},
-				async parseHtmlElement(element) {
-					// Check if the element has child nodes
-					if (element.childNodes.length > 0) {
-						// Iterate over each child node
-						for (let i = 0; i < element.childNodes.length; i++) {
-						const childNode = element.childNodes[i];
-
-						// Check if the child node is a text node
-						if (childNode.nodeType === Node.TEXT_NODE) {
-							if (childNode.textContent.trim() !== '') {
-								if (this.headers.includes(childNode.textContent.trim().toUpperCase())) {
-									title = childNode.textContent.trim().toUpperCase()
-									this.data[title] = []
-									this.pointer = this.data[title]
-								} else {
-									// Append the text content of the child node with the separator
-									this.pointer.push(childNode.textContent);
-								}
-							}
-						} else if (childNode.tagName === 'UL') {
-							this.pointer.push([])
-							await this.parseHtmlElement(childNode);
-						} else if (childNode.tagName === 'LI') {
-							try {
-								this.pointer[this.pointer.length - 1].push(childNode.innerHTML);
-							} catch (e) {
-							}
-						} else if (childNode.nodeType === Node.ELEMENT_NODE) {
-							// Recursively call the function for nested elements
-							await this.parseHtmlElement(childNode);
-						}
-						}
-					}
-				}
-			}
-		}
-	</script>
 {% endblock %}
 <script>
 	main = new Splide('#product-images', {
@@ -384,126 +212,16 @@ pagination: true
 
 <script>
     async function productAddToCart(){
+		await zid.store.cart.removeProducts();
         await zid.store.cart.addProduct({ formId: 'product-form' }).then(async (response) => {
             if(response.status  === 'success'){
-				document.getElementById('notification').classList.remove('hidden');
-                Alpine.store('cart').update()
+				window.location.href= '{% if customer %}/checkout/choose-address-and-shipping{% else %}/auth/login?redirect_to=/checkout/choose-address-and-shipping{% endif %}'
                 //setCartBadge(response.data.cart.products_count)
             }
         });
     }
 </script>
 
-<script>
-function productOptionsChanged(selected_product) {
-	window.selected_product = selected_product;
-	if(selected_product) {
-
-		main.remove( Slide => Slide );
-		for (let i = 0; i < selected_product.images.length; i++) {
-			const element = selected_product.images[i];
-			
-			let mainImg = `<li class="splide__slide px-2 lg:px-4 ${i === 0 ? 'is-active is-visible' : ''}">
-				<a href="${ element.image.large.replace('/thumbs', '').replace('-thumbnail-1000x1000-70', '') }" target="_blank" data-pswp-width="833" data-pswp-height="1000"  class="flex flex-col w-full items-center justify-center h-full">
-					<img class="h-full w-full object-contain" src="${ element.image.large }" alt="">
-				</a>
-			</li>`
-			main.add(mainImg)
-		}
-
-		document.getElementById('product-id').value = selected_product.id;
-
-		if(selected_product.formatted_sale_price){
-			if (document.getElementById('old-price')) {
-				document.getElementById('old-price').innerHTML = selected_product.formatted_price;
-			}
-			document.getElementById('price').innerHTML = selected_product.formatted_sale_price;
-
-		} else{
-			document.getElementById('price').innerHTML = selected_product.formatted_price;
-		}
-		if (!selected_product.unavailable) {
-			// Selected a valid variant that is available.
-
-			{% if store.is_low_stock_label_enabled %}
-			var store_low_stock_limit = {{ store.low_stock_quantity_limit }};
-			var low_stock_message = '{{ locals.product.only_n_remaining }}';
-
-			if(!selected_product.is_infinite &&  selected_product.quantity < store_low_stock_limit) {
-				if(document.getElementById('only_n_remaining')) {
-					document.getElementById('only_n_remaining').classList.remove('!hidden');
-					document.getElementById('only_n_remaining').innerHTML = low_stock_message.replace('%s', selected_product.quantity);
-				}
-				
-			} else {
-				if(document.getElementById('only_n_remaining')) {
-					document.getElementById('only_n_remaining').classList.add('!hidden');
-				}
-			}
-			{% endif %}
-
-			document.getElementById('out-of-stock-section').classList.add('hidden');
-			document.getElementById('in-stock-section').classList.remove('hidden');
-
-			document.getElementById('add-unavailable').classList.add('hidden');
-			document.getElementById('add-to-cart').classList.remove('hidden');
-
-			resetNotifySection(selected_product.id);
-			// Variant is sold out.
-			document.getElementById('notify-me').classList.add('hidden');
-
-			if(selected_product.is_infinite)
-				selected_product.quantity = 100;
-
-			if(selected_product.quantity > 0) {
-				document.getElementById('product-quantity').max = selected_product.quantity;
-			} else{
-				document.getElementById('product-quantity').max = "0"
-			}
-
-			document.getElementById('notify-me').classList.add('hidden');
-
-
-			//updateProductImages(selected_product);
-		} else {
-			document.getElementById('out-of-stock-section').classList.remove('hidden');
-			document.getElementById('in-stock-section').classList.add('hidden');
-			resetNotifySection(selected_product.id);
-			// Variant is sold out.
-			document.getElementById('add-unavailable').classList.remove('hidden');
-			document.getElementById('add-to-cart').classList.add('hidden');
-			document.getElementById('notify-me').classList.remove('hidden');
-
-			updateProductImages(selected_product);
-		}
-
-	} else {
-		// variant doesn't exist.
-		document.getElementById('add-unavailable').classList.remove('hidden');
-		document.getElementById('add-to-cart').classList.add('hidden');
-		document.getElementById('notify-me').classList.remove('hidden');
-
-		updateProductImages(selected_product);
-	}
-}
-</script>
-
-
-<script>
-	document.addEventListener('DOMContentLoaded', () => {
-		const lightbox = new PhotoSwipeLightbox({
-			gallery: '#product-images',
-
-			children: 'li > a',
-			initialZoomLevel: 'fit',
-			secondaryZoomLevel: 3,
-			maxZoomLevel: 1,
-
-			pswpModule: () => import ("{{ asset_url ~ 'photoswipe.esm.js' }}")
-		});
-		lightbox.init();
-	});
-</script>
 <style>
 	.splide__pagination {
 		bottom: -2rem !important;

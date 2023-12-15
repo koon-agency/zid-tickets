@@ -1,45 +1,62 @@
-<div section-id="{{ sectionId }}"
-    class="hero-paragraphs-section py-10 lg:py-14 {% if settings.only == 'mobile' %} block lg:hidden {% elseif settings.only == 'desktop' %} hidden lg:block{% endif %}">
-    {% embed 'container.common.twig' with {'class': 'w-full', 'title': settings.title, 'subtitle': settings.subtitle, 'desc': settings.desc, 'id': sectionId, 'button': settings.button, 'url': settings.url} %}
+<section class="main-section py-12 relative" section-id="{{ sectionId }}">
+    {% embed 'container.common.twig' with {'class': 'w-full', 'props': settings} %}
         {% block content %}
-            {% if title %}
-                <h3 class="text-start font-bold text-4xl lg:text-5xl text-black mb-3 lg:mb-4">{{ title }}</h3>
-            {% endif %}
-            {% if subtitle %}
-                <h3 class="text-start font-bold text-lg lg:text-xl text-black mb-3 lg:mb-6">{{ subtitle }}</h3>
-            {% endif %}
-            {% if desc %}
-                <p class="text-start font-arlit text-lg lg:text-xl text-[#737373] mb-3 lg:mb-6">{{ desc }}</p>
-            {% endif %}
-            {% if button and url %}
-                <a href="{{ url }}" class="text-white bg-primary rounded-full px-6 lg:px-8 py-2 lg:py-3 font-bold text-lg lg:text-2xl">{{ button }}</a>
-            {% endif %}
+          <div class="flex {% if props.flip %} flex-col-reverse lg:flex-row-reverse {% else %} flex-col lg:flex-row {% endif %} justify-between items-start w-full gap-8">
+
+            <div class="w-full">
+              {% if props.title %}
+                <h1 class="text-start font-shamel  !leading-loose font-bold text-3xl lg:text-4xl text-[#27262C]">{{ props.title }}</h1>
+              {% endif %}
+              {% if props.desc %}
+                <p class="text-justify lg:max-w-[75%] text-base lg:text-lg text-[#3B3A43] mb-3 lg:mb-6">{{ props.desc }}</p>
+              {% endif %}
+
+              {% if props.button and props.url %}
+                <div class="flex">
+                  <a href="{{ props.url }}" class="text-white bg-primary rounded-xl px-6 lg:px-8 py-4 text-base mb-4 flex items-center group gap-6 font-medium">
+                  {{ props.button }}
+                    <svg class="h-4 text-white transition duration-300 transform group-hover:-translate-x-1.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                    </svg>
+                  </a>
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="my-auto w-full lg:px-6">
+              <img class="w-full object-contain lg:w-[32rem] xl:w-[42rem] object-center" src="{{ props.image }}" alt="">
+            </div>
+          </div>
         {% endblock %}
     {% endembed %}
-</div>
+</section>
 
 {% schema %}
 {
-    "name": {
-    "ar": "هيرو محتوى",
-    "en": "Hero paragraphs"
+  "name": {
+    "ar": "قسم هيرو",
+    "en": "Hero Section"
   },
-  "icon": "fal fa-lines",
+  "icon": "fa fa-square",
   "display": true,
   "settings": {
+    "image": {
+        "type": "image",
+        "label": {
+            "ar": "صورة",
+            "en": "Image"
+        },
+        "info": {
+            "ar": "",
+            "en": ""
+        }
+    },
     "title": {
         "type": "text",
         "label": {
-            "ar": "العنوان",
-            "en": "Title"
-        }
-    },
-    "subtitle": {
-        "type": "text",
-        "label": {
-            "ar": "العنوان الفرعي",
-            "en": "Subtitle"
-        }
+        "ar": "العنوان",
+        "en": "Title"
+      }
     },
     "desc": {
         "type": "textarea",
@@ -48,49 +65,17 @@
         "en": "Description"
       }
     },
-    "button": {
-        "type": "text",
+    "flip": {
+        "type": "checkbox",
         "label": {
-        "ar": "عنوان الزر",
-        "en": "Button text"
-      }
-    },
-    "url": {
-        "type": "text",
-        "label": {
-        "ar": "رابط الزر",
-        "en": "Button text"
-      }
-    },
-    "only": {
-        "type": "radios",
-        "label": {
-            "ar": "عرض فقط على:",
-            "en": "Show only on:"
+            "ar": " ",
+            "en": " "
         },
-        "options": [
-            {
-                "value": "all",
-                "label": {
-                "ar": "جميع الاجهزة",
-                "en": "all pages"
-                }
-            },
-            {
-                "value": "mobile",
-                "label": {
-                "ar": "الجوال فقط",
-                "en": "Mobile only"
-                }
-            },
-            {
-                "value": "desktop",
-                "label": {
-                "ar": "اجهزة الكمبيوتر فقط",
-                "en": "Desktop only"
-                }
-            }
-        ]
+        "option": {
+            "ar": "عكس الترتيب؟",
+            "en": "Reverse Order?"
+        },
+        "noLabel": true
     }
   }
 }

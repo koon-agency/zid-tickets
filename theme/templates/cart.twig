@@ -13,42 +13,19 @@
     } %}
 			{% block content %}
         <div class="pt-[30px] hidden lg:block">
-            <div class="flex items-center justify-center gap-3.5">
-                <a href="/cart/view" class="flex gap-2 items-center justify-center">
-                    <div class="bg-[#4b9960] rounded-full h-[1.5em] w-[1.5em] text-white font-bold flex items-center justify-center">
-                        1
-                    </div>
-                    <p class="text-black uppercase text-[25.6px]">{{ locals.cart.title }}</p>
-                </a>
-                <i class="icon-angle-right opacity-[0.35] text-[25.6px] rtl:transform rtl:rotate-180"></i>
-                <a href="{% if customer %}/checkout/choose-address-and-shipping{% else %}/auth/login?redirect_to=/checkout/choose-address-and-shipping{% endif %}" class="flex gap-2 items-center justify-center group">
-                    <div class="bg-[#ccc] rounded-full h-[1.5em] w-[1.5em] text-white font-bold flex items-center justify-center">
-                        2
-                    </div>
-                    <p class="text-[#ccc] group-hover:text-black uppercase text-[25.6px]">{{ locals.cart.checkout_details }}</p>
-                </a>
-                <i class="icon-angle-right opacity-[0.35] text-[25.6px] rtl:transform rtl:rotate-180"></i>
-                <div class="flex gap-2 items-center justify-center">
-                    <div class="bg-[#ccc] rounded-full h-[1.5em] w-[1.5em] text-white font-bold flex items-center justify-center">
-                        3
-                    </div>
-                    <p class="text-[#ccc] uppercase text-[25.6px]">{{ locals.cart.order_complete }}</p>
-                </div>
-            </div>
+            <p class="text-black grad-text font-shamel font-bold text-start uppercase text-[25.6px]">{{ locals.cart.title }}</p>
         </div>
-
         
         <div class="pt-[30px] grid grid-cols-12 {% if cart.products_count == 0 %}hidden{% endif %}">
             <div class="lg:col-span-7 col-span-12 rtl:lg:border-l ltr:lg:border-r ltr:lg:border-r-[#ececec] rtl:lg:border-l-[#ececec]">
                 <div class="pt-2.5 px-[30px] pb-[30px]">
-                    <div class="grid grid-cols-6 border-b-[3px] border-b-[#ececec]">
+                    <div class="flex justify-between border-b border-b-black/30">
                         <p class="font-bold text-[14.4px] uppercase pb-[7px] text-black">{{ locals.cart.product }}</p>
-                        <div class="col-span-3 col-start-4 pb-[7px]">
-                        <div class="flex gap-4 rtl:gap-8 justify-end">
-                            <p class="font-bold text-[14.4px] uppercase text-black text-center hidden lg:block">{{ locals.cart.price }}</p>
-                            <p class="font-bold text-[14.4px] uppercase text-black text-center">{{ locals.cart.quantity }}</p>
-                            <p class="font-bold text-[14.4px] uppercase text-black text-center hidden lg:block">{{ locals.cart.subtotal }}</p>
-                        </div>
+                        <div class="pb-[7px] w-1/2">
+                            <div class="flex gap-4 rtl:gap-8 justify-end">
+                                <p class="font-bold text-[14.4px] uppercase text-black text-center hidden lg:block">{{ locals.cart.price }}</p>
+                                <p class="font-bold text-[14.4px] uppercase text-black text-center hidden lg:block">{{ locals.cart.subtotal }}</p>
+                            </div>
                         </div>
                     </div>
 
@@ -156,51 +133,6 @@
                         <div class="flex lg:col-span-3 lg:col-start-4 justify-between items-center lg:ps-5 border-b border-b-[#ececec]">
                             <p class="cart-product-total-before-price font-bold text-black text-[12px] py-[15px] hidden lg:block">{{ product.price_string }}</p>
 
-                            <div class="cart-product-quantity-dropdown form-group">
-                                <div>
-                                    {% if product.product_class != 'crowdfunding_project' %}
-
-                                    <label>{{ locals.cart_product_quantity }}</label>
-                                    <select data-cart-product-id="{{ product.id }}"
-                                            data-product-id="{{ product.product_id }}"
-                                            data-template="template_for_cart_products_list" onchange="cartProductQuantityChanged(event)">
-
-                                        {% if product.original_product_quantity is null %}
-                                            {% set maxQuantity = 100 %}
-                                        {% else %}
-                                            {% set maxQuantity = product.original_product_quantity %}
-                                        {% endif %}
-
-                                        {% for n in rangeN(0, maxQuantity) %}
-                                            <option value="{{ n }}" {% if n == product.quantity %}selected{% endif %}>{{ n }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    {% else %}
-                                        <div class="product-card-donation-form-container"
-                                            data-donation-message-lang="{{ session.lang.code }}"
-                                            data-donation-form-product-id="{{ product.id }}"
-                                            data-donation-cart-form-product-id="{{ product.id }}"
-                                        >
-
-                                            <div class="input-placeholder-donation-amount" data-placeholder="{{ session.currency.symbol }}">
-                                                <input class="form-control input-donation-amount donation-input cart-donation-input"
-                                                    data-cart-product-id="{{ product.id }}"
-                                                    data-product-id="{{ product.product_id }}"
-                                                    data-template="template_for_cart_products_list"
-                                                    type="text"
-                                                    data-donation-remaining-amount="{{ product.original_product_quantity }}"
-                                                    value="{{ product.total |round(2, 'common') }}"
-                                                    onclick="event.preventDefault()"
-                                                />
-                                            </div>
-                                            <div style="position: relative">
-                                                <span class="data-donation-remaining-amount-exceed-message"></span>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-
                             <p class="cart-product-total-before-price font-bold text-black text-[12px] py-[15px] hidden lg:block">{{ product.total_string }}</p>
                         </div>
 
@@ -230,44 +162,16 @@
                         {% endfor %}
                         </ul>
 
-                        <div class="my-6 w-full">
+                        <div class="my-6 w-full flex justify-center">
                             <a href="{% if customer %}/checkout/choose-address-and-shipping{% else %}/auth/login?redirect_to=/checkout/choose-address-and-shipping{% endif %}"
-                            class="w-full block bg-[#4b9960] btn text-white uppercase text-[.97em] font-bolder px-[1.2em] py-2 text-center">
+                            class="text-white bg-primary rounded-xl px-6 lg:px-8 py-4 text-base mb-4 flex items-center group gap-6 font-medium">
                                 {{ locals.cart.checkout }}
+                                <svg class="h-4 text-white transition duration-300 transform group-hover:-translate-x-1.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                                </svg>
                             </a>
 
                             <div>{{ template_for_cart_payments_widget }}</div>
-                        </div>
-                    </div>
-                    <div class="border-b-[3px] border-b-[#ececec]">
-                        <h3 class="font-bold text-[0.95em] pb-[7px] text-[#0a0a0a]">
-                            <i class="icon-tag me-1 opacity-[0.35] text-[#0a0a0a]"></i>
-                            {{ locals.cart.coupon }}
-                        </h3>
-                    </div>
-                    <div class="mt-[15px]">
-                        <input class="send-coupon border border-[#ddd] mb-[15.5px] active:outline-none focus:outline-none focus:shadow-[0_0_5px_#ccc] text-[#333] bg-white shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)] hover:shadow-[inset_0_-1.8em_1em_0_transparent] text-[0.97em] h-[2.507em] px-3 w-full"
-                        type="text" name="coupon" id="" placeholder="{{ locals.cart.coupon_code }}">
-
-                        <button onclick="sendCoupon()" href="{% if customer %}/checkout/choose-address-and-shipping{% else %}/auth/login?redirect_to=/checkout/choose-address-and-shipping{% endif %}"
-                            class="w-full block bg-[#f9f9f9] hover:shadow-[inset_0_0_0_100px_rgba(0,0,0,0.2)] text-[#666] text-[.97em] px-[1.2em] py-2 text-center border border-[#ddd] transition duration-300">
-                                {{ locals.cart.apply_coupon }}
-                        </button>
-
-                        <p id="coupon-message"></p>
-
-                        {% if cart.coupon.message %}
-                            <div class="flex items-center justify-start" role="alert">
-                                <span class="text-black text-sm mt-1">{{ cart.coupon.message }}</span>&nbsp;&nbsp;
-                                <a onclick="deleteCoupon()" style="color: inherit; cursor: pointer">
-                                    <span class="icon-trash-alt"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z" stroke="#EC5550" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.16998 14.83L14.83 9.17004" stroke="#EC5550" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.83 14.83L9.16998 9.17004" stroke="#EC5550" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                                    <img class="delete-coupon-progress hidden" src="{{ asset_url }}spinner.gif" width="15" height="15"/>
-                                </a>
-                            </div>
-                        {% endif %}
-
-                        <div class="mt-[15.5px]">
-                            {% include "payment-icons.twig" %}
                         </div>
                     </div>
                 </div>

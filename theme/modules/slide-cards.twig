@@ -2,7 +2,7 @@
      class="categories-section max-w-[86rem] mx-auto {% if settings.only == 'mobile' %} block lg:hidden {% elseif settings.only == 'desktop' %} hidden lg:block{% endif %}">
      {% embed 'container.common.twig' with {'class': 'w-full', 'props': settings, 'id': sectionId} %}
         {% block content %}
-            <div class="splide px-2" id="section-{{id}}" role="group" aria-label="Splide Basic HTML Example">
+            <div class="splide px-2" id="section-{{id}}" role="group">
                 <div class="splide__track">
                     <ul class="splide__list pswp-gallery pswp-gallery--single-column">
                     {% for key, item in props.items %}
