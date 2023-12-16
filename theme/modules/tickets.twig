@@ -21,7 +21,7 @@
                 {% for key, item in settings.first_inc %}
                     {% if item.title %}
                         <div class="flex flex-grow w-full lg:max-w-[50%] pl-2 lg:pl-4">
-                            <div class="flex h-full flex-col w-full items-start p-3 rounded-xl justify-end bg-white/10 border-[1.5px] border-white/30 backdrop-blur-xl">
+                            <div class="flex h-full flex-col w-full items-start p-3 rounded-xl justify-end bg-white/10 border-[1.5px] border-white/30 backdrop-blur-lg">
                                 <div class="flex justify-between items-center w-full">
                                     <img class="h-20 pb-6" src="{{ imageUrl(item.icon) }}" alt="">
                                     <p class="text-xl text-white line-through font-bold">690 ر.س</p>
@@ -46,7 +46,7 @@
                     {% for key, extraitem in settings.first_extra %}
                         {% if extraitem.title %}
                             <li class="splide__slide flex pl-2 lg:pl-4">
-                                <div class="flex h-full flex-col w-full items-start p-3 rounded-xl justify-end bg-white/10 border-[1.5px] border-white/30 backdrop-blur-xl">
+                                <div class="flex h-full flex-col w-full items-start p-3 rounded-xl justify-end bg-white/10 border-[1.5px] border-white/30 backdrop-blur-lg">
                                     <img class="h-20 pb-6" src="{{ imageUrl(extraitem.icon) }}" alt="">
                                     <p class="text-start font-bold text-base lg:text-lg text-white">{{ extraitem.title }}</p>
                                     <p class="text-start h-[45px] font-medium text-xs lg:text-sm text-white mt-4 lg:mt-2">{{ extraitem.sub }}</p>
@@ -86,7 +86,7 @@
                         <h3 class="text-start w-full font-shamel px-6 text-white font-bold text-2xl lg:text-3xl lg:w-auto">{{ settings.second_prod.name }}</h3>
                         <small class="text-white px-6 text-start text-lg">VIP Ticket</small>
                     </div>
-                    <p class="text-white pl-6 lg:px-6 text-start text-lg absolute left-0 py-0.5 rounded-r-md bg-white/5 border-[1.5px] border-white/20 backdrop-blur-xl" style="box-shadow: 4px 6px 10px 0px rgba(0,0,0,0.25)">تذاكر محدودة</p>
+                    <p class="text-white px-4 lg:px-6 text-start text-lg absolute left-0 py-0.5 rounded-r-md bg-white/5 border-[1.5px] border-white/20 backdrop-blur-lg" style="box-shadow: 4px 6px 10px 0px rgba(0,0,0,0.25)">تذاكر محدودة</p>
                 </div>
             {% endif %}
 
@@ -95,7 +95,7 @@
                 {% for key, item in settings.second_inc %}
                     {% if item.title %}
                         <div class="flex flex-grow max-w-full lg:max-w-[50%] pl-2 lg:pl-4">
-                            <div class="flex h-full flex-col w-full items-start p-3 rounded-xl justify-end bg-white/5 border-[1.5px] border-white/20 backdrop-blur-xl">
+                            <div class="flex h-full flex-col w-full items-start p-3 rounded-xl justify-end bg-white/5 border-[1.5px] border-white/20 backdrop-blur-lg">
                                 <div class="flex justify-between items-center w-full">
                                     <img class="h-20 pb-6" src="{{ imageUrl(item.icon) }}" alt="">
                                     <p class="text-xl text-white line-through font-bold">2300 ر.س</p>
@@ -120,7 +120,7 @@
                     {% for key, extraitem in settings.second_extra %}
                         {% if extraitem.title %}
                             <li class="splide__slide flex pl-2 lg:pl-4">
-                                <div class="flex h-full flex-col w-full items-start p-3 rounded-xl justify-end bg-white/5 border-[1.5px] border-white/20 backdrop-blur-xl">
+                                <div class="flex h-full flex-col w-full items-start p-3 rounded-xl justify-end bg-white/5 border-[1.5px] border-white/20 backdrop-blur-lg">
                                     <img class="h-20 pb-6" src="{{ imageUrl(extraitem.icon) }}" alt="">
                                     <p class="text-start font-bold text-base lg:text-lg text-white">{{ extraitem.title }}</p>
                                     <p class="text-start h-[45px] font-medium text-xs lg:text-sm text-white mt-4 lg:mt-2">{{ extraitem.sub }}</p>
