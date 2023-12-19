@@ -18,9 +18,131 @@
                     <h1 class="text-center font-shamel mx-[15px] text-[#0a0a0a] grad-text font-bold uppercase text-2xl">{{ blog.title }}</h1>
                 </div>
 
+                {% if 'FAQ' in blog.title or 'شائعة' in blog.title%}
+                    <div class="pb-[90px] ">
+                        <div class="accordions flex flex-col w-full tailwind">
+                            <ul class="flex flex-col w-full !mb-0 !list-none ps-0">
+                                <li class="w-full border-t" x-data="accordion(1)">
+                                    <h2 @click="handleClick()"
+                                        class="flex flex-row items-center justify-between py-1 cursor-pointer">
+                                        <span class="text-lg text-[#27262C] font-medium">
+                                            أنا عندي اشتراك، هل تُضاف المدة عليه؟
+                                        </span>
+                                        <p x-ref="plus" class="text-[25px] text-primary" style="display: block">+</p>
+                                        <p x-ref="minus" class="text-[25px] text-primary" style="display: none">-</p>
+                                    </h2>
+                                    <div x-ref="tab"
+                                        class="overflow-hidden transition-all duration-500 max-h-0">
+                                    <div class="text-[14.4px] text-[#3B3A43] text-color-secondary !px-2 mb-[19px] !mt-0.5">
+                                          العرض يشمل التجار الجدد فقط ولا يشمل التجار الحاليين. ولكن، يمكنك شراء التذكرة للوصول وحضور الحدث.
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="w-full border-t" x-data="accordion(1)">
+                                    <h2 @click="handleClick()"
+                                        class="flex flex-row items-center justify-between py-1 cursor-pointer">
+                                        <span class="text-lg text-[#27262C] font-medium">
+                                        حدث زد مدته 4 أيام. هل يُسمح لي بحضور يوم واحد فقط؟
+                                        </span>
+                                        <p x-ref="plus" class="text-[25px] text-primary" style="display: block">+</p>
+                                        <p x-ref="minus" class="text-[25px] text-primary" style="display: none">-</p>
+                                    </h2>
+                                    <div x-ref="tab"
+                                        class="overflow-hidden transition-all duration-500 max-h-0">
+                                    <div class="text-[14.4px] text-[#3B3A43] !px-2 mb-[19px] !mt-0.5">
+                                          الحاصلون على تذكرة بريميوم يمكنهم الوصول للحدث لمدة 4 أيام كاملة، بينما الحاصلون على تذكرة الانطلاقة يمكنهم الوصول ليوم واحد فقط وحضور الحدث أونلاين كاملاً من 27 ديسمبر إلى 31 ديسمبر.
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="w-full border-t" x-data="accordion(1)">
+                                    <h2 @click="handleClick()"
+                                        class="flex flex-row items-center justify-between py-1 cursor-pointer">
+                                        <span class="text-lg text-[#27262C] font-medium">
+                                        نحن شخصان في الإدارة، هل يمكن الحضور بتذكرة واحدة؟
+                                        </span>
+                                        <p x-ref="plus" class="text-[25px] text-primary" style="display: block">+</p>
+                                        <p x-ref="minus" class="text-[25px] text-primary" style="display: none">-</p>
+                                    </h2>
+                                    <div x-ref="tab"
+                                        class="overflow-hidden transition-all duration-500 max-h-0">
+                                    <div class="text-[14.4px] text-[#3B3A43] !px-2 mb-[19px] !mt-0.5">
+                                            التذكرة تسمح بدخول شخص واحد فقط للحدث.
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="w-full border-t" x-data="accordion(1)">
+                                    <h2 @click="handleClick()"
+                                        class="flex flex-row items-center justify-between py-1 cursor-pointer">
+                                        <span class="text-lg text-[#27262C] font-medium">
+                                        هل يمكن استرجاع قيمة التذكرة؟
+                                        </span>
+                                        <p x-ref="plus" class="text-[25px] text-primary" style="display: block">+</p>
+                                        <p x-ref="minus" class="text-[25px] text-primary" style="display: none">-</p>
+                                    </h2>
+                                    <div x-ref="tab"
+                                        class="overflow-hidden transition-all duration-500 max-h-0">
+                                    <div class="text-[14.4px] text-[#3B3A43] !px-2 mb-[19px] !mt-0.5">
+                                            لا يمكن استرجاع قيمة التذكرة بعد مرور 24 ساعة من الحصول عليها.
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="w-full border-t" x-data="accordion(1)">
+                                    <h2 @click="handleClick()"
+                                        class="flex flex-row items-center justify-between py-1 cursor-pointer">
+                                        <span class="text-lg text-[#27262C] font-medium">
+                                        دفعت وتم خصم المبلغ لكن لم تصلني التذكرة.
+                                        </span>
+                                        <p x-ref="plus" class="text-[25px] text-primary" style="display: block">+</p>
+                                        <p x-ref="minus" class="text-[25px] text-primary" style="display: none">-</p>
+                                    </h2>
+                                    <div x-ref="tab"
+                                        class="overflow-hidden transition-all duration-500 max-h-0">
+                                    <div class="text-[14.4px] text-[#3B3A43] !px-2 mb-[19px] !mt-0.5">
+                                               يرجى التواصل مع الدعم على الرقم 
+                                            <a class="text-primary" href="tel:+966920012746">+966 9200 12746</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="w-full border-t" x-data="accordion(1)">
+                                    <h2 @click="handleClick()"
+                                        class="flex flex-row items-center justify-between py-1 cursor-pointer">
+                                        <span class="text-lg text-[#27262C] font-medium">
+                                        هل يستفيد الحاضرون بتذكرة الانطلاقة من الاستماع للمتحدثين؟
+                                        </span>
+                                        <p x-ref="plus" class="text-[25px] text-primary" style="display: block">+</p>
+                                        <p x-ref="minus" class="text-[25px] text-primary" style="display: none">-</p>
+                                    </h2>
+                                    <div x-ref="tab"
+                                        class="overflow-hidden transition-all duration-500 max-h-0">
+                                    <div class="text-[14.4px] text-[#3B3A43] !px-2 mb-[19px] !mt-0.5">
+                                               نعم.
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="w-full border-t" x-data="accordion(1)">
+                                    <h2 @click="handleClick()"
+                                        class="flex flex-row items-center justify-between py-1 cursor-pointer">
+                                        <span class="text-lg text-[#27262C] font-medium">
+                                        أنا خارج الرياض وحصلت على التذكرة، كيف يمكنني الوصول للحدث؟
+                                        </span>
+                                        <p x-ref="plus" class="text-[25px] text-primary" style="display: block">+</p>
+                                        <p x-ref="minus" class="text-[25px] text-primary" style="display: none">-</p>
+                                    </h2>
+                                    <div x-ref="tab"
+                                        class="overflow-hidden transition-all duration-500 max-h-0">
+                                    <div class="text-[14.4px] text-[#3B3A43] !px-2 mb-[19px] !mt-0.5">
+                                              الحدث يبدأ أونلاين من 27 ديسمبر إلى 31 ديسمبر. ستصلك طريقة الوصول للحدث أونلاين قبل الموعد عبر الواتساب والبريد الإلكتروني.
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                {% else %}
                 <article class="pb-[90px] prose">
                     {{ blog.content | raw }}
                 </article>
+                {% endif %}
             {% endblock %}
         {% endembed %}
     </section>
@@ -34,6 +156,20 @@
             color: #fff;
         }
     </style>
+    <script>
+	function accordion(idx){
+		return {
+			show: false,
+			opener: '',
+			handleClick() {
+				this.show = !this.show;
+				this.$refs.tab.style.maxHeight = this.show ? this.$refs.tab.scrollHeight + 'px' : '0px'
+				this.$refs.plus.style.display = this.show ? 'none' : 'block'
+				this.$refs.minus.style.display = this.show ? 'block' : 'none'
+			}
+		}
+	};
+</script>
 {% endblock %}
 
 {% block footer %} {{ include('footer.twig') }} {% endblock %}
